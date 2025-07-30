@@ -14,16 +14,17 @@
 10. [Control Structures](#control-structures)
 11. [Arrays and For Each Loop](#arrays-and-for-each-loop)
 12. [Defining and Invoking Functions](#defining-and-invoking-functions)
-13. [Built-in Objects](#built-in-objects)
-14. [Date Objects](#date-objects)
-15. [Interacting With The Browser](#interacting-with-the-browser)
-16. [Windows & Frames](#windows--frames)
-17. [Document Object Model (DOM)](#document-object-model-dom)
-18. [Event Handling](#event-handling)
-19. [Forms](#forms)
-20. [Cookies](#cookies)
-21. [Handling Regular Expressions](#handling-regular-expressions)
-22. [Client Side Validations](#client-side-validations)
+13. [Objects](#objects)
+14. [Built-in Objects](#built-in-objects)
+15. [Date Objects](#date-objects)
+16. [Interacting With The Browser](#interacting-with-the-browser)
+17. [Windows & Frames](#windows--frames)
+18. [Document Object Model (DOM)](#document-object-model-dom)
+19. [Event Handling](#event-handling)
+20. [Forms](#forms)
+21. [Cookies](#cookies)
+22. [Handling Regular Expressions](#handling-regular-expressions)
+23. [Client Side Validations](#client-side-validations)
 
 ---
 
@@ -40,10 +41,11 @@ console.log("Hello, World!");
 
 Client-side scripting allows code to run in the user's browser, providing:
 
-- Interactive user interfaces
-- Form validation without server requests
-- Dynamic content updates
-- Reduced server load
+- **Interactivity:** Enhances user experience by making web pages interactive.
+- **Validation:** Performs form validation before data is sent to the server.
+- **Manipulation:** Allows manipulation of the DOM (Document Object Model) to change content and structure of web pages dynamically.
+- **Performance:** Reduces server load by handling tasks locally on the user's device.
+- **Asynchronous Communication:** Enables asynchronous data exchange with the server using technologies like AJAX.
 
 ```javascript
 // Example: Dynamic content without server request
@@ -58,8 +60,11 @@ Good JavaScript follows these conventions:
 - Use camelCase for variables and functions
 - Use PascalCase for constructors
 - Use meaningful names
-- Proper indentation
-- Consistent spacing
+- Proper indentation and Consistent spacing
+- semicolons to separate statements is considered good practice, but they are not always required
+- Use curly braces to indicate code blocks
+- Use comments to explain your code and improve its readability
+- Include error handling in your code to prevent crashes and unexpected behavior. Use try/catch statements to handle errors gracefully.
 
 ```javascript
 // Good formatting
@@ -81,7 +86,10 @@ function calc(p, t) {
 
 ## JavaScript Files
 
-JavaScript can be stored in external `.js` files for better organization and reusability.
+- **File extension:** JavaScript files typically have a .js file extension.
+- **Script tag:** To include a JavaScript file in an HTML document, you can use a `<script>` tag and specify the file's URL in the `src` attribute.
+- **Loading order:** JavaScript files are loaded and executed in the order they appear in the HTML document, from top to bottom.
+- **External vs. inline scripts:** JavaScript code can be included in an HTML document either as an external file or as an inline script. External scripts are preferred for larger scripts, while inline scripts are used for smaller scripts or scripts that require specific HTML elements.
 
 **script.js**
 
@@ -107,6 +115,35 @@ console.log(message);
   </body>
 </html>
 ```
+
+### Structure of JavaScript Program
+
+- **Comments:**
+  Comments are used to add explanatory notes to your code. They are not executed by the JavaScript interpreter and are often used to provide information about the code's purpose, author, or usage.
+- **Variables:**
+  Declare variables to store data. JavaScript is loosely typed, so you don't need to specify the data type when declaring variables.
+- **Functions:**
+  Functions are reusable blocks of code that perform a specific task. They can take parameters and return values
+- **Conditional Statements:**
+  Use conditional statements to make decisions in your code. The most common conditional statements are if, else if, and else.
+- **Loops:**
+  Loops allow you to execute a block of code repeatedly. Common types of loops in JavaScript are for, while, and do...while.
+- **Event Handling:**
+  In web development, JavaScript is often used to handle events triggered by user interactions (e.g., clicking a button, submitting a form). Event handlers are functions that respond to these events.
+- **Objects and Classes:**
+  JavaScript supports object-oriented programming. You can define objects and classes to represent data and behavior.
+- **Error Handling:**
+  JavaScript provides mechanisms for handling errors gracefully using try...catch blocks.
+- **Modules and Imports (ES6):**
+  In modern JavaScript (ES6 and later), you can use modules to organize your code into reusable pieces. You can export and import functions, classes, or variables from one module to another.
+- **Execution:**
+  Finally, your JavaScript code needs to be executed. In web development, this is often done within HTML documents by including script tags or through external JavaScript files linked to HTML.
+
+### Advantage of external JavaScript Files
+
+- It makes the code more modular and easier to manage.
+- It allows the browser to cache the JavaScript file, which can improve website performance.
+- It reduces the size of the HTML file, which can improve website loading times.
 
 ## Comments
 
@@ -250,6 +287,30 @@ console.log(myarray2);
 
 ### Data Types
 
+**A. Primitive Data Types:**
+
+- **Number**
+  Represents numeric values, both integers and floating-point numbers.
+- **String**
+  Represents text. Strings are enclosed in single (' ') or double (" ") quotes.
+- **Boolean**
+  Represents true or false values.
+- **Undefined**
+  Represents a variable that has been declared but not assigned a value.
+- **Null**
+  Represents the intentional absence of any object or value.
+- **Symbol (ES6)**
+  Represents a unique and immutable value, often used as object property keys.
+
+**B. Composite Data Types:**
+
+- **Object**
+  Represents a collection of key-value pairs, where values can be of any data type, including other objects.
+- **Array**
+  Represents an ordered list of values, often of the same data type. Arrays are indexed starting from 0.
+- **Function**
+  Functions are a special type of object in JavaScript that can be invoked to perform a specific task. They can also be assigned to variables and passed as arguments to other functions.
+
 ```js
 // ////////////////////////////////////
 // Primitive Data Types
@@ -300,7 +361,7 @@ for (let key in employee) {
 console.log(Object.getOwnPropertySymbols(employee));
 
 // ////////////////////////////////////
-// Non Primitive Data Types
+// Non Primitive Data Types (Object, Array, Functions)
 // ///////////////////////////////////
 
 // Object
@@ -368,7 +429,124 @@ const ram = new Person2("John", 30);
 console.log(ram.greet());
 ```
 
+### Statement, Expression and Keywords
+
+- A statement is a piece of code that performs an action or a task.
+- An expression is a piece of code that evaluates to a value.
+- Set of reserved words that have special meanings within the language is called keywords.
+- A block is a set of statements enclosed within curly braces {}.
+
+```js
+// declaration statement
+let x;
+let y = 5;
+
+// assignment statement
+x = 10;
+x = y + 2;
+
+// conditional statement
+if (x > y) {
+  console.log("X is greater than Y");
+} else if (x === y) {
+  console.log("x is equal to y");
+} else {
+  console.log("x is less than y");
+}
+
+// switch statement
+switch (x) {
+  case 5:
+    console.log("x is 5");
+    break;
+  case 10:
+    console.log("x is 10");
+    break;
+  default:
+    console.log("x is something else");
+}
+
+// function declaration statement
+// return statement
+function greet(name) {
+  return "Hello " + name + "!";
+}
+
+// loop statement
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+
+let i = 0;
+while (i < 5) {
+  console.log(i);
+  i++;
+}
+
+i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 5);
+
+// Break and Continue Statements
+for (let i = 0; i < 10; i++) {
+  if (i === 5) {
+    // break;
+    continue;
+  }
+  console.log(i);
+}
+
+// Expression Statement
+let z = x + y;
+z = x % 3;
+console.log(z);
+console.log(greet("ram"));
+
+// ternary expression
+let age = 16;
+let isAdult = age >= 18 ? "Yes" : "No";
+console.log(isAdult);
+
+// Try...Catch Statement
+try {
+  let result = riskyOperation();
+  console.log(result);
+} catch (error) {
+  console.log("An error occurred", error);
+  if (error instanceof ReferenceError) {
+    throw new Error("Reference Error");
+  }
+} finally {
+  console.log("This will always run");
+}
+
+// Object and Array Initializer Expressions
+let person = {
+  myfirstName: "John",
+  mylastName: "Doe",
+  myage: 30,
+};
+
+let numbers = [1, 2, 3, 4, 5];
+
+// Property Access Expressions
+let firstName = person.myfirstName; // "John"
+let lastNumber = numbers[4]; // 5
+
+// Destructuring Expressions
+let [first, second] = numbers; // first is 1, second is 2
+let { myfirstName, myage } = person; // name is "Bob", age is 25
+
+console.log(first, second);
+console.log(myfirstName, myage);
+```
+
 ## Operators
+
+- Operators are special symbols or keywords used to perform operations on operands.
+- Operands can be variables, values, or expressions, and operators determine how these operands are manipulated or compared.
 
 ### Arithmetic Operators
 
@@ -417,6 +595,79 @@ let isTrue = true,
 console.log(isTrue && isFalse); // AND: false
 console.log(isTrue || isFalse); // OR: true
 console.log(!isTrue); // NOT: false
+```
+
+### typeof Operator
+
+```js
+let a = 1;
+
+const type = typeof a;
+console.log(type);
+console.log(typeof type);
+```
+
+### Spread Operator
+
+```js
+// spread operator
+const originalArray = [1, 2, 3];
+const copyarr1 = originalArray;
+copyarr1[1] = 5;
+console.log(copyarr1, originalArray);
+
+const copyarr2 = [...originalArray];
+copyarr2[1] = 7;
+console.log(copyarr2, originalArray);
+
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
+const concatenatedArray = [...array1, ...array2];
+console.log(concatenatedArray);
+
+const array = [1, 2, 3];
+const newArray = [0, ...array, 4];
+console.log(newArray);
+
+const person1 = {
+  name: "Ram",
+  age: 24,
+};
+const person2 = person1;
+person2.address = "Lalitpur";
+console.log(person2);
+console.log(person1);
+
+const person3 = { ...person1 };
+person3.address = "Kathmandu";
+console.log(person3);
+
+const person4 = { ...person1, address: "Bhaktapur", isDead: false };
+console.log(person4);
+
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
+const mergedObject = { ...obj1, ...obj2 };
+console.log(mergedObject);
+
+const numbers = [1, 2, 3];
+const add1 = (a, b, c) => a + b + c;
+console.log(add1(...numbers));
+
+const add2 = (...args) => args[0] + args[1] + args[2];
+console.log(add2(1, 2, 3));
+console.log(add2(...numbers));
+
+function add3(...args) {
+  return arguments[0] + arguments[1] + arguments[2];
+  // return args[0] + args[1] + args[2];
+}
+console.log(add3(1, 2, 3));
+console.log(add3(...numbers));
+
+const str = "hello";
+const chars = [...str];
+console.log(chars); // ['h', 'e', 'l', 'l', 'o']
 ```
 
 ## Control Structures
@@ -590,44 +841,319 @@ console.log(introduce()); // Hi, I'm Guest and I'm 0 years old.
 console.log(introduce("Alice", 25)); // Hi, I'm Alice and I'm 25 years old.
 ```
 
+### Anonymous Functions
+
+```html
+<button onclick="(function(){console.log('button clicked');})();">Click</button>
+```
+
+### Normal function vs Arrow function
+
+```js
+function normalFunction(a, b) {
+  return a + b;
+}
+
+// Or as a function expression:
+const normalFun = function (a, b) {
+  return a + b; // requires return keyword to retrun value
+};
+
+const arrowFunction = (a, b) => a + b; // does not require return
+
+// Normal fn has its own 'this' context
+// which is dynamically scoped based on how the function is called.
+const obj1 = {
+  value: 10,
+  normalFunction: function () {
+    console.log(this.value); // `this` refers to `obj1`
+  },
+};
+
+obj1.normalFunction(); // logs 10
+
+// Arrow function does not have its own 'this' context
+const obj = {
+  value: 10,
+  arrowFunction: () => {
+    console.log(this.value); // `this` refers to the outer scope, not `obj`
+  },
+};
+
+obj.arrowFunction(); // logs `undefined`
+
+function OuterContext() {
+  this.value = 20;
+
+  const obj = {
+    value: 10,
+    arrowFunction: () => {
+      console.log(this.value); // `this` refers to `OuterContext`'s `this`
+    },
+  };
+
+  obj.arrowFunction(); // Output: 20
+}
+
+new OuterContext();
+
+// Normal function have arguments object
+// that contains all the arguments passed to the function
+function normalFunction() {
+  console.log(arguments);
+}
+normalFunction(1, 2, 3); // logs [1, 2, 3]
+
+// Arrow function does not have arguments objects
+const arrowFunction2 = (...args) => {
+  console.log(args);
+};
+
+arrowFunction2(1, 2, 3); // logs [1, 2, 3]
+
+// Normal function can be used as constructor
+function Employee(name) {
+  this.name = name;
+}
+
+const person = new Employee("Ram");
+console.log(person);
+
+// Hoisting
+// Normal Function declarations are hoisted, meaning they can be called before they are defined in the code.
+sayHello("Alice");
+// sayHi("Alice");
+// sayHi2("Alice");
+function sayHello(name) {
+  console.log("Hello, " + name + "!");
+}
+
+const sayHi = function (name) {
+  console.log("Hello, " + name + "!");
+};
+sayHi("Alice");
+
+const sayHi2 = (name) => {
+  console.log("Hello, " + name + "!");
+};
+sayHi2("Alice");
+```
+
+## Objects
+
+### Class
+
+```js
+class Vehicle {
+  // Public
+  color;
+
+  // "Protected" by convention (underscore prefix)
+  _engine;
+
+  // Private (truly private)
+  #serialNumber;
+
+  constructor(color, engine) {
+    this.color = color;
+    this._engine = engine; // "Protected"
+    this.#serialNumber = Math.random().toString(36); // Private
+  }
+
+  // Protected method by convention
+  _startEngine() {
+    console.log(`${this._engine} engine starting...`);
+  }
+
+  showDetails() {
+    console.log(`${this.#serialNumber} car with color ${color} is ready`);
+  }
+}
+
+class Car extends Vehicle {
+  constructor(color, engine, doors) {
+    super(color, engine);
+    this.doors = doors;
+  }
+
+  start() {
+    // Can access "protected" properties from parent
+    // console.log(`Car with ${this._engine} engine`);
+
+    // Can call "protected" method from parent
+    this._startEngine();
+
+    // Cannot access private properties from parent
+    // console.log(this.#serialNumber); // Error!
+
+    super.showDetails();
+  }
+}
+
+// Usage Examples
+const car1 = new Car("red", "V6", 4);
+car1.start();
+
+// "Protected" properties are still accessible (by convention only)
+console.log("Accessing 'protected':", car1._engine); // V6 (works but shouldn't be used)
+```
+
+### Different ways to create objects
+
+```js
+const person = {
+  name: "Ram",
+  age: 23,
+  address: {
+    district: "Lalitpur",
+    country: "Nepal",
+  },
+  kill: function () {
+    this.isDead = true;
+  },
+};
+console.log(person);
+person.age = 33;
+console.log(person.age);
+console.log(person["age"]);
+person.isAlive = true;
+person["isDead"] = false;
+console.log(person);
+console.log(person.isAlive);
+delete person.isAlive;
+console.log(person.isAlive);
+person.kill();
+console.log(person);
+
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+const person2 = new Person("Ram", 50);
+person2.isAlive = true;
+console.log(person2);
+
+const person3 = new Object({
+  name: "aalu",
+  surname: "pidalu",
+  age: 1,
+});
+
+console.log(person3.age);
+person3.age = 2;
+person3.address = "karkalo";
+person3["root"] = "soil";
+console.log(person3.age);
+console.log(person3);
+```
+
 ## Built-in Objects
 
 ### String Object
 
 ```javascript
-let text = "Hello World";
+let str = "hello, world!   ";
+let str2 = new String("Hello, world!   ");
+let str3 = String("hello, world!   ");
+console.log(str);
+console.log(str2);
+console.log(str3);
 
-console.log(text.length); // 11
-console.log(text.toUpperCase()); // HELLO WORLD
-console.log(text.toLowerCase()); // hello world
-console.log(text.substring(0, 5)); // Hello
-console.log(text.indexOf("World")); // 6
-console.log(text.replace("World", "JavaScript")); // Hello JavaScript
+console.log(str.length);
+console.log(str2.length);
+console.log(str2.charAt(1));
+console.log(str2.includes("world"));
+console.log(str2.includes("world", 7));
+console.log(str2.indexOf("world"));
+console.log(str2.indexOf("o"));
+console.log(str2.lastIndexOf("o"));
+console.log(str2.slice(7, 12));
+console.log(str2.slice(7, -4));
+console.log(str.substring(7, 12));
+console.log(str.substring(12, 7)); //if a> b, swaps
+console.log(str.substring(7, -1)); // if a > b, swaps   and -ve numbers = 0
+console.log(str.split(","));
+console.log(str.toUpperCase());
+console.log(str);
+console.log(str.trim());
+console.log(str.trim().length);
+console.log(str.replace("world", "javascript"));
+console.log(str);
+console.log(str.startsWith("hello"));
+console.log(str.endsWith(" "));
+console.log(str.endsWith("world"));
+console.log(str.endsWith("world", 12));
+
+let country = "Nepal";
+let city = "Lalitpur";
+let address = city.concat(", ", country, "!");
+console.log(address);
 ```
 
 ### Number Object
 
 ```javascript
+let num1 = Number(13);
+let num2 = new Number(13);
+let num3 = 13;
+
+console.log(num1);
+console.log(num2);
+console.log(num3);
+
+console.log(Number("42")); // Output: 42
+console.log(Number(true)); // Output: 1
+console.log(Number(false)); // Output: 0
+console.log(Number(null)); // Output: 0
+console.log(Number("aalu")); // Output: NaN
+console.log(Number(undefined)); // Output: NaN
+
+console.log(Number.MAX_VALUE); // Output: 1.7976931348623157e+308
+console.log(Number.MIN_VALUE); // Output: 5e-324
+console.log(Number.POSITIVE_INFINITY); // Output: Infinity
+console.log(Number.NEGATIVE_INFINITY); // Output: -Infinity
+console.log(Number.NaN); // Output: NaN
+
+console.log(Number.isFinite(42)); // Output: true
+console.log(Number.isFinite(Infinity)); // Output: false
+
+console.log(Number.isInteger(42)); // Output: true
+console.log(Number.isInteger(42.1)); // Output: false
+
+console.log(Number.isNaN(NaN)); // Output: true.   does not work with string and undefined
+console.log(Number.isNaN(42)); // Output: false
+
+console.log(Number.parseFloat("42.42")); // Output: 42.42
+console.log(Number.parseFloat("42")); // Output: 42
+
+console.log(Number.parseInt("42.42")); // Output: 42
+console.log(Number.parseInt("42")); // Output: 42
+
 let num = 123.456;
 
 console.log(num.toFixed(2)); // 123.46
 console.log(num.toPrecision(4)); // 123.5
-console.log(Number.isInteger(123)); // true
-console.log(Number.parseInt("123.45")); // 123
-console.log(Number.parseFloat("123.45")); // 123.45
 ```
 
 ### Math Object
 
 ```javascript
+// Constants
 console.log(Math.PI); // 3.141592653589793
+console.log(Math.E); // 2.718281828459045
+
+// Common functions
+console.log(Math.abs(-5)); // 5
 console.log(Math.round(4.7)); // 5
-console.log(Math.ceil(4.1)); // 5
-console.log(Math.floor(4.9)); // 4
+console.log(Math.floor(4.7)); // 4
+console.log(Math.ceil(4.2)); // 5
+console.log(Math.max(1, 3, 2)); // 3
+console.log(Math.min(1, 3, 2)); // 1
 console.log(Math.random()); // Random number between 0 and 1
-console.log(Math.max(1, 5, 3)); // 5
-console.log(Math.min(1, 5, 3)); // 1
+console.log(Math.sqrt(25)); // 5
 console.log(Math.pow(2, 3)); // 8
+console.log(Math.sign(-5)); // -1
+console.log(Math.sign(5)); // 1
 ```
 
 ## Date Objects
@@ -677,6 +1203,102 @@ let userInput = window.prompt("Enter your name:");
 // window.open("https://example.com", "_blank");
 // window.close(); // Close current window
 // window.location.href = "https://example.com"; // Navigate to URL
+```
+
+### Example
+
+```html
+<html>
+  <head>
+    <title>Window Object</title>
+  </head>
+  <body>
+    <h1>Window Object Example</h1>
+    <button id="openWindow">Open New Window</button>
+    <button id="changeLocation">Change Location</button>
+    <div style="height: 200vh"></div>
+    <script>
+      console.log(
+        "Window inner size: " + window.innerWidth + "x" + window.innerHeight
+      );
+
+      // Handling button clicks
+      document.getElementById("openWindow").addEventListener("click", () => {
+        window.open("https://www.apple.com");
+      });
+
+      document
+        .getElementById("changeLocation")
+        .addEventListener("click", () => {
+          window.location.href = "https://www.apple.com";
+        });
+
+      // Handling window events
+      window.addEventListener("resize", () => {
+        console.log(
+          "Window resized to: " + window.innerWidth + "x" + window.innerHeight
+        );
+      });
+
+      window.addEventListener("scroll", () => {
+        console.log("Window scrolled. Scroll position: " + window.scrollY);
+      });
+
+      // Storing a string
+      localStorage.setItem("username", "John Doe");
+
+      //   window.localStorage.removeItem("username");
+      // Storing an object
+      const user = {
+        name: "John Doe",
+        age: 30,
+        email: "johndoe@example.com",
+      };
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Retrieving a string
+      const username = localStorage.getItem("username");
+      console.log(username); // Output: John Doe
+
+      // Retrieving an object
+      const userRetrived = JSON.parse(localStorage.getItem("user"));
+      console.log(user); // Output: { name: 'John Doe', age: 30, email: 'johndoe@example.com' }
+    </script>
+  </body>
+</html>
+```
+
+### Popup Example
+
+- The alert() method displays a simple message to the user in an alert box.
+- The confirm() method displays a confirmation dialog box with two buttons: OK and Cancel.
+- The prompt() method displays a dialog box with a text input field where the user can enter data.
+
+```html
+<html>
+  <head>
+    <title>Pop Up</title>
+  </head>
+  <body>
+    <h1>Project 1</h1>
+    <button onclick="deleteProject()">Delete Project</button>
+    <script>
+      function deleteProject() {
+        const isConfirmed = confirm("Are you sure to delete?");
+        if (isConfirmed) {
+          const projectName = prompt("Type Project Name to Verify Deletion");
+          if (projectName == "Project 1") {
+            document.body.removeChild(document.getElementsByTagName("h1")[0]);
+          } else {
+            alert("Project Name did not match");
+          }
+        } else {
+          alert("Deleteion Cancelled");
+        }
+      }
+    </script>
+  </body>
+</html>
 ```
 
 ### Screen Object
