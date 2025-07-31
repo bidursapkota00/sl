@@ -25,6 +25,7 @@
 21. [Cookies](#cookies)
 22. [Handling Regular Expressions](#handling-regular-expressions)
 23. [Client Side Validations](#client-side-validations)
+24. [Old Questions](#old-questions)
 
 ---
 
@@ -32,12 +33,52 @@
 
 JavaScript is a high-level, interpreted programming language that enables interactive web pages. It's an essential part of web applications alongside HTML and CSS.
 
-```javascript
-// First JavaScript program
-console.log("Hello, World!");
+**Key characteristics:**
+
+- **Dynamic typing:** Variables don't need explicit type declarations
+- **Interpreted:** Code is executed directly without compilation
+- **Event-driven:** Responds to user interactions like clicks, form submissions
+- **Cross-platform:** Runs in browsers, servers (Node.js), mobile apps, and desktop applications
+
+### Different Types of JavaScript
+
+**1. Client-Side JavaScript (Browser JavaScript)**
+
+Runs in web browsers to create interactive user interfaces.
+Example:
+
+```js
+// Changing webpage content dynamically
+document.getElementById("myButton").addEventListener("click", function () {
+  document.getElementById("output").innerHTML = "Button clicked!";
+});
 ```
 
+**2. Server-Side JavaScript (Node.js)**
+
+Runs on servers to handle backend operations, databases, and APIs.
+Example:
+
+```js
+// Simple web server using Node.js
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.end("<h1>Hello from Node.js server!</h1>");
+});
+
+server.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+```
+
+---
+
 ## Need of Client Side Scripting Language
+
+**Old Question:**
+**What is need for client side scripting?**
 
 Client-side scripting allows code to run in the user's browser, providing:
 
@@ -1270,6 +1311,9 @@ let userInput = window.prompt("Enter your name:");
 
 ### Popup Example
 
+**Old Question:**
+**Question**
+
 - The alert() method displays a simple message to the user in an alert box.
 - The confirm() method displays a confirmation dialog box with two buttons: OK and Cancel.
 - The prompt() method displays a dialog box with a text input field where the user can enter data.
@@ -1360,19 +1404,68 @@ newWindow.document.write("<h1>New Window Content</h1>");
 
 ### Selecting Elements
 
+**Old Question:**
+**Explain different method that are available to access DOM element using id, class, name and selector with suitable example.**
+
 ```javascript
 // Select by ID
 let elementById = document.getElementById("myId");
 
 // Select by class name
+// returns HTMLCollection
+// does not have forEach builtin
 let elementsByClass = document.getElementsByClassName("myClass");
 
 // Select by tag name
+// returns HTMLCollection
 let elementsByTag = document.getElementsByTagName("p");
 
 // Query selector (CSS selector)
 let firstMatch = document.querySelector(".myClass");
+// returns NodeList
+// has forEach
 let allMatches = document.querySelectorAll(".myClass");
+```
+
+```html
+<html>
+  <head>
+    <title>Selecting Elements</title>
+  </head>
+  <body>
+    <h1 id="myId">Hello</h1>
+    <h1 class="myClass">Hi</h1>
+    <h1 class="myClass">Hi</h1>
+    <p>Hello</p>
+    <p>Hello</p>
+    <script>
+      let elementById = document.getElementById("myId");
+      let elementsByClass = document.getElementsByClassName("myClass");
+      let elementsByTag = document.getElementsByTagName("p");
+      let firstMatch = document.querySelector(".myClass");
+      let allMatches = document.querySelectorAll(".myClass");
+
+      window.onload = () => {
+        elementById.style.color = "green";
+
+        // [...elementsByClass].forEach()
+        for (let element of elementsByClass) {
+          element.style.background = "yellow";
+        }
+
+        for (let element of elementsByTag) {
+          element.style.background = "pink";
+        }
+
+        firstMatch.style.color = "red";
+
+        allMatches.forEach((element) => {
+          element.style.fontStyle = "italic";
+        });
+      };
+    </script>
+  </body>
+</html>
 ```
 
 ### Manipulating Elements
@@ -1423,6 +1516,51 @@ elementToRemove.parentNode.removeChild(elementToRemove);
 ```
 
 ## Event Handling
+
+**Old Question:**
+**What is JavaScript Event?**
+
+A **JavaScript Event** is an action or occurrence that happens in the browser, like:
+
+- A user clicks a button
+- A web page loads
+- A form is submitted
+- A key is pressed
+
+You can write **JavaScript code to "listen" and "respond"** to these events.
+
+## Common Event Types
+
+```javascript
+// Click Event
+element.addEventListener("click", function () {
+  /* code */
+});
+
+// Keyboard Events
+element.addEventListener("keyup", function (event) {
+  /* code */
+});
+element.addEventListener("keydown", function (event) {
+  /* code */
+});
+
+// Mouse Events
+element.addEventListener("mouseenter", function () {
+  /* code */
+});
+element.addEventListener("mouseleave", function () {
+  /* code */
+});
+
+// Form Events
+form.addEventListener("submit", function (event) {
+  /* code */
+});
+input.addEventListener("change", function () {
+  /* code */
+});
+```
 
 ### Inline Event Handlers
 
@@ -1919,6 +2057,60 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
             // });
           }
         });
+    </script>
+  </body>
+</html>
+```
+
+## Old Questions
+
+### Write program in Js that highlights all words that areover 8 characters long with a red background.
+
+```html
+<html>
+  <head>
+    <title>Word Highlighter</title>
+  </head>
+  <body>
+    <h1>Word Highlighter</h1>
+    <p id="paragraph">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium
+      tenetur esse velit expedita dolor mollitia libero explicabo, quam porro
+      tempora perferendis qui suscipit tempore temporibus hic voluptatem!
+      Eligendi, ad corrupti?
+    </p>
+
+    <button onclick="highlightLongWords()">
+      Highlight Words Over 8 Characters
+    </button>
+
+    <script>
+      function highlightLongWords() {
+        // Get paragraph text
+        const paragraph = document.getElementById("paragraph");
+        const text = paragraph.innerText;
+
+        // Split the text into words by space
+        const words = text.split(" ");
+
+        // Process each word
+        const highlightedText = words
+          .map((word) => {
+            if (word.length > 8) {
+              return `<mark style="background: red">${word}</mark>`;
+            }
+            return word;
+          })
+          .join(" ");
+
+        // Display the result
+        paragraph.innerHTML = highlightedText;
+      }
+
+      // Automatically highlight on page load
+      // window.onload = function () {
+      //   highlightLongWords();
+      // };
     </script>
   </body>
 </html>
