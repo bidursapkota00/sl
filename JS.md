@@ -31,14 +31,68 @@
 
 ## Introduction to JavaScript
 
+**Old Question:**
+
+**What is JavaScript? What are the potential platforms where JavaScript can be used?**
+
+**Explain features of JavaScript?**
+
+**Explain types of JavaScript?**
+
 JavaScript is a high-level, interpreted programming language that enables interactive web pages. It's an essential part of web applications alongside HTML and CSS.
 
-**Key characteristics:**
+### Platforms Where JavaScript Can Be Used
+
+JavaScript has evolved far beyond its web browser origins and can now run on numerous platforms:
+
+**Web Development:**
+
+- Client-side scripting in web browsers
+- Server-side development with Node.js
+- Progressive Web Applications (PWAs)
+- Single Page Applications (SPAs)
+
+**Mobile Development:**
+
+- Cross-platform mobile apps with React Native
+- Hybrid apps using frameworks like Cordova or Ionic
+- Native mobile development with NativeScript
+
+**Desktop Applications:**
+
+- Cross-platform desktop apps with Electron (like VS Code, Discord, Slack)
+- Windows apps with Windows Script Host
+- macOS automation with JXA (JavaScript for Automation)
+
+**Server and Backend:**
+
+- Web servers and APIs with Node.js
+- Serverless functions on platforms like AWS Lambda, Vercel, Netlify
+- Microservices architecture
+
+**Machine Learning**
+
+- TensorFlow.js: The most prominent JavaScript ML library, developed by Google.
+
+  **It allows you to:**
+
+- Run pre-trained models in browsers and Node.js
+- Train models directly in JavaScript
+- Convert models from Python TensorFlow to JavaScript
+- Leverage GPU acceleration through WebGL
+- Can run ml on browser, server, mobile apps, desktop apps
+
+**Key features / characteristics:**
 
 - **Dynamic typing:** Variables don't need explicit type declarations
 - **Interpreted:** Code is executed directly without compilation
 - **Event-driven:** Responds to user interactions like clicks, form submissions
-- **Cross-platform:** Runs in browsers, servers (Node.js), mobile apps, and desktop applications
+- **Cross-platform:** Code can run on any device with a JavaScript engine. Runs in browsers, servers (Node.js), mobile apps, and desktop applications
+- **Regular Expression Support:** Built-in support for pattern matching and text manipulation through regular expressions.
+- **Extensive Ecosystem:** Massive library and framework ecosystem through npm, providing solutions for virtually any development need.
+- **Asynchronous Programming:** Native support for handling asynchronous operations through callbacks, promises, and async/await syntax.
+- **Automatic Memory Management:** Built-in garbage collection handles memory allocation and deallocation automatically.
+- **Event-Driven Programming:** Excellent support for handling user interactions and asynchronous events through event listeners and callbacks.
 
 ### Different Types of JavaScript
 
@@ -213,39 +267,37 @@ function add(a, b) {
 
 ## Embedding JavaScript in HTML
 
-### Using Script Tag
+**Old Question:**
+**What are different way to include JavaScript in HTML document?**
+
+### 1. Inline JavaScript
+
+- You can write JavaScript directly within HTML elements using event attributes:
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>JavaScript Example</title>
-  </head>
-  <body>
-    <h1 id="heading">Original Text</h1>
-
-    <script>
-      // Inline JavaScript
-      document.getElementById("heading").innerHTML =
-        "Text Changed by JavaScript!";
-      alert("Page loaded!");
-    </script>
-  </body>
-</html>
+<button onclick="alert('Hello!')">Click me</button>
+<body onload="console.log('Page loaded')"></body>
 ```
 
-### External Script File
+### 2. Internal JavaScript with <script> tags
+
+- Place JavaScript code directly in the HTML document between <script> and </script> tags:
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="external-script.js"></script>
-  </head>
-  <body>
-    <script src="another-script.js"></script>
-  </body>
-</html>
+<script>
+  function myFunction() {
+    console.log("Hello from internal script");
+  }
+  myFunction();
+</script>
+```
+
+### 3. External JavaScript files
+
+- Link to separate .js files using the src attribute:
+
+```html
+<script src="script.js"></script>
 ```
 
 ## NoScript Tag
@@ -2063,6 +2115,100 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 ```
 
 ## Old Questions
+
+### Write a HTML code to design a form with three radio button green, red, blue and black. Write a JavaScript code that will change the background color of the page when user clicks on particular button.
+
+```html
+<html>
+  <head>
+    <title>Background Color Selector</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Choose Background Color</h1>
+    <form id="form">
+      <input type="radio" id="green" name="color" value="green" />
+      <label for="green">Green</label>
+      <br /><br />
+      <input type="radio" id="red" name="color" value="red" />
+      <label for="red">Red</label>
+      <br /><br />
+      <input type="radio" id="blue" name="color" value="blue" />
+      <label for="blue">Blue</label>
+      <br /><br />
+      <input type="radio" id="black" name="color" value="black" />
+      <label for="black">Black</label>
+    </form>
+
+    <script>
+      const radioButtons = document.querySelectorAll('input[name="color"]');
+
+      // Add event listener to each radio button
+      radioButtons.forEach((radio) => {
+        radio.addEventListener("change", function () {
+          if (this.checked) {
+            // Change the background color of the body
+            document.body.style.backgroundColor = this.value;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Write a JavaScript which accept user's first and last name and print them in reverse order with space between them.
+
+```html
+<html>
+  <head>
+    <title>Name Reverser</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Name Reverser</h1>
+      <input type="text" id="firstName" placeholder="Enter your first name" />
+      <br /><br />
+      <input type="text" id="lastName" placeholder="Enter your last name" />
+      <br /><br />
+      <button onclick="reverseName()">Reverse Name</button>
+      <br /><br />
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function reverseName() {
+        var firstName = document.getElementById("firstName").value.trim();
+        var lastName = document.getElementById("lastName").value.trim();
+
+        // optional
+        if (firstName === "" || lastName === "") {
+          alert("Please enter both first and last name!");
+          return;
+        }
+
+        var reversedName = lastName + " " + firstName;
+
+        var resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "Reversed Name: " + reversedName;
+      }
+
+      //   optional
+      document.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          reverseName();
+        }
+      });
+    </script>
+  </body>
+</html>
+```
 
 ### Write program in Js that highlights all words that areover 8 characters long with a red background.
 
