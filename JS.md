@@ -1735,11 +1735,7 @@ newWindow.document.write("<h1>New Window Content</h1>");
 
 #### Structure of the DOM
 
-<div style="display: flex; gap: 20px; align-items: flex-end;">
-<img alt="Structure of the DOM" title="Structure of the DOM" src="images/js/dom.jpg" style="width:50%; object-fit: contain;"/>
-<img alt="Structure of the DOM" title="Structure of the DOM" src="images/js/dom1.gif" style="width:50%; object-fit: contain;"/>
-</div>
-<br>
+![Structure of the DOM](/images/js/dom1.gif "Structure of the DOM")
 
 **Root Node:**
 
