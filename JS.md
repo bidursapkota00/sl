@@ -29,6 +29,10 @@
 
 ---
 
+---
+
+---
+
 ## Introduction to JavaScript
 
 **Old Question:**
@@ -129,6 +133,10 @@ server.listen(3000, () => {
 
 ---
 
+---
+
+---
+
 ## Need of Client Side Scripting Language
 
 **Old Question:**
@@ -147,6 +155,12 @@ Client-side scripting allows code to run in the user's browser, providing:
 document.getElementById("demo").innerHTML =
   "Content changed without page reload!";
 ```
+
+---
+
+---
+
+---
 
 ## Formatting and Coding Conventions
 
@@ -178,6 +192,12 @@ function calc(p, t) {
   return p + p * t;
 }
 ```
+
+---
+
+---
+
+---
 
 ## JavaScript Files
 
@@ -240,6 +260,12 @@ console.log(message);
 - It allows the browser to cache the JavaScript file, which can improve website performance.
 - It reduces the size of the HTML file, which can improve website loading times.
 
+---
+
+---
+
+---
+
 ## Comments
 
 Comments help document code and are ignored during execution.
@@ -265,6 +291,12 @@ function add(a, b) {
 }
 ```
 
+---
+
+---
+
+---
+
 ## Embedding JavaScript in HTML
 
 **Old Question:**
@@ -279,9 +311,9 @@ function add(a, b) {
 <body onload="console.log('Page loaded')"></body>
 ```
 
-### 2. Internal JavaScript with <script> tags
+### 2. Internal JavaScript with `<script>` tags
 
-- Place JavaScript code directly in the HTML document between <script> and </script> tags:
+- Place JavaScript code directly in the HTML document between `<script>`and `</script>` tags:
 
 ```html
 <script>
@@ -299,6 +331,12 @@ function add(a, b) {
 ```html
 <script src="script.js"></script>
 ```
+
+---
+
+---
+
+---
 
 ## NoScript Tag
 
@@ -321,6 +359,12 @@ Provides fallback content when JavaScript is disabled.
   </body>
 </html>
 ```
+
+---
+
+---
+
+---
 
 ## Some Important Basics
 
@@ -636,6 +680,12 @@ console.log(first, second);
 console.log(myfirstName, myage);
 ```
 
+---
+
+---
+
+---
+
 ## Operators
 
 - Operators are special symbols or keywords used to perform operations on operands.
@@ -763,6 +813,12 @@ const chars = [...str];
 console.log(chars); // ['h', 'e', 'l', 'l', 'o']
 ```
 
+---
+
+---
+
+---
+
 ## Control Structures
 
 ### If-Else Statement
@@ -839,6 +895,12 @@ do {
 } while (num <= 3);
 ```
 
+---
+
+---
+
+---
+
 ## Arrays and For Each Loop
 
 ### Array Creation and Manipulation
@@ -884,6 +946,53 @@ for (let animal of animals) {
   console.log(animal);
 }
 ```
+
+**Old Question:**  
+**Write JavaScript code to print smallest and largest numbers among 10 elements of an array.**
+
+```js
+// Sample array with 10 numbers
+const numbers = [15, 3, 22, 7, 8, 19, 27, 4, 1, 12];
+
+// Initialize smallest and largest to the first element
+let smallest = numbers[0];
+let largest = numbers[0];
+
+// Loop through the array
+for (let i = 1; i < numbers.length; i++) {
+  if (numbers[i] < smallest) {
+    smallest = numbers[i];
+  }
+  if (numbers[i] > largest) {
+    largest = numbers[i];
+  }
+}
+
+console.log("Array:", numbers);
+console.log("Smallest number:", smallest);
+console.log("Largest number:", largest);
+```
+
+#### Using Math
+
+```js
+// Sample array with 10 numbers
+const numbers = [15, 3, 22, 7, 8, 19, 27, 4, 1, 12];
+
+// Find smallest and largest using Math functions
+const smallest = Math.min(...numbers);
+const largest = Math.max(...numbers);
+
+console.log("Array:", numbers);
+console.log("Smallest number:", smallest);
+console.log("Largest number:", largest);
+```
+
+---
+
+---
+
+---
 
 ## Defining and Invoking Functions
 
@@ -1032,6 +1141,51 @@ const sayHi2 = (name) => {
 sayHi2("Alice");
 ```
 
+**Old Question:**  
+**What is arrow function? Write JavaScript code to calculate factorial of given number using arrow function.**
+
+- An arrow function is a shorter syntax for writing functions in JavaScript. It was introduced in ES6 (ECMAScript 2015).
+- Have a cleaner, shorter syntax.
+- Do not have their own this, arguments, or super.
+
+#### Syntax
+
+```js
+const functionName = (parameters) => {
+  // function body
+};
+```
+
+#### Example
+
+```js
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // Output: 5
+```
+
+#### Factorial Using Arrow Function
+
+```js
+const factorial = (n) => {
+  if (n < 0) return "Invalid input";
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+};
+
+const number = 5;
+const fact = factorial(number);
+console.log(`Factorial of ${number} is ${fact}`);
+```
+
+---
+
+---
+
+---
+
 ## Objects
 
 ### Class
@@ -1140,6 +1294,12 @@ console.log(person3.age);
 console.log(person3);
 ```
 
+---
+
+---
+
+---
+
 ## Built-in Objects
 
 ### String Object
@@ -1228,6 +1388,37 @@ console.log(num.toFixed(2)); // 123.46
 console.log(num.toPrecision(4)); // 123.5
 ```
 
+**Old Question:**  
+**What is NaN in JavaScript?**
+
+- NaN stands for "Not a Number".
+- It is a special value in JavaScript that indicates a value that is not a valid number — even though it is technically of the type number.
+
+- When does NaN occur?
+
+  - When you try to perform a numerical operation on a non-numeric value.
+
+  - When parsing a string that doesn't contain a valid number using parseInt, parseFloat, etc.
+
+### Example
+
+```js
+console.log(0 / 0); // NaN
+console.log("hello" - 5); // NaN
+console.log(parseInt("abc")); // NaN
+
+console.log(typeof NaN); // "number" (Yes, it's strange!)
+```
+
+### Checking NaN
+
+```js
+console.log(isNaN("hello")); // true
+console.log(Number.isNaN(NaN)); // true
+```
+
+---
+
 ### Math Object
 
 ```javascript
@@ -1248,6 +1439,12 @@ console.log(Math.pow(2, 3)); // 8
 console.log(Math.sign(-5)); // -1
 console.log(Math.sign(5)); // 1
 ```
+
+---
+
+---
+
+---
 
 ## Date Objects
 
@@ -1276,6 +1473,55 @@ now.setDate(25); // Christmas
 console.log(now.toDateString()); // Formatted date string
 console.log(now.toTimeString()); // Formatted time string
 ```
+
+**Old Question:**  
+**Write a program that displays the continuous time in the web page. The time should be in the format of HH:MM:SS.**
+
+```html
+<html>
+  <head>
+    <title>Live Clock</title>
+    <style>
+      #clock {
+        text-align: center;
+        margin-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 id="clock">--:--:--</h3>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
+
+        // Get hours, minutes, seconds
+        let hours = now.getHours().toString().padStart(2, "0");
+        let minutes = now.getMinutes().toString().padStart(2, "0");
+        let seconds = now.getSeconds().toString().padStart(2, "0");
+
+        // Format: HH:MM:SS
+        const timeString = `${hours}:${minutes}:${seconds}`;
+
+        // Display in the page
+        document.getElementById("clock").textContent = timeString;
+      }
+
+      // Update clock immediately
+      updateClock();
+
+      // Update every 1000ms (1 second)
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>
+```
+
+---
+
+---
+
+---
 
 ## Interacting With The Browser
 
@@ -1363,12 +1609,22 @@ let userInput = window.prompt("Enter your name:");
 
 ### Popup Example
 
-**Old Question:**
-**Question**
+**Old Question:**  
+**What is dialog box? Explain different dialog boxes with suitable example in JavaScript.**
+
+- A dialog box in JavaScript is a pop-up window that allows you to interact with the user. It's commonly used for:
+  - Showing messages
+  - Asking for confirmation
+  - Taking input
+- These are built-in methods of the window object and work in all browsers.
+
+#### **Types:**
 
 - The alert() method displays a simple message to the user in an alert box.
 - The confirm() method displays a confirmation dialog box with two buttons: OK and Cancel.
 - The prompt() method displays a dialog box with a text input field where the user can enter data.
+<br>
+<br>
 
 ```html
 <html>
@@ -1396,7 +1652,7 @@ let userInput = window.prompt("Enter your name:");
   </body>
 </html>
 ```
-
+---
 ### Screen Object
 
 ```javascript
@@ -1416,6 +1672,12 @@ console.log(navigator.language); // Browser language
 console.log(navigator.onLine); // Online status
 console.log(navigator.cookieEnabled); // Cookie support
 ```
+
+---
+
+---
+
+---
 
 ## Windows & Frames
 
@@ -1451,6 +1713,12 @@ newWindow.document.write("<h1>New Window Content</h1>");
   frame.src = "data:text/html,<h1>Frame Content</h1>";
 </script>
 ```
+
+---
+
+---
+
+---
 
 ## Document Object Model (DOM)
 
@@ -1567,6 +1835,12 @@ elementToRemove.parentNode.removeChild(elementToRemove);
 // elementToRemove.remove();
 ```
 
+---
+
+---
+
+---
+
 ## Event Handling
 
 **Old Question:**
@@ -1579,7 +1853,7 @@ A **JavaScript Event** is an action or occurrence that happens in the browser, l
 - A form is submitted
 - A key is pressed
 
-You can write **JavaScript code to "listen" and "respond"** to these events.
+- You can write **JavaScript code to "listen" and "respond"** to these events.
 
 ## Common Event Types
 
@@ -1666,6 +1940,37 @@ document.addEventListener("click", function (event) {
 });
 ```
 
+**Old Question:**
+**Illustrate how an event handler response particular event in web page.**
+
+```html
+<html>
+  <head>
+    <title>Event Handling Example</title>
+  </head>
+  <body>
+    <h2>Click the button to see the message:</h2>
+
+    <button onclick="showMessage()">Click Me</button>
+
+    <p id="message"></p>
+
+    <script>
+      // This function will run when button is clicked
+      function showMessage() {
+        document.getElementById("message").textContent = "Button was clicked!";
+      }
+    </script>
+  </body>
+</html>
+```
+
+---
+
+---
+
+---
+
 ## Forms
 
 ### Form Validation and Handling
@@ -1732,6 +2037,12 @@ function getFormData(form) {
 }
 ```
 
+---
+
+---
+
+---
+
 ## Cookies
 
 ### Creating and Reading Cookies
@@ -1795,6 +2106,12 @@ function showWelcomeMessage() {
 // Call on page load
 window.onload = showWelcomeMessage;
 ```
+
+---
+
+---
+
+---
 
 ## Handling Regular Expressions
 
@@ -1867,6 +2184,12 @@ console.log(validatePhone("(123) 456-7890")); // true
 console.log(validatePassword("MyPass123")); // true
 console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 ```
+
+---
+
+---
+
+---
 
 ## Client Side Validations
 
@@ -2114,7 +2437,163 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 </html>
 ```
 
+---
+
+---
+
+---
+
 ## Old Questions
+
+### Write a program which includes a function sum(). This function sum() should be designed to add an arbitrary list of parameters. (For e.g., if you call the function sum() as sum(1, 2) it should return the result 3 and if again you call the function sum() as sum(1, 3, 4) it should return the result 8).
+
+```js
+// Function that sums any number of arguments
+function sum(...numbers) {
+  let total = 0;
+  for (let num of numbers) {
+    // can use forEach too
+    total += num;
+  }
+  return total;
+}
+
+// Test examples
+console.log(sum(1, 2)); // Output: 3
+console.log(sum(1, 3, 4)); // Output: 8
+console.log(sum(10, 20, 30)); // Output: 60
+console.log(sum()); // Output: 0 (no input)
+```
+
+#### Using arguments (older way):
+
+```js
+function sum() {
+  let total = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    total += arguments[i];
+  }
+  return total;
+}
+
+console.log(sum(1, 2)); // 3
+console.log(sum(1, 3, 4)); // 8
+```
+
+#### For Interviews (reduce, filter, find, map, forEach, ...)
+
+```js
+const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
+```
+
+### What is an Immediately Invoked Function in JavaScript? Explain with suitable example.
+
+- An Immediately Invoked Function Expression (IIFE) is a function that runs as soon as it is defined.
+- It's often used to avoid polluting the global scope.
+- It creates a private scope for variables.
+  <br>
+  **In other language**
+  <br>
+- To execute code once without leaving variables behind.
+- To create private scopes in older JavaScript (before let/const and modules).
+
+#### Syntax and Example
+
+```js
+(function () {
+  // code inside IIFE
+})();
+
+// Or using arrow function:
+(() => {
+  // code inside IIFE
+})();
+
+// Example
+(function () {
+  let message = "Hello from IIFE!";
+  console.log(message);
+})();
+```
+
+#### Use Case Example: To Avoid Global Variable Conflicts
+
+```html
+<script>
+  var globalVar = "Outside";
+
+  (function () {
+    var globalVar = "Inside";
+    console.log("IIFE: " + globalVar); // Inside
+  })();
+
+  console.log("Global: " + globalVar); // Outside
+</script>
+```
+
+### Write JavaScript code to change background color of web page every second.
+
+```html
+<html>
+  <head>
+    <title>Change Background Color</title>
+  </head>
+  <body>
+    <script>
+      function getRandomColor() {
+        // Generate a random hex color
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      // Change background color every second
+      setInterval(() => {
+        document.body.style.backgroundColor = getRandomColor();
+      }, 1000);
+    </script>
+  </body>
+</html>
+```
+
+### Create a HTML page containing a division with image and its description in paragraph. Write a JavaScript function to change the value of description in the paragraph during onmouseover and onmouseout on the image.
+
+```html
+<html>
+  <head>
+    <title>Image Description Change</title>
+    <style>
+      img {
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      src="https://www.bidursapkota.com.np/_next/image?url=%2Fimages%2Fprofile3.png&w=1080&q=75"
+      alt="Sample Image"
+      onmouseover="changeDescription()"
+      onmouseout="resetDescription()"
+    />
+    <p id="description">This is a sample image description.</p>
+
+    <script>
+      function changeDescription() {
+        document.getElementById("description").textContent =
+          "You are hovering over the image!";
+      }
+
+      function resetDescription() {
+        document.getElementById("description").textContent =
+          "This is a sample image description.";
+      }
+    </script>
+  </body>
+</html>
+```
 
 ### Write a HTML code to design a form with three radio button green, red, blue and black. Write a JavaScript code that will change the background color of the page when user clicks on particular button.
 
