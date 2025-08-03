@@ -1623,8 +1623,8 @@ let userInput = window.prompt("Enter your name:");
 - The alert() method displays a simple message to the user in an alert box.
 - The confirm() method displays a confirmation dialog box with two buttons: OK and Cancel.
 - The prompt() method displays a dialog box with a text input field where the user can enter data.
-<br>
-<br>
+  <br>
+  <br>
 
 ```html
 <html>
@@ -1652,7 +1652,9 @@ let userInput = window.prompt("Enter your name:");
   </body>
 </html>
 ```
+
 ---
+
 ### Screen Object
 
 ```javascript
@@ -1722,9 +1724,98 @@ newWindow.document.write("<h1>New Window Content</h1>");
 
 ## Document Object Model (DOM)
 
+**Old Question:**  
+**Explain the concept structure and importance of DOM.**
+
+#### What is the DOM?
+
+- The Document Object Model (DOM) is a programming interface for web documents. It represents the structure of an HTML or XML document as a tree of nodes.
+
+- Each element in the HTML (like `<html>`, `<body>`, `<ul>`, `<li>`, etc.) becomes a node in this tree. These nodes are related to each other as parents, children, siblings, etc.
+
+#### Structure of the DOM
+
+<div style="display: flex; gap: 20px; align-items: flex-end;">
+<img alt="Structure of the DOM" title="Structure of the DOM" src="images/js/dom.jpg" style="width:50%; object-fit: contain;"/>
+<img alt="Structure of the DOM" title="Structure of the DOM" src="images/js/dom1.gif" style="width:50%; object-fit: contain;"/>
+</div>
+<br>
+
+**Root Node:**
+
+- `<html>` is the root of the DOM tree.
+- It contains all other elements.
+
+**Nodes:**
+
+- All tags like `<head>`, `<body>`, `<nav>`, etc., are nodes.
+- Nodes can be elements, text, attributes, or comments.
+
+**Parent-Child Relationship:**
+
+- For example, `<ul>` is the parent of its `<li>` children.
+  `<body>` is the parent of `<nav>` and `<section>`.
+
+**Leaves:**
+
+- A leaf is a node without children (e.g., `<img>` or individual `<li>`'s).
+
+**Branches:**
+
+- Intermediate nodes with children (e.g., `<nav>`, `<ul>`).
+
+#### Structure of the DOM
+
+```html
+<html>
+  <head>
+    <title>My Page</title>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    <p>This is some text.</p>
+  </body>
+</html>
+```
+
+#### Why is the DOM Important?
+
+**Dynamic Content:**
+
+- JavaScript can access and modify the DOM to update web pages without reloading, enabling dynamic content.
+
+**Interactivity:**
+
+- DOM lets scripts respond to user interactions (clicks, keypresses, etc.).
+
+**Structure and Organization:**
+
+- It provides a hierarchical representation of content, making it easier for developers and browsers to work with.
+
+**Foundation for Frameworks:**
+
+- Modern JavaScript frameworks like React, Angular, and Vue.js are built upon the DOM, providing higher-level abstractions and tools to efficiently manage and manipulate the DOM for complex applications.
+
+#### Example: JavaScript DOM Manipulation
+
+```js
+const newLi = document.createElement("li");
+const textNode = document.createTextNode("New Item");
+newLi.appendChild(textNode);
+document.querySelector("ul").appendChild(newLi);
+// ---------------
+// ------OR-------
+// ---------------
+const newLi = document.createElement("li");
+newLi.textContent = "New Item"; // newLi.innerText also works (behind the scenes, browser creates text node)
+document.querySelector("ul").appendChild(newLi);
+
+// See topics below for more examples
+```
+
 ### Selecting Elements
 
-**Old Question:**
+**Old Question:**  
 **Explain different method that are available to access DOM element using id, class, name and selector with suitable example.**
 
 ```javascript
@@ -2444,6 +2535,183 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 ---
 
 ## Old Questions
+
+### Design following form in HTML and display the value in the result box after calculating basic arithmetic operation based on the user input with the use of JavaScript.
+
+![Calculator](/images/js/calculator1.png "Calculator")
+
+```html
+<html>
+  <head>
+    <title>Basic Arithmetic Functions</title>
+    <style>
+      body {
+        text-align: center;
+        margin-top: 50px;
+      }
+      input,
+      button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+      }
+      #container {
+        display: inline-block;
+        border: 2px solid black;
+        padding: 20px;
+        border-radius: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h2>Basic Arithmetic Functions</h2>
+
+      <input type="number" id="operand1" placeholder="Operand" /><br />
+      <input type="number" id="operand2" placeholder="Operand" /><br />
+
+      <button onclick="calculate('add')">Add</button>
+      <button onclick="calculate('sub')">Sub</button>
+      <button onclick="calculate('mul')">Mul</button><br />
+      <button onclick="calculate('div')">Div</button>
+      <button onclick="calculate('mod')">Mod</button><br />
+
+      <h3>Result:</h3>
+      <input type="text" id="result" readonly />
+    </div>
+
+    <script>
+      function calculate(operation) {
+        const op1 = parseFloat(document.getElementById("operand1").value);
+        const op2 = parseFloat(document.getElementById("operand2").value);
+        let res;
+
+        if (isNaN(op1) || isNaN(op2)) {
+          res = "Invalid input";
+        } else {
+          switch (operation) {
+            case "add":
+              res = op1 + op2;
+              break;
+            case "sub":
+              res = op1 - op2;
+              break;
+            case "mul":
+              res = op1 * op2;
+              break;
+            case "div":
+              res = op2 !== 0 ? op1 / op2 : "Divide by 0 error";
+              break;
+            case "mod":
+              res = op2 !== 0 ? op1 % op2 : "Divide by 0 error";
+              break;
+          }
+        }
+
+        document.getElementById("result").value = res;
+      }
+    </script>
+  </body>
+</html>
+```
+
+### Write HTML and JavaScript code to create a following calculator for performing basic arithmetic operations.
+
+![Calculator](/images/js/calculator.png "Calculator")
+
+```html
+<html>
+  <head>
+    <title>Basic Calculator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        align-content: center;
+      }
+      .calculator {
+        border: 5px solid #aea3b0;
+        padding: 10px;
+        width: 350px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        background: #8e7f8e;
+      }
+      input {
+        height: 40px;
+        font-size: 20px;
+        grid-column: 1 / 4;
+        background: #aea3b0;
+        outline: none;
+        border: none;
+        color: #333;
+      }
+      button {
+        height: 40px;
+        cursor: pointer;
+        background: #aea3b0;
+        border: none;
+        border-radius: 2px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <input type="text" id="display" readonly />
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="appendOperator('+')">+</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="appendOperator('-')">-</button>
+
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="appendNumber('10')">10</button>
+
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendOperator('*')">*</button>
+      <button onclick="appendOperator('/')">/</button>
+      <button onclick="calculate()">=</button>
+    </div>
+
+    <script>
+      function appendNumber(num) {
+        document.getElementById("display").value += num;
+      }
+
+      function appendOperator(op) {
+        const display = document.getElementById("display");
+        const lastChar = display.value.slice(-1);
+        if ("+-*/".includes(lastChar)) return; // prevent double operators
+        display.value += op;
+      }
+
+      function clearDisplay() {
+        document.getElementById("display").value = "";
+      }
+
+      function calculate() {
+        const display = document.getElementById("display");
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+        }
+      }
+    </script>
+  </body>
+</html>
+```
 
 ### Write a program which includes a function sum(). This function sum() should be designed to add an arbitrary list of parameters. (For e.g., if you call the function sum() as sum(1, 2) it should return the result 3 and if again you call the function sum() as sum(1, 3, 4) it should return the result 8).
 
