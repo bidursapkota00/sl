@@ -167,10 +167,11 @@ document.getElementById("demo").innerHTML =
 Good JavaScript follows these conventions:
 
 - Use camelCase for variables and functions
+- variable names should start with a letter, underscore (\_), or dollar sign ($), avoid reserved keywords, and be descriptive and meaningful.
 - Use PascalCase for constructors
 - Use meaningful names
 - Proper indentation and Consistent spacing
-- semicolons to separate statements is considered good practice, but they are not always required
+- Semicolons to separate statements is considered good practice, but they are not always required
 - Use curly braces to indicate code blocks
 - Use comments to explain your code and improve its readability
 - Include error handling in your code to prevent crashes and unexpected behavior. Use try/catch statements to handle errors gracefully.
@@ -204,7 +205,7 @@ function calc(p, t) {
 - **File extension:** JavaScript files typically have a .js file extension.
 - **Script tag:** To include a JavaScript file in an HTML document, you can use a `<script>` tag and specify the file's URL in the `src` attribute.
 - **Loading order:** JavaScript files are loaded and executed in the order they appear in the HTML document, from top to bottom.
-- **External vs. inline scripts:** JavaScript code can be included in an HTML document either as an external file or as an inline script. External scripts are preferred for larger scripts, while inline scripts are used for smaller scripts or scripts that require specific HTML elements.
+- **External vs Internal vs Inline scripts:** External scripts are preferred for larger scripts, while Internal / Inline scripts are used for smaller scripts or scripts that require specific HTML elements.
 
 **script.js**
 
@@ -291,6 +292,22 @@ function add(a, b) {
 }
 ```
 
+### Extra - Generate Docs website from JSDoc
+
+```bash
+# Install JSDoc globally
+npm install -g jsdoc
+
+# Generate docs in docs folder destination
+jsdoc yourfile.js -d docs/
+
+# With better theme
+npm install better-docs
+
+# Generate with better theme
+jsdoc yourfile.js -d docs/ -t node_modules/better-docs
+```
+
 ---
 
 ---
@@ -368,60 +385,6 @@ Provides fallback content when JavaScript is disabled.
 
 ## Some Important Basics
 
-### Var, let and const
-
-```js
-// you can redeclare variable with same name with var
-// weird
-var myname = "aalu";
-console.log(myname);
-myname = "pidalu";
-console.log(myname);
-var myname = "aarko aalu";
-console.log(myname);
-
-// you cannot redeclare variable with same name with let
-let mysurname = "aalu";
-console.log(mysurname);
-mysurname = "pidalu";
-console.log(mysurname);
-//   let mysurname = "aarko aalu"; //  <------------------- error
-//   console.log(mysurname);
-
-// var is not scoped within block
-// block means within curly braces like of for loops
-
-var gods = ["ram", "laxman", "krishna"];
-var weapons = ["bow", "arrow", "sudarsan"];
-
-for (var item of gods) {
-  // make it let
-  console.log(item);
-  for (var item of weapons) {
-    // make it let
-    //
-  }
-  console.log(item);
-}
-
-const mymiddlename = "aalu";
-console.log(mymiddlename);
-//   mymiddlename = "pidalu"; //  <----------------- error
-//   console.log(mymiddlename);
-
-const myarray = ["apple", "ball"];
-console.log(myarray);
-myarray.push("cat");
-console.log(myarray);
-myarray.pop();
-console.log(myarray);
-
-const myarray2 = Array(5);
-console.log(myarray2);
-myarray2[0] = "apple";
-console.log(myarray2);
-```
-
 ### Data Types
 
 **A. Primitive Data Types:**
@@ -495,6 +458,7 @@ for (let key in employee) {
   console.log(employee[key]);
 }
 
+// logs all symbol properties of employee object
 console.log(Object.getOwnPropertySymbols(employee));
 
 // ////////////////////////////////////
@@ -525,6 +489,7 @@ add.description = "This function adds two parameters.";
 add.string = function (a, b) {
   return `${a}${b}`;
 };
+// Note: The syntax `${a}${b}` is called a template literal (also known as template string) in JavaScript.
 
 console.log(add(2, 3));
 console.log(add("2", 3));
@@ -678,6 +643,60 @@ let { myfirstName, myage } = person; // name is "Bob", age is 25
 
 console.log(first, second);
 console.log(myfirstName, myage);
+```
+
+### Var, let and const
+
+```js
+// you can redeclare variable with same name with var
+// weird
+var myname = "aalu";
+console.log(myname);
+myname = "pidalu";
+console.log(myname);
+var myname = "aarko aalu";
+console.log(myname);
+
+// you cannot redeclare variable with same name with let
+let mysurname = "aalu";
+console.log(mysurname);
+mysurname = "pidalu";
+console.log(mysurname);
+//   let mysurname = "aarko aalu"; //  <------------------- error
+//   console.log(mysurname);
+
+// var is not scoped within block
+// block means within curly braces like of for loops
+
+var gods = ["ram", "laxman", "krishna"];
+var weapons = ["bow", "arrow", "sudarsan"];
+
+for (var item of gods) {
+  // make it let
+  console.log(item);
+  for (var item of weapons) {
+    // make it let
+    //
+  }
+  console.log(item);
+}
+
+const mymiddlename = "aalu";
+console.log(mymiddlename);
+//   mymiddlename = "pidalu"; //  <----------------- error
+//   console.log(mymiddlename);
+
+const myarray = ["apple", "ball"];
+console.log(myarray);
+myarray.push("cat");
+console.log(myarray);
+myarray.pop();
+console.log(myarray);
+
+const myarray2 = Array(5);
+console.log(myarray2);
+myarray2[0] = "apple";
+console.log(myarray2);
 ```
 
 ---
