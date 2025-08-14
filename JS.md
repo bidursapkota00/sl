@@ -933,8 +933,9 @@ let mixed = ["text", 42, true, null];
 // Array methods
 fruits.push("grape"); // Add to end
 fruits.unshift("mango"); // Add to beginning
+fruits.shift("mango"); // Remove to beginning
 let removed = fruits.pop(); // Remove from end
-fruits.splice(1, 1); // Remove at index 1
+fruits.splice(1, 1); // Remove at index 1 --- splice(start, deleteCount)
 
 console.log(fruits); // ["mango", "banana", "orange"]
 console.log("Length: " + fruits.length);
