@@ -1341,10 +1341,10 @@ console.log(str2.indexOf("world"));
 console.log(str2.indexOf("o"));
 console.log(str2.lastIndexOf("o"));
 console.log(str2.slice(7, 12));
-console.log(str2.slice(7, -4));
+console.log(str2.slice(7, -4)); // -ve counts from last. -1 = last, -2 = 2nd last
 console.log(str.substring(7, 12));
 console.log(str.substring(12, 7)); //if a> b, swaps
-console.log(str.substring(7, -1)); // if a > b, swaps   and -ve numbers = 0
+console.log(str.substring(7, -1));
 console.log(str.split(","));
 console.log(str.toUpperCase());
 console.log(str);
