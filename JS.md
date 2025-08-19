@@ -1361,6 +1361,10 @@ let country = "Nepal";
 let city = "Lalitpur";
 let address = city.concat(", ", country, "!");
 console.log(address);
+
+let num = "2";
+console.log(num.padStart(3, "0")); // 002
+console.log(num.padEnd(4, "0")); // 2000
 ```
 
 ### Number Object
@@ -1677,6 +1681,8 @@ let userInput = window.prompt("Enter your name:");
 
 ### Screen Object
 
+- screen object is inside window object too i.e. window.screen.width
+
 ```javascript
 console.log(screen.width); // Screen width
 console.log(screen.height); // Screen height
@@ -1686,6 +1692,8 @@ console.log(screen.colorDepth); // Color depth
 ```
 
 ### Navigator Object
+
+- navigator object is inside window object too
 
 ```javascript
 console.log(navigator.userAgent); // Browser information
@@ -1710,10 +1718,6 @@ console.log(navigator.cookieEnabled); // Cookie support
 let newWindow = window.open("", "myWindow", "width=400,height=300");
 newWindow.document.write("<h1>New Window Content</h1>");
 
-// Focus and blur
-// newWindow.focus();
-// newWindow.blur();
-
 // Close window
 // newWindow.close();
 ```
@@ -1727,12 +1731,13 @@ newWindow.document.write("<h1>New Window Content</h1>");
 <script>
   // Access frame content
   let frame = document.getElementById("myFrame");
-  frame.onload = function () {
-    console.log("Frame loaded");
-  };
 
   // Write to frame
   frame.src = "data:text/html,<h1>Frame Content</h1>";
+
+  // Change iframe source
+  // iframe.src = 'https://apple.com';
+  // iframe.src = 'example.html';
 </script>
 ```
 
@@ -1854,6 +1859,13 @@ let firstMatch = document.querySelector(".myClass");
 let allMatches = document.querySelectorAll(".myClass");
 ```
 
+#### Side Note:
+
+- document.getElementsByClassName returns a **HTMLCollection**, not a true JavaScript array
+- document.getElementsByClassName returns a **NodeList**, supports forEach
+- forEach is an Array method, so HTMLCollection doesn't have it
+- for...of works with any iterable object, and HTMLCollection implements the iterable protocol
+
 ```html
 <html>
   <head>
@@ -1866,13 +1878,13 @@ let allMatches = document.querySelectorAll(".myClass");
     <p>Hello</p>
     <p>Hello</p>
     <script>
-      let elementById = document.getElementById("myId");
-      let elementsByClass = document.getElementsByClassName("myClass");
-      let elementsByTag = document.getElementsByTagName("p");
-      let firstMatch = document.querySelector(".myClass");
-      let allMatches = document.querySelectorAll(".myClass");
-
       window.onload = () => {
+        let elementById = document.getElementById("myId");
+        let elementsByClass = document.getElementsByClassName("myClass");
+        let elementsByTag = document.getElementsByTagName("p");
+        let firstMatch = document.querySelector(".myClass");
+        let allMatches = document.querySelectorAll(".myClass");
+
         elementById.style.color = "green";
 
         // [...elementsByClass].forEach()
@@ -1993,6 +2005,18 @@ form.addEventListener("submit", function (event) {
 input.addEventListener("change", function () {
   /* code */
 });
+```
+
+#### Side Note
+
+```html
+<!-- Focusable h1 -->
+<!-- Now key up down event is supported -->
+<!-- any value >= 0 -->
+<h1 tabindex="0">Focusable Heading</h1>
+
+<!-- Contenteditable h1 -->
+<h1 contenteditable="true">Editable Heading</h1>
 ```
 
 ### Inline Event Handlers
