@@ -1647,8 +1647,39 @@ let userInput = window.prompt("Enter your name:");
 - The alert() method displays a simple message to the user in an alert box.
 - The confirm() method displays a confirmation dialog box with two buttons: OK and Cancel.
 - The prompt() method displays a dialog box with a text input field where the user can enter data.
-  <br>
-  <br>
+
+#### Simple Example
+
+```html
+<html>
+  <head>
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="showMessage()">Show Message</button>
+    <button onclick="confirmFromUser()">Confirm Delete</button>
+    <button onclick="inputName()">Input Name</button>
+
+    <script>
+      function showMessage() {
+        alert("This is your message");
+      }
+
+      function confirmFromUser() {
+        let isConfirmed = confirm("Are your Sure to delete?");
+        isConfirmed ? alert("Deleted") : alert("Cancelled");
+      }
+
+      function inputName() {
+        let name = prompt("Enter your name");
+        name ? alert(`Your name is ${name}`) : alert("Empty");
+      }
+    </script>
+  </body>
+</html>
+```
+
+#### Integrated Example
 
 ```html
 <html>
