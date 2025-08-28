@@ -2983,6 +2983,20 @@ const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
 </html>
 ```
 
+#### Better way
+
+```html
+<script>
+  <form onchange="handleChange()" id="form"></form>;
+  function handleChange() {
+    event.stopPropagation();
+    if (event.target.type == "radio") {
+      document.body.style.backgroundColor = event.target.value;
+    }
+  }
+</script>
+```
+
 ### Write a JavaScript which accept user's first and last name and print them in reverse order with space between them.
 
 ```html
