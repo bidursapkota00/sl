@@ -2137,9 +2137,11 @@ document.addEventListener("click", function (event) {
 
 ### Form Validation and Handling
 
+##### Create a form to input Name, Email, and Password. All fields are required. Email field must include @. Password must be at least 6 character long.
+
 ```html
 <form id="myForm">
-  <input type="text" id="username" placeholder="Username" required />
+  <input type="text" id="name" placeholder="Name" required />
   <input type="email" id="email" placeholder="Email" required />
   <input type="password" id="password" placeholder="Password" required />
   <button type="submit">Submit</button>
@@ -2152,13 +2154,13 @@ document.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent form submission
 
       // Get form values
-      let username = document.getElementById("username").value;
+      let name = document.getElementById("name").value;
       let email = document.getElementById("email").value;
       let password = document.getElementById("password").value;
 
       // Validation
-      if (username.length < 3) {
-        alert("Username must be at least 3 characters");
+      if (name.length < 3) {
+        alert("Name must be at least 3 characters");
         return;
       }
 
@@ -2172,7 +2174,7 @@ document.addEventListener("click", function (event) {
         return;
       }
 
-      console.log("Form data:", { username, email, password });
+      console.log("Form data:", { name, email, password });
       alert("Form submitted successfully!");
     });
 </script>
@@ -3028,7 +3030,7 @@ const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
 </html>
 ```
 
-### Write program in Js that highlights all words that areover 8 characters long with a red background.
+### Write program in Js that highlights all words that are over 8 characters long with a red background.
 
 ```html
 <html>
