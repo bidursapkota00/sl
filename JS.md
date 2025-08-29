@@ -21,10 +21,10 @@
 17. [Windows & Frames](#windows--frames)
 18. [Document Object Model (DOM)](#document-object-model-dom)
 19. [Event Handling](#event-handling)
-20. [Forms](#forms)
+20. [Forms and Client Side Validation](#forms-and-client-side-validation)
 21. [Cookies](#cookies)
-22. [Handling Regular Expressions](#handling-regular-expressions)
-23. [Client Side Validations](#client-side-validations)
+22. [Regular Expressions](#regular-expressions)
+23. [Client Side Form Validation with Regular Expression](#client-side-form-validation-with-regular-expression)
 24. [Old Questions](#old-questions)
 25. [For Lab1 - Javascript](#for-lab1---javascript)
 
@@ -2176,9 +2176,7 @@ document.addEventListener("click", function (event) {
 
 ---
 
-## Forms
-
-### Form Validation and Handling
+## Forms and Client Side Validation
 
 ##### Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
 
@@ -2368,27 +2366,6 @@ document.addEventListener("click", function (event) {
 </html>
 ```
 
-### Form Element Access
-
-```javascript
-// Access form elements
-let form = document.forms["myForm"]; // or document.getElementById("myForm")
-let username = form.elements["username"];
-let email = form.elements["email"];
-
-// Get all form data
-function getFormData(form) {
-  let formData = {};
-  for (let i = 0; i < form.elements.length; i++) {
-    let element = form.elements[i];
-    if (element.name) {
-      formData[element.name] = element.value;
-    }
-  }
-  return formData;
-}
-```
-
 ---
 
 ---
@@ -2397,7 +2374,63 @@ function getFormData(form) {
 
 ## Cookies
 
-### Creating and Reading Cookies
+- A cookie is a **key–value pair (plus** optional attributes like **expiration, path**, domain, security flags) stored by the browser and associated with a specific domain.
+
+- A cookie is a **small piece of data that a web server sends to a user's browser**. The **browser stores it and sends it back with future requests** to the same server, allowing the server to remember information about the user across pages or visits.
+
+- Cookies have a **size limit (~4 KB per cookie, ~20 per domain)**.
+
+- **Cookies are sent to the server on every request\*\*** → don’t put sensitive or heavy data in them.
+
+- **For bigger/complex JSON, better to use localStorage** or IndexedDB instead of cookies.
+
+### Types of Cookies
+
+#### Based on How They Are Managed
+
+| Type                   | Description                                                             | Example                                  |
+| ---------------------- | ----------------------------------------------------------------------- | ---------------------------------------- |
+| **HTTP-managed**       | Created by the server via `Set-Cookie` header                           | `Set-Cookie: sessionId=abc123; HttpOnly` |
+| **JavaScript-managed** | Created/modified by client-side JS (`document.cookie` or `cookieStore`) | `document.cookie = "theme=dark"`         |
+
+#### Based on Lifetime
+
+| Type           | Description                                                    | Example                                     |
+| -------------- | -------------------------------------------------------------- | ------------------------------------------- |
+| **Session**    | Exists only until the browser is closed                        | `Set-Cookie: sessionId=abc123` (no Expires) |
+| **Persistent** | Remains after browser closes, until a specific expiration date | `Set-Cookie: theme=dark; Expires=...`       |
+
+#### Based on Domain Relationship
+
+| Type            | Description                                                         | Example                                    |
+| --------------- | ------------------------------------------------------------------- | ------------------------------------------ |
+| **First-party** | Belongs to the same domain as the website the user is visiting      | `Domain=example.com`                       |
+| **Third-party** | Belongs to a different domain than the website the user is visiting | Ads or analytics cookies (`Domain=ad.com`) |
+
+### Creating, Reading and Deleting JavaScript-managed Cookies
+
+##### Modern Way: Using Cookie Store API
+
+```html
+<script type="module">
+  // Set cookie
+  await cookieStore.set({
+    name: "username",
+    value: "john_doe",
+    path: "/",
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+  });
+
+  // Get cookie
+  const cookie = await cookieStore.get("username");
+  console.log(cookie?.value);
+
+  // Delete cookie
+  await cookieStore.delete("username");
+</script>
+```
+
+##### Side Note: Older way - Using document.cookie
 
 ```javascript
 // Set cookie
@@ -2438,34 +2471,13 @@ console.log(getCookie("username")); // john_doe
 deleteCookie("username");
 ```
 
-### Practical Cookie Example
-
-```javascript
-// Welcome message using cookies
-function showWelcomeMessage() {
-  let lastVisit = getCookie("lastVisit");
-  let now = new Date();
-
-  if (lastVisit) {
-    alert("Welcome back! Your last visit was: " + lastVisit);
-  } else {
-    alert("Welcome to our website!");
-  }
-
-  setCookie("lastVisit", now.toString(), 30);
-}
-
-// Call on page load
-window.onload = showWelcomeMessage;
-```
-
 ---
 
 ---
 
 ---
 
-## Handling Regular Expressions
+## Regular Expressions
 
 ### Creating Regular Expressions
 
@@ -2543,250 +2555,10 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 
 ---
 
-## Client Side Validations
-
-### Complete Form Validation Example
+## Client Side Form Validation with Regular Expression
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Form Validation</title>
-    <style>
-      .error {
-        color: red;
-        font-size: 12px;
-      }
-      .valid {
-        border: 2px solid green;
-      }
-      .invalid {
-        border: 2px solid red;
-      }
-    </style>
-  </head>
-  <body>
-    <form id="registrationForm">
-      <div>
-        <label>Full Name:</label>
-        <input type="text" id="fullName" required />
-        <span class="error" id="nameError"></span>
-      </div>
 
-      <div>
-        <label>Email:</label>
-        <input type="email" id="email" required />
-        <span class="error" id="emailError"></span>
-      </div>
-
-      <div>
-        <label>Phone:</label>
-        <input type="tel" id="phone" required />
-        <span class="error" id="phoneError"></span>
-      </div>
-
-      <div>
-        <label>Age:</label>
-        <input type="number" id="age" min="18" max="100" required />
-        <span class="error" id="ageError"></span>
-      </div>
-
-      <div>
-        <label>Password:</label>
-        <input type="password" id="password" required />
-        <span class="error" id="passwordError"></span>
-      </div>
-
-      <div>
-        <label>Confirm Password:</label>
-        <input type="password" id="confirmPassword" required />
-        <span class="error" id="confirmPasswordError"></span>
-      </div>
-
-      <button type="submit">Register</button>
-    </form>
-
-    <script>
-      // Validation functions
-      function validateName(name) {
-        return name.length >= 2 && /^[a-zA-Z\s]+$/.test(name);
-      }
-
-      function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      }
-
-      function validatePhone(phone) {
-        return /^\d{10}$/.test(phone.replace(/\D/g, ""));
-      }
-
-      function validateAge(age) {
-        return age >= 18 && age <= 100;
-      }
-
-      function validatePassword(password) {
-        return (
-          password.length >= 8 &&
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)
-        );
-      }
-
-      // Real-time validation
-      document.getElementById("fullName").addEventListener("blur", function () {
-        let name = this.value;
-        let errorElement = document.getElementById("nameError");
-
-        if (!validateName(name)) {
-          this.className = "invalid";
-          errorElement.textContent =
-            "Name must be at least 2 characters and contain only letters";
-        } else {
-          this.className = "valid";
-          errorElement.textContent = "";
-        }
-      });
-
-      document.getElementById("email").addEventListener("blur", function () {
-        let email = this.value;
-        let errorElement = document.getElementById("emailError");
-
-        if (!validateEmail(email)) {
-          this.className = "invalid";
-          errorElement.textContent = "Please enter a valid email address";
-        } else {
-          this.className = "valid";
-          errorElement.textContent = "";
-        }
-      });
-
-      document.getElementById("phone").addEventListener("blur", function () {
-        let phone = this.value;
-        let errorElement = document.getElementById("phoneError");
-
-        if (!validatePhone(phone)) {
-          this.className = "invalid";
-          errorElement.textContent =
-            "Please enter a valid 10-digit phone number";
-        } else {
-          this.className = "valid";
-          errorElement.textContent = "";
-        }
-      });
-
-      document.getElementById("age").addEventListener("blur", function () {
-        let age = parseInt(this.value);
-        let errorElement = document.getElementById("ageError");
-
-        if (!validateAge(age)) {
-          this.className = "invalid";
-          errorElement.textContent = "Age must be between 18 and 100";
-        } else {
-          this.className = "valid";
-          errorElement.textContent = "";
-        }
-      });
-
-      document.getElementById("password").addEventListener("blur", function () {
-        let password = this.value;
-        let errorElement = document.getElementById("passwordError");
-
-        if (!validatePassword(password)) {
-          this.className = "invalid";
-          errorElement.textContent =
-            "Password must be 8+ characters with uppercase, lowercase, and number";
-        } else {
-          this.className = "valid";
-          errorElement.textContent = "";
-        }
-      });
-
-      document
-        .getElementById("confirmPassword")
-        .addEventListener("blur", function () {
-          let password = document.getElementById("password").value;
-          let confirmPassword = this.value;
-          let errorElement = document.getElementById("confirmPasswordError");
-
-          if (password !== confirmPassword) {
-            this.className = "invalid";
-            errorElement.textContent = "Passwords do not match";
-          } else {
-            this.className = "valid";
-            errorElement.textContent = "";
-          }
-        });
-
-      // Form submission validation
-      document
-        .getElementById("registrationForm")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          let isValid = true;
-          let formData = {};
-
-          // Collect and validate all data
-          let fullName = document.getElementById("fullName").value;
-          let email = document.getElementById("email").value;
-          let phone = document.getElementById("phone").value;
-          let age = parseInt(document.getElementById("age").value);
-          let password = document.getElementById("password").value;
-          let confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-          // Validate all fields
-          if (!validateName(fullName)) {
-            isValid = false;
-            alert("Please enter a valid name");
-            return;
-          }
-
-          if (!validateEmail(email)) {
-            isValid = false;
-            alert("Please enter a valid email");
-            return;
-          }
-
-          if (!validatePhone(phone)) {
-            isValid = false;
-            alert("Please enter a valid phone number");
-            return;
-          }
-
-          if (!validateAge(age)) {
-            isValid = false;
-            alert("Please enter a valid age (18-100)");
-            return;
-          }
-
-          if (!validatePassword(password)) {
-            isValid = false;
-            alert("Please enter a valid password");
-            return;
-          }
-
-          if (password !== confirmPassword) {
-            isValid = false;
-            alert("Passwords do not match");
-            return;
-          }
-
-          if (isValid) {
-            formData = { fullName, email, phone, age, password };
-            console.log("Form submitted successfully:", formData);
-            alert("Registration successful!");
-
-            // Here you would typically send data to server
-            // fetch('/register', {
-            //     method: 'POST',
-            //     headers: {'Content-Type': 'application/json'},
-            //     body: JSON.stringify(formData)
-            // });
-          }
-        });
-    </script>
-  </body>
-</html>
 ```
 
 ---
