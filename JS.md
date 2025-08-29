@@ -2180,47 +2180,192 @@ document.addEventListener("click", function (event) {
 
 ### Form Validation and Handling
 
-##### Create a form to input Name, Email, and Password. All fields are required. Email field must include @. Password must be at least 6 character long.
+##### Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
 
 ```html
-<form id="myForm">
-  <input type="text" id="name" placeholder="Name" required />
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="password" id="password" placeholder="Password" required />
-  <button type="submit">Submit</button>
-</form>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="handleSubmit(event)" name="myForm">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" placeholder="Name" required />
+      <br /><br />
+      <label>Gender: </label>
+      <input type="radio" name="gender" id="male" value="M" required />
+      <label for="male">Male</label>
+      <input type="radio" name="gender" id="female" value="F" />
+      <label for="female">Female</label>
+      <input type="radio" name="gender" id="other" value="O" />
+      <label for="other">Other</label>
+      <br /><br />
+      <label>Hobbies: </label>
+      <input type="checkbox" name="hobbies" value="football" id="football" />
+      <label for="football">Football</label>
+      <input
+        type="checkbox"
+        name="hobbies"
+        value="tableTennis"
+        id="tableTennis"
+      />
+      <label for="tableTennis">Table Tennis</label>
+      <input
+        type="checkbox"
+        name="hobbies"
+        value="basketball"
+        id="basketball"
+      />
+      <label for="basketball">Basketball</label>
+      <br /><br />
+      <label for="appointment">Appointment Date & Time: </label>
+      <input
+        type="datetime-local"
+        id="appointment"
+        name="appointment"
+        required
+      />
+      <br /><br />
+      <label for="country">Country: </label>
+      <select id="country" name="country" required>
+        <option value="">-- Select --</option>
+        <option value="Nepal">Nepal</option>
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+      </select>
+      <br /><br />
+      <label for="email">Email: </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+      <br /><br />
+      <label for="resume">Upload Resume (PDF / Image only): </label>
+      <input
+        type="file"
+        id="resume"
+        name="resume"
+        accept="application/pdf,image/jpeg,image/png"
+        required
+      />
+      <br /><br />
+      <label for="password">Password: </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <br /><br />
+      <label for="confirmPassword">confirm Password: </label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        required
+      />
+      <br /><br />
+      <button type="submit">Submit</button>
+    </form>
 
-<script>
-  document
-    .getElementById("myForm")
-    .addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent form submission
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
 
-      // Get form values
-      let name = document.getElementById("name").value;
-      let email = document.getElementById("email").value;
-      let password = document.getElementById("password").value;
+        const form = document.forms["myForm"];
+        const formData = new FormData(form);
 
-      // Validation
-      if (name.length < 3) {
-        alert("Name must be at least 3 characters");
-        return;
+        const name = formData.get("name");
+        const gender = formData.get("gender");
+        const hobbies = formData.getAll("hobbies");
+        const appointment = formData.get("appointment");
+        const country = formData.get("country");
+        const resume = formData.get("resume");
+        const email = formData.get("email");
+        const password = formData.get("password");
+        const confirmPassword = formData.get("confirmPassword");
+
+        if (!name) {
+          alert("Name is required");
+          return;
+        }
+
+        if (!gender) {
+          alert("Please select gender");
+          return;
+        }
+
+        if (!hobbies.length) {
+          alert("Please select at least one hobby");
+          return;
+        }
+
+        if (!appointment) {
+          alert("Please select appointment");
+          return;
+        }
+
+        const now = new Date();
+        const selectedDate = new Date(appointment);
+        if (selectedDate < now) {
+          alert("Appointment date & time cannot be in the past");
+          return;
+        }
+
+        if (!country) {
+          alert("Please select gender");
+          return;
+        }
+
+        if (!email.includes("@")) {
+          alert("Please enter a valid email");
+          return;
+        }
+
+        if (!resume) {
+          alert("Please upload resume");
+          return;
+        }
+
+        const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+        if (!allowedTypes.includes(resume.type)) {
+          alert("Unsupported file format");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Password and Confirm Password did not match");
+          return;
+        }
+
+        if (password.length < 6) {
+          alert("Password must be at least 6 characters");
+          return;
+        }
+
+        console.log("Form data:", {
+          name,
+          gender,
+          hobbies,
+          appointment,
+          resume,
+          country,
+          email,
+          password,
+          confirmPassword,
+        });
+        alert("Form submitted successfully!");
       }
-
-      if (!email.includes("@")) {
-        alert("Please enter a valid email");
-        return;
-      }
-
-      if (password.length < 6) {
-        alert("Password must be at least 6 characters");
-        return;
-      }
-
-      console.log("Form data:", { name, email, password });
-      alert("Form submitted successfully!");
-    });
-</script>
+    </script>
+  </body>
+</html>
 ```
 
 ### Form Element Access
@@ -3116,5 +3261,6 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 14. What is dialog box? Explain different dialog boxes with suitable example in JavaScript.
 15. What is JavaScript Event? Explain with Example.
 16. What is Event Object? Explain with Example.
-17. Create a form to input Name, Email, and Password. All fields are required. Email field must include @. Password must be at least 6 character long.
-18. And all the questions from lesson 24 - Old Questions
+17. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
+18. For Question 17, use regular expression.
+19. And all the questions from lesson 24 - Old Questions
