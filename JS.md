@@ -26,6 +26,7 @@
 22. [Handling Regular Expressions](#handling-regular-expressions)
 23. [Client Side Validations](#client-side-validations)
 24. [Old Questions](#old-questions)
+25. [For Lab1 - Javascript](#for-lab1---javascript)
 
 ---
 
@@ -830,6 +831,48 @@ console.log(add3(...numbers));
 const str = "hello";
 const chars = [...str];
 console.log(chars); // ['h', 'e', 'l', 'l', 'o']
+```
+
+**Old Question:**
+**Write a program which includes a function sum(). This function sum() should be designed to add an arbitrary list of parameters. (For e.g., if you call the function sum() as sum(1, 2) it should return the result 3 and if again you call the function sum() as sum(1, 3, 4) it should return the result 8).**
+
+```js
+// Function that sums any number of arguments
+function sum(...numbers) {
+  let total = 0;
+  for (let num of numbers) {
+    // can use forEach too
+    total += num;
+  }
+  return total;
+}
+
+// Test examples
+console.log(sum(1, 2)); // Output: 3
+console.log(sum(1, 3, 4)); // Output: 8
+console.log(sum(10, 20, 30)); // Output: 60
+console.log(sum()); // Output: 0 (no input)
+```
+
+#### Using arguments (older way):
+
+```js
+function sum() {
+  let total = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    total += arguments[i];
+  }
+  return total;
+}
+
+console.log(sum(1, 2)); // 3
+console.log(sum(1, 3, 4)); // 8
+```
+
+#### For Interviews (reduce, filter, find, map, forEach, ...)
+
+```js
+const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
 ```
 
 ---
@@ -2786,47 +2829,6 @@ console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
 </html>
 ```
 
-### Write a program which includes a function sum(). This function sum() should be designed to add an arbitrary list of parameters. (For e.g., if you call the function sum() as sum(1, 2) it should return the result 3 and if again you call the function sum() as sum(1, 3, 4) it should return the result 8).
-
-```js
-// Function that sums any number of arguments
-function sum(...numbers) {
-  let total = 0;
-  for (let num of numbers) {
-    // can use forEach too
-    total += num;
-  }
-  return total;
-}
-
-// Test examples
-console.log(sum(1, 2)); // Output: 3
-console.log(sum(1, 3, 4)); // Output: 8
-console.log(sum(10, 20, 30)); // Output: 60
-console.log(sum()); // Output: 0 (no input)
-```
-
-#### Using arguments (older way):
-
-```js
-function sum() {
-  let total = 0;
-  for (let i = 0; i < arguments.length; i++) {
-    total += arguments[i];
-  }
-  return total;
-}
-
-console.log(sum(1, 2)); // 3
-console.log(sum(1, 3, 4)); // 8
-```
-
-#### For Interviews (reduce, filter, find, map, forEach, ...)
-
-```js
-const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
-```
-
 ### What is an Immediately Invoked Function in JavaScript? Explain with suitable example.
 
 - An Immediately Invoked Function Expression (IIFE) is a function that runs as soon as it is defined.
@@ -3095,3 +3097,24 @@ const sum = (...numbers) => numbers.reduce((acc, val) => acc + val, 0);
   </body>
 </html>
 ```
+
+## For Lab1 - Javascript
+
+1. What is JavaScript? What are the potential platforms where JavaScript can be used?
+2. Explain features of JavaScript?
+3. Explain types of JavaScript?
+4. What is need for client side scripting?
+5. What are different way to include JavaScript in HTML document?
+6. What is NoScript? Explain with example.
+7. What is NaN in JavaScript? When does it occur? Give examples.
+8. Explain the concept structure and importance of DOM.
+9. Explain different method that are available to access DOM element using id, class, name and selector with suitable example.
+10. Write JavaScript code to print smallest and largest numbers among 10 elements of an array.
+11. Write a program which includes a function sum(). This function sum() should be designed to add an arbitrary list of parameters. (For e.g., if you call the function sum() as sum(1, 2) it should return the result 3 and if again you call the function sum() as sum(1, 3, 4) it should return the result 8).
+12. What is arrow function? Write JavaScript code to calculate factorial of given number using arrow function.
+13. Write a program that displays the continuous time in the web page. The time should be in the format of HH:MM:SS.
+14. What is dialog box? Explain different dialog boxes with suitable example in JavaScript.
+15. What is JavaScript Event? Explain with Example.
+16. What is Event Object? Explain with Example.
+17. Create a form to input Name, Email, and Password. All fields are required. Email field must include @. Password must be at least 6 character long.
+18. And all the questions from lesson 24 - Old Questions
