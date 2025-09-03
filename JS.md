@@ -22,8 +22,8 @@
 18. [Document Object Model (DOM)](#document-object-model-dom)
 19. [Event Handling](#event-handling)
 20. [Forms and Client Side Validation](#forms-and-client-side-validation)
-21. [Cookies](#cookies)
-22. [Promise, then, async / await](#promise-then-async--await)
+21. [Promise, then, async / await](#promise-then-async--await)
+22. [Cookies](#cookies)
 23. [Regular Expressions](#regular-expressions)
 24. [Client Side Form Validation with Regular Expression](#client-side-form-validation-with-regular-expression)
 25. [Old Questions](#old-questions)
@@ -2820,11 +2820,11 @@ Quantifiers specify how many times a pattern should match.
 
 ### Basic Quantifiers
 
-| Pattern | Matches   |
-| ------- | --------- |
-| `*`     | 0 or more |
-| `+`     | 1 or more |
-| `?`     | 0 or 1    |
+| Pattern | Matches                     |
+| ------- | --------------------------- |
+| `*`     | 0 or more                   |
+| `+`     | 1 or more                   |
+| `?`     | 0 or 1 or (minimum but all) |
 
 **Examples:**
 
@@ -2839,6 +2839,7 @@ console.log(text.match(/a+/g)); // ["aa", "a", "aaa", "aaaa"]
 
 // 0 or 1 'a'
 console.log(text.match(/a?/g)); // ["a", "a", "", "a", "", "a", "a", "a", "", "a", "a", "a", "a", ""]
+console.log(text.match(/a+?/g)); // ["a", "a", "a", "a", "a", "a", "a", "a", "a", "a"]
 ```
 
 ### Specific Quantifiers
@@ -2924,8 +2925,11 @@ Reference previously captured groups with `\n` (where n is group number):
 
 ```javascript
 // Match repeated words
-let text = "This is is a test test";
-let repeatedWords = text.match(/\b(\w+)\s+\1\b/g);
+let text = "foobarbarfoo";
+let repeatedWords = text.match(/(foo)(bar)\2\1/g);
+console.log(repeatedWords); // ["foobarbarfoo"]
+text = "This is is a test test";
+repeatedWords = text.match(/\b(\w+)\s+\1\b/g);
 console.log(repeatedWords); // ["is is", "test test"]
 
 // Match HTML tags
@@ -2934,21 +2938,11 @@ let tagMatch = html.match(/<(\w+)>.*<\/\1>/);
 console.log(tagMatch); // ["<div>content</div>", "div"]
 ```
 
-### Non-Capturing Groups
+### Non-Capturing Groups - dont use global flag
 
 Use `(?:...)` to group without capturing:
 
 ```javascript
-let text = "redapple greenapple";
-
-// With capturing group
-let withCapture = text.match(/(red|green)apple/g);
-console.log(withCapture); // ["redapple", "greenapple"]
-
-// With non-capturing group
-let withoutCapture = text.match(/(?:red|green)apple/g);
-console.log(withoutCapture); // ["redapple", "greenapple"]
-
 // The difference is in what gets captured
 let captureTest = "redapple".match(/(red)apple/);
 console.log(captureTest); // ["redapple", "red"] - captures "red"
@@ -3019,7 +3013,7 @@ console.log(mixed.match(/(?<!abc)\d+/g)); // ["456", "789"]
 
 ```javascript
 function validateEmail(email) {
-  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let emailRegex = /^[a-zA-Z0-9\.-_]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
 
@@ -3027,28 +3021,29 @@ console.log(validateEmail("user@example.com")); // true
 console.log(validateEmail("invalid.email")); // false
 ```
 
-### Phone Number Validation (US Format)
+### Phone Number Validation
 
 ```javascript
 function validatePhone(phone) {
-  let phoneRegex = /^\(\d{3}\)\s\d{3}-\d{4}$/;
+  let phoneRegex = /^(?:9\d{9}|01\d{7})$/;
   return phoneRegex.test(phone);
 }
 
-console.log(validatePhone("(123) 456-7890")); // true
-console.log(validatePhone("123-456-7890")); // false
+console.log(validatePhone("9865711882")); // true
+console.log(validatePhone("016221938")); // false
 ```
 
 ### Password Strength Validation
 
 ```javascript
 function validatePassword(password) {
-  // At least 8 chars, 1 uppercase, 1 lowercase, 1 number
-  let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  // At least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 symbol
+  let passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s]).{8,}$/;
   return passwordRegex.test(password);
 }
 
-console.log(validatePassword("MyPass123")); // true
+console.log(validatePassword("MyPass123#$")); // true
 console.log(validatePassword("weakpass")); // false
 ```
 
@@ -3060,9 +3055,94 @@ console.log(validatePassword("weakpass")); // false
 
 ## Client Side Form Validation with Regular Expression
 
-```html
+##### Create a form to input Name, Email, password.
 
+- All fields are required.
+- Email should be valid.
+- Password must be at least 8 character long and it should contain at least one uppercase letter, one lowercase letter, one number and one symbol
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="handleSubmit(event)" name="myForm">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" placeholder="Name" />
+      <br /><br />
+      <label for="email">Email: </label>
+      <input type="email" id="email" name="email" placeholder="Email" />
+      <br /><br />
+      <label for="password">Password: </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+      <br /><br />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        const form = document.forms["myForm"];
+        const formData = new FormData(form);
+
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+        if (!name) {
+          alert("Name is required");
+          return;
+        }
+
+        if (!email) {
+          alert("Email is required");
+          return;
+        }
+
+        const emailRegex = /^[a-zA-Z0-9\.-_]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+          alert("Please enter a valid email");
+          return;
+        }
+
+        if (!password) {
+          alert("Password is required");
+          return;
+        }
+
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+          alert(
+            "Password must be at least 8 characters long and should contain at least one uppercase letter, one lowercase letter, one number and one symbol"
+          );
+          return;
+        }
+
+        console.log("Form data:", {
+          name,
+          email,
+          password,
+        });
+        alert("Form submitted successfully!");
+      }
+    </script>
+  </body>
+</html>
 ```
+
+##### Create an HTML signup form with fields Name, Email, Password, and Age. Validate the form using JavaScript. Write functions for validating each of the elements. All of the fields should not be empty. The Email address should be a valid email, the password should be of length at least 6 and should start with the alphabet and end with a digit. The age should be between 8 and 60.
+
+- **Hint:** passwordRegex = `/^[a-zA-Z][a-zA-Z\d]{4,}\d$/`
 
 ---
 
@@ -3537,5 +3617,14 @@ console.log(validatePassword("weakpass")); // false
 15. What is JavaScript Event? Explain with Example.
 16. What is Event Object? Explain with Example.
 17. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
-18. For Question 17, use regular expression.
-19. And all the questions from lesson 24 - Old Questions
+18. Create a form to input Name, Email, password.
+
+    - All fields are required.
+    - Email should be valid.
+    - Password must be at least 8 character long and it should contain at least one uppercase letter, one lowercase letter, one number and one symbol
+
+19. Create an HTML signup form with fields Name, Email, Password, and Age. Validate the form using JavaScript. Write functions for validating each of the elements. All of the fields should not be empty. The Email address should be a valid email, the password should be of length at least 6 and should start with the alphabet and end with a digit. The age should be between 8 and 60.
+
+    - **Hint:** passwordRegex = `/^[a-zA-Z][a-zA-Z\d]{4,}\d$/`
+
+20. And all(8) questions from lesson 24 - Old Questions
