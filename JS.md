@@ -23,10 +23,11 @@
 19. [Event Handling](#event-handling)
 20. [Forms and Client Side Validation](#forms-and-client-side-validation)
 21. [Cookies](#cookies)
-22. [Regular Expressions](#regular-expressions)
-23. [Client Side Form Validation with Regular Expression](#client-side-form-validation-with-regular-expression)
-24. [Old Questions](#old-questions)
-25. [For Lab1 - Javascript](#for-lab1---javascript)
+22. [Promise, then, async / await](#promise-then-async--await)
+23. [Regular Expressions](#regular-expressions)
+24. [Client Side Form Validation with Regular Expression](#client-side-form-validation-with-regular-expression)
+25. [Old Questions](#old-questions)
+26. [For Lab1 - Javascript](#for-lab1---javascript)
 
 ---
 
@@ -2364,6 +2365,121 @@ document.addEventListener("click", function (event) {
     </script>
   </body>
 </html>
+```
+
+---
+
+---
+
+---
+
+## Promise, then, async / await
+
+- A Promise represents the eventual completion (or failure) of an asynchronous operation.
+- Async/await is syntactic sugar that makes working with Promises more readable and synchronous-looking.
+
+```js
+// Creating a Promise
+const myPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const success = Math.random() > 0.5;
+    if (success) {
+      resolve("Operation successful!");
+    } else {
+      reject("Operation failed!");
+    }
+  }, 1000);
+});
+
+// Using the Promise
+myPromise
+  .then((result) => console.log(result))
+  .catch((error) => console.log(error));
+
+// Using async await
+async function run() {
+  try {
+    const result = await myPromise;
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
+run();
+
+// Example
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = Math.random() > 0.5;
+      if (success) {
+        resolve("Data");
+      } else {
+        reject("Server Error");
+      }
+    }, 1000);
+  });
+}
+
+fetchData()
+  .then((result) => console.log(result))
+  .catch((error) => console.log(error));
+
+// OR script type=module
+
+try {
+  const result = await fetchData();
+  console.log(result);
+} catch (error) {
+  console.log(error);
+}
+
+// OR
+(async function () {
+  console.log("Fetching data...");
+  try {
+    const result = await fetchData();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+})();
+```
+
+### Multiple async await
+
+```js
+// Wrong way
+try {
+  const result1 = await fetchData();
+  const result2 = await fetchData();
+  console.log(result1, result2);
+} catch (error) {
+  console.log(error);
+}
+
+// Right way in parallel
+try {
+  const [result1, result2] = await Promise.all([fetchData(), fetchData()]);
+  console.log(result1, result2);
+} catch (error) {
+  console.log(error);
+}
+```
+
+### Real example with fetch
+
+```js
+async function fetchPosts() {
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+    const data = await res.json();
+    console.log(data.title);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+}
+fetchPosts();
 ```
 
 ---
