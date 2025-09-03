@@ -2327,7 +2327,7 @@ document.addEventListener("click", function (event) {
           return;
         }
 
-        if (!resume) {
+        if (!resume.name) {
           alert("Please upload resume");
           return;
         }
@@ -2479,74 +2479,461 @@ deleteCookie("username");
 
 ## Regular Expressions
 
+- Regular expressions (regex) are powerful patterns used to match and manipulate text.
+- They're essential for validation, searching, and text processing.
+
 ### Creating Regular Expressions
 
+There are two ways to create regular expressions in JavaScript:
+
+#### Literal Notation
+
 ```javascript
-// Literal notation
 let regex1 = /pattern/flags;
-
-// Constructor notation
-let regex2 = new RegExp("pattern", "flags");
-
-// Common flags:
-// g - global (find all matches)
-// i - case insensitive
-// m - multiline
 ```
 
-### Pattern Matching
+#### Constructor Notation
+
+```javascript
+let regex2 = new RegExp("pattern", "flags");
+```
+
+#### Common Flags
+
+- `g` - Global (find all matches, not just the first)
+- `i` - Case insensitive
+- `m` - Multiline (^ and $ match line breaks)
+
+**Example:**
+
+```javascript
+let text = `hello Hello HELLO hello
+hello`;
+let globalMatch1 = text.match(/hello/g); // ["hello", "hello", "hello"] - only lowercase
+let caseInsensitive = text.match(/hello/gi); // all five
+let globalMatchStart = text.match(/^hello/g); // ["hello"]
+let multiline = text.match(/^hello/gm); // ["hello", "hello"]
+console.log(globalMatch1, caseInsensitive, globalMatchStart, multiline);
+```
+
+## Pattern Matching Methods
+
+### `.test()` - Check if pattern exists
+
+```javascript
+let text = "The quick brown fox";
+let hasQuick = /quick/i.test(text);
+console.log(hasQuick); // true
+```
+
+### `.match()` - Find matches
 
 ```javascript
 let text = "The quick brown fox jumps over the lazy dog";
-
-// Test if pattern exists
-let hasQuick = /quick/i.test(text);
-console.log(hasQuick); // true
-
-// Find matches
 let matches = text.match(/the/gi);
 console.log(matches); // ["The", "the"]
-
-// Replace with regex
-let newText = text.replace(/the/gi, "a");
-console.log(newText); // "a quick brown fox jumps over a lazy dog"
-
-// Split with regex
-let words = text.split(/\s+/);
-console.log(words); // Array of words
 ```
 
-### Common Patterns
+### `.replace()` - Replace with regex
 
 ```javascript
-// Email validation
+let text = "The quick brown fox jumps over the lazy dog";
+let newText = text.replace(/the/gi, "a");
+console.log(newText); // "a quick brown fox jumps over a lazy dog"
+```
+
+### `.split()` - Split with regex
+
+```javascript
+let text = "apple,banana;cherry orange";
+let fruits = text.split(/[,;\s]+/);
+console.log(fruits); // ["apple", "banana", "cherry", "orange"]
+```
+
+## Character Classes
+
+Character classes define sets of characters to match.
+
+### Basic Character Classes
+
+| Pattern | Matches                             |
+| ------- | ----------------------------------- |
+| `.`     | Any character except newline        |
+| `\w`    | Word characters (a-z, A-Z, 0-9, \_) |
+| `\d`    | Digits (0-9)                        |
+| `\s`    | Whitespace (space, tab, newline)    |
+
+**Examples:**
+
+```javascript
+let text = "Hello123_ 456?";
+
+// Any character except newline
+console.log("Hello!\nWorld 456?".match(/./g)); // (all except no newline)
+
+// Word characters
+console.log(text.match(/\w/g)); // ['H','e','l','l','o','1','2','3','_']
+
+// Digits
+console.log(text.match(/\d/g)); // ['1','2','3','4','5','6']
+
+// Whitespace
+console.log(text.match(/\s/g)); // [' ']
+```
+
+### Negated Character Classes
+
+| Pattern | Matches                                   |
+| ------- | ----------------------------------------- |
+| `\W`    | Non-word characters except `[A-Za-z0-9_]` |
+| `\D`    | Non-digits                                |
+| `\S`    | Non-whitespace                            |
+
+**Examples:**
+
+```javascript
+let text = "Hello123_ 456?";
+
+// Non-word characters
+console.log(text.match(/\W/g)); // [' ', '?']
+
+// Non-digits
+console.log(text.match(/\D/g)); // ['H','e','l','l','o','_',' ','?']
+
+// Non-whitespace
+console.log(text.match(/\S/g)); // All characters except space, tabs, newline
+```
+
+### Custom Character Classes
+
+**Square brackets `[]` define custom character sets:**
+
+```javascript
+let text = "apple banana cherry";
+
+// Match a, b, or c
+console.log(text.match(/[abc]/g)); // ['a','b','a','a','a','c']
+
+// Match anything except a, b, or c
+console.log(text.match(/[^abc]/g)); // ['p','p','l','e',' ','n','n','n',' ','h','e','r','r','y']
+
+// Match characters in range a-g
+console.log(text.match(/[a-g]/g)); // ['a','e','b','a','a','a','c','e','e']
+
+// Match digits 0-5
+console.log("12345678".match(/[0-5]/g)); // ['1','2','3','4','5']
+```
+
+## Anchors
+
+Anchors specify position in the text, not actual characters.
+
+### Start and End Anchors
+
+| Pattern | Matches              |
+| ------- | -------------------- |
+| `^`     | Start of string/line |
+| `$`     | End of string/line   |
+
+**Examples:**
+
+```javascript
+let text1 = "abc";
+let text2 = "abc def abc";
+
+// Exact match from start to end
+console.log(/^abc$/.test(text1)); // true
+console.log(/^abc$/.test(text2)); // false
+
+// Match at start only
+console.log(text2.match(/^abc/)); // ["abc"]
+
+// Match at end only
+console.log("def abc".match(/abc$/)); // ["abc"]
+```
+
+### Word Boundaries
+
+| Pattern | Matches           |
+| ------- | ----------------- |
+| `\b`    | Word boundary     |
+| `\B`    | Non-word boundary |
+
+**Examples:**
+
+```javascript
+let text = "hello world wonderful";
+
+// Word boundary - matches whole words
+console.log(text.match(/\bworld\b/)); // ["world"]
+console.log(text.match(/\bwor\b/)); // null (not a complete word)
+
+// Non-word boundary - matches within words
+console.log(text.match(/\Bwor\B/)); // null (wor is at word boundary in "world")
+console.log(text.match(/\Bell\B/)); // ["ell"] (within "hello")
+```
+
+## Escaped Characters
+
+Special characters need to be escaped with backslash `\`.
+
+### Common Escaped Characters
+
+```javascript
+// Literal dot
+let text1 = "The price is $5.99";
+console.log(text1.match(/\./g)); // ["."]
+
+// Literal asterisk
+let text2 = "Rating: 4* out of 5*";
+console.log(text2.match(/\*/g)); // ["*", "*"]
+
+// Literal backslash
+let path = "C:\\Users\\Documents";
+console.log(path.match(/\\/g)); // ["\\", "\\"]
+
+// Tab, newline, carriage return
+let formatted = "Name:\tJohn\nAge:\t25\r";
+console.log(formatted.match(/\t/g)); // ["\t", "\t"]
+console.log(formatted.match(/\n/g)); // ["\n"]
+```
+
+## Quantifiers
+
+Quantifiers specify how many times a pattern should match.
+
+### Basic Quantifiers
+
+| Pattern | Matches   |
+| ------- | --------- |
+| `*`     | 0 or more |
+| `+`     | 1 or more |
+| `?`     | 0 or 1    |
+
+**Examples:**
+
+```javascript
+let text = "aa a aaa aaaa";
+
+// 0 or more 'a's
+console.log(text.match(/a*/g)); // ["aa", "", "a", "", "aaa", "", "aaaa", ""]
+
+// 1 or more 'a's
+console.log(text.match(/a+/g)); // ["aa", "a", "aaa", "aaaa"]
+
+// 0 or 1 'a'
+console.log(text.match(/a?/g)); // ["a", "a", "", "a", "", "a", "a", "a", "", "a", "a", "a", "a", ""]
+```
+
+### Specific Quantifiers
+
+| Pattern | Matches               |
+| ------- | --------------------- |
+| `{n}`   | Exactly n times       |
+| `{n,}`  | n or more times       |
+| `{n,m}` | Between n and m times |
+
+**Examples:**
+
+```javascript
+let text = "a aa aaa aaaa aaaaa aaaaaa";
+
+// Exactly 3 'a's
+console.log(text.match(/a{3}/g)); // ["aaa", "aaa", "aaa", "aaa"]
+
+// 4 or more 'a's
+console.log(text.match(/a{4,}/g)); // ["aaaa", "aaaaa", "aaaaaa"]
+
+// Between 2 and 4 'a's
+console.log(text.match(/a{2,4}/g)); // ["aa", "aaa", "aaaa", "aaaa", "aaaa"]
+```
+
+### Lazy Quantifiers
+
+Add `?` after quantifier to match as few characters as possible:
+
+```javascript
+let text = "aaaaaa";
+
+// Greedy (default) - matches as many as possible
+console.log(text.match(/a+/g)); // ["aaaaaa"]
+
+// Lazy - matches as few as possible
+console.log(text.match(/a+?/g)); // ["a", "a", "a", "a", "a", "a"]
+
+let html = "<div>content</div><span>more</span>";
+// Greedy - matches too much
+console.log(html.match(/<.*>/g)); // ["<div>content</div><span>more</span>"]
+
+// Lazy - matches correctly
+console.log(html.match(/<.*?>/g)); // ["<div>", "</div>", "<span>", "</span>"]
+```
+
+## Alternation
+
+Use `|` for "OR" matching:
+
+```javascript
+let text = "I like cats and dogs, but not birds";
+
+// Match either "cats" or "dogs"
+console.log(text.match(/cats|dogs/g)); // ["cats", "dogs"]
+
+// Match color variations
+let colors = "red blue green crimson azure emerald";
+console.log(colors.match(/red|blue|green/g)); // ["red", "blue", "green"]
+```
+
+## Groups and Capturing
+
+### Capturing Groups
+
+Parentheses `()` create capturing groups that remember matched text:
+
+```javascript
+let dateString = "Today is 2024-06-23";
+let dateMatch = dateString.match(/(\d{4})-(\d{2})-(\d{2})/);
+console.log(dateMatch);
+// Output: ["2024-06-23", "2024", "06", "23"]
+// [full match, group 1, group 2, group 3]
+
+// Use captured groups in replacement
+let reformatted = dateString.replace(/(\d{4})-(\d{2})-(\d{2})/, "$3/$2/$1");
+console.log(reformatted); // "Today is 23/06/2024"
+```
+
+### Backreferences
+
+Reference previously captured groups with `\n` (where n is group number):
+
+```javascript
+// Match repeated words
+let text = "This is is a test test";
+let repeatedWords = text.match(/\b(\w+)\s+\1\b/g);
+console.log(repeatedWords); // ["is is", "test test"]
+
+// Match HTML tags
+let html = "<div>content</div>";
+let tagMatch = html.match(/<(\w+)>.*<\/\1>/);
+console.log(tagMatch); // ["<div>content</div>", "div"]
+```
+
+### Non-Capturing Groups
+
+Use `(?:...)` to group without capturing:
+
+```javascript
+let text = "redapple greenapple";
+
+// With capturing group
+let withCapture = text.match(/(red|green)apple/g);
+console.log(withCapture); // ["redapple", "greenapple"]
+
+// With non-capturing group
+let withoutCapture = text.match(/(?:red|green)apple/g);
+console.log(withoutCapture); // ["redapple", "greenapple"]
+
+// The difference is in what gets captured
+let captureTest = "redapple".match(/(red)apple/);
+console.log(captureTest); // ["redapple", "red"] - captures "red"
+
+let nonCaptureTest = "redapple".match(/(?:red)apple/);
+console.log(nonCaptureTest); // ["redapple"] - doesn't capture "red"
+```
+
+## Lookaround
+
+Lookaround assertions check what comes before or after without including it in the match.
+
+### Positive Lookahead `(?=...)`
+
+Matches if followed by specified pattern:
+
+```javascript
+let text = "I have 100 dollars and 50 cents";
+
+// Match numbers followed by " dollars"
+console.log(text.match(/\d+(?= dollars)/g)); // ["100"]
+
+// Match words followed by "ing"
+let activities = "running walking talking";
+console.log(activities.match(/\w+(?=ing)/g)); // ["runn", "walk", "talk"]
+```
+
+### Negative Lookahead `(?!...)`
+
+Matches if NOT followed by specified pattern:
+
+```javascript
+let text = "file1.txt file2.jpg file3.txt file4.pdf";
+
+// Match filenames NOT followed by ".txt"
+console.log(text.match(/file\d+(?!\.txt)/g)); // ["file2", "file4"]
+
+// Match numbers not followed by "abc"
+let mixed = "123abc 456def 789abc";
+console.log(mixed.match(/\d{3}(?!abc)/g)); // ["456"]
+```
+
+### Positive Lookbehind `(?<=...)`
+
+Matches if preceded by specified pattern:
+
+```javascript
+let prices = "$100 €200 £300";
+
+// Match numbers preceded by "$"
+console.log(prices.match(/(?<=\$)\d+/g)); // ["100"]
+```
+
+### Negative Lookbehind `(?<!...)`
+
+Matches if NOT preceded by specified pattern:
+
+```javascript
+let mixed = "abc123 def456 ghi789";
+
+// Match numbers not preceded by "abc"
+console.log(mixed.match(/(?<!abc)\d+/g)); // ["456", "789"]
+```
+
+## Common Practical Examples
+
+### Email Validation
+
+```javascript
 function validateEmail(email) {
   let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
-// Phone number validation (US format)
+console.log(validateEmail("user@example.com")); // true
+console.log(validateEmail("invalid.email")); // false
+```
+
+### Phone Number Validation (US Format)
+
+```javascript
 function validatePhone(phone) {
   let phoneRegex = /^\(\d{3}\)\s\d{3}-\d{4}$/;
   return phoneRegex.test(phone);
 }
 
-// Password strength (at least 8 chars, 1 uppercase, 1 lowercase, 1 number)
+console.log(validatePhone("(123) 456-7890")); // true
+console.log(validatePhone("123-456-7890")); // false
+```
+
+### Password Strength Validation
+
+```javascript
 function validatePassword(password) {
+  // At least 8 chars, 1 uppercase, 1 lowercase, 1 number
   let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   return passwordRegex.test(password);
 }
 
-// Extract numbers from string
-function extractNumbers(text) {
-  return text.match(/\d+/g) || [];
-}
-
-// Examples
-console.log(validateEmail("user@example.com")); // true
-console.log(validatePhone("(123) 456-7890")); // true
 console.log(validatePassword("MyPass123")); // true
-console.log(extractNumbers("I have 5 apples and 3 oranges")); // ["5", "3"]
+console.log(validatePassword("weakpass")); // false
 ```
 
 ---
