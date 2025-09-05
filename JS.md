@@ -2133,17 +2133,82 @@ input.addEventListener("keyup", function (e) {
 
 ### Event Object
 
-```javascript
-document.addEventListener("click", function (event) {
-  console.log("Click coordinates:", event.clientX, event.clientY);
-  console.log("Target element:", event.target.tagName);
+In **JavaScript**, an **Event Object** is an object that is automatically passed to an event handler when an event occurs (like a click, keypress, mouseover, etc.).
+It contains useful information about the event, such as:
 
-  // Prevent default behavior
-  if (event.target.tagName === "A") {
-    event.preventDefault();
-    console.log("Link click prevented");
-  }
-});
+- **Type of event** (`click`, `keydown`, etc.)
+- **Target element** that triggered the event
+- **Mouse coordinates** (for mouse events)
+- **Key pressed** (for keyboard events)
+- **Methods** to control event flow (like `preventDefault()`, `stopPropagation()`)
+
+---
+
+### Example 1: Click Event
+
+```html
+<html>
+  <body>
+    <button id="myBtn">Click Me</button>
+
+    <script>
+      let btn = document.getElementById("myBtn");
+
+      btn.addEventListener("click", function (event) {
+        console.log("Event Type: " + event.type); // "click"
+        console.log("Target Element: " + event.target); // <button> element
+        console.log("Mouse X: " + event.clientX); // X coordinate
+        console.log("Mouse Y: " + event.clientY); // Y coordinate
+      });
+    </script>
+  </body>
+</html>
+```
+
+When you click the button, the **event object** provides details about the click.
+
+---
+
+### Example 2: Key Press Event
+
+```html
+<html>
+  <body>
+    <input type="text" id="myInput" placeholder="Type something..." />
+
+    <script>
+      let input = document.getElementById("myInput");
+
+      input.addEventListener("keydown", function (event) {
+        console.log("Key pressed: " + event.key); // The actual key (e.g., "a", "Enter")
+        console.log("Key code: " + event.keyCode); // Deprecated but still seen
+        console.log("Event type: " + event.type); // "keydown"
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Example 3: Submit Event and preventDefault method
+
+```html
+<html>
+  <body>
+    <form id="myForm">
+      <input type="text" placeholder="Type something..." />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      let form = document.getElementById("myForm");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevents page reload
+        console.log("Form submission prevented!");
+      });
+    </script>
+  </body>
+</html>
 ```
 
 **Old Question:**
