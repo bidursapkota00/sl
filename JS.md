@@ -2347,15 +2347,15 @@ When you click the button, the **event object** provides details about the click
         const form = document.forms["myForm"];
         const formData = new FormData(form);
 
-        const name = formData.get("name");
+        const name = formData.get("name").trim();
         const gender = formData.get("gender");
         const hobbies = formData.getAll("hobbies");
         const appointment = formData.get("appointment");
         const country = formData.get("country");
         const resume = formData.get("resume");
-        const email = formData.get("email");
-        const password = formData.get("password");
-        const confirmPassword = formData.get("confirmPassword");
+        const email = formData.get("email").trim();
+        const password = formData.get("password").trim();
+        const confirmPassword = formData.get("confirmPassword").trim();
 
         if (!name) {
           alert("Name is required");
@@ -2389,6 +2389,11 @@ When you click the button, the **event object** provides details about the click
           return;
         }
 
+        if (!email) {
+          alert("Email is required");
+          return;
+        }
+
         if (!email.includes("@")) {
           alert("Please enter a valid email");
           return;
@@ -2409,6 +2414,11 @@ When you click the button, the **event object** provides details about the click
         const maxSize = 2 * 1024 * 1024; // 2 MB in bytes
         if (resume.size > maxSize) {
           alert("File size should be less than 2MB");
+          return;
+        }
+
+        if (!password) {
+          alert("Password is required");
           return;
         }
 
@@ -3167,9 +3177,9 @@ console.log(validatePassword("weakpass")); // false
         const form = document.forms["myForm"];
         const formData = new FormData(form);
 
-        const name = formData.get("name");
-        const email = formData.get("email");
-        const password = formData.get("password");
+        const name = formData.get("name").trim();
+        const email = formData.get("email").trim();
+        const password = formData.get("password").trim();
 
         if (!name) {
           alert("Name is required");
