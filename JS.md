@@ -2244,7 +2244,7 @@ When you click the button, the **event object** provides details about the click
 
 ## Forms and Client Side Validation
 
-##### Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
+##### Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
 
 ```html
 <html lang="en">
@@ -2401,6 +2401,13 @@ When you click the button, the **event object** provides details about the click
         const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
         if (!allowedTypes.includes(resume.type)) {
           alert("Unsupported file format");
+          return;
+        }
+
+        // Check file size (less than 2MB)
+        const maxSize = 2 * 1024 * 1024; // 2 MB in bytes
+        if (resume.size > maxSize) {
+          alert("File size should be less than 2MB");
           return;
         }
 
