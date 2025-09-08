@@ -3710,7 +3710,7 @@ console.log(validatePassword("weakpass")); // false
 
 ## jQuery Basics
 
-### 1. What is jQuery?
+### What is jQuery?
 
 jQuery is a fast, lightweight **JavaScript library that simplifies HTML document manipulation, event handling, animation, and Ajax interactions.** It uses CSS-style selectors to target elements and provides a simple, cross-browser API.
 
@@ -3722,21 +3722,21 @@ document.getElementById("myElement").style.display = "none";
 $("#myElement").hide();
 ```
 
-### 2. Including jQuery
+### Including jQuery
 
-### CDN (Content Delivery Network)
+#### CDN (Content Delivery Network)
 
 ```html
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 ```
 
-### Download and Host Locally
+#### Download and Host Locally
 
 ```html
 <script src="js/jquery-3.6.0.min.js"></script>
 ```
 
-### 3. Document Ready
+### Document Ready
 
 Ensures the DOM is fully loaded before executing jQuery code.
 
@@ -3746,22 +3746,17 @@ $(document).ready(function () {
   // Your code here
 });
 
-// Method 2 - Shorthand
+// Method 2 - Shorthand. Arrow function is valid too
 $(function () {
-  // Your code here
-});
-
-// Method 3 - Arrow function
-$(() => {
   // Your code here
 });
 ```
 
-### 4. Selectors
-
-### Basic Selectors
+### Selectors
 
 ```javascript
+// Basic Selectors
+
 // By ID
 $("#myId");
 
@@ -3771,48 +3766,24 @@ $(".myClass");
 // By Element
 $("p");
 
-// Universal selector
-$("*");
-```
+// Attribute Selectors
 
-### Attribute Selectors
-
-```javascript
 // Elements with specific attribute
 $("[data-toggle]");
 
 // Elements with specific attribute value
 $('[data-toggle="modal"]');
 
-// Elements with attribute containing value
-$('[class*="btn"]');
+// Hierarchy Selectors
 
-// Elements with attribute starting with value
-$('[class^="nav"]');
-
-// Elements with attribute ending with value
-$('[class$="active"]');
-```
-
-### Hierarchy Selectors
-
-```javascript
 // Descendant selector
 $("div p"); // All p elements inside div
 
 // Child selector
 $("div > p"); // Direct p children of div
 
-// Adjacent sibling
-$("h1 + p"); // p element immediately after h1
+// Pseudo Selectors
 
-// General sibling
-$("h1 ~ p"); // All p elements after h1 at same level
-```
-
-### Pseudo Selectors
-
-```javascript
 // First and last
 $("li:first");
 $("li:last");
@@ -3821,26 +3792,14 @@ $("li:last");
 $("tr:even");
 $("tr:odd");
 
-// By index
-$("li:eq(2)"); // Third li element (0-indexed)
-
-// Greater than index
-$("li:gt(2)"); // All li elements after index 2
-
-// Less than index
-$("li:lt(2)"); // All li elements before index 2
-
-// Contains text
-$('p:contains("Hello")');
-
 // Visible/Hidden elements
 $(":visible");
 $(":hidden");
 ```
 
-### 5. DOM Manipulation
+### DOM Manipulation
 
-### Getting and Setting Content
+#### Getting and Setting Content
 
 ```javascript
 // Get/Set text content
@@ -3856,7 +3815,7 @@ $("#myInput").val(); // Get value
 $("#myInput").val("New value"); // Set value
 ```
 
-### Working with Attributes
+#### Working with Attributes
 
 ```javascript
 // Get attribute
@@ -3879,7 +3838,7 @@ $("#myDiv").data("user-id"); // Get data-user-id
 $("#myDiv").data("user-id", "123"); // Set data-user-id
 ```
 
-### CSS Classes
+#### CSS Classes
 
 ```javascript
 // Add class
@@ -3898,7 +3857,7 @@ $(".myElement").hasClass("active"); // Returns boolean
 $(".myElement").addClass("class1 class2 class3");
 ```
 
-### CSS Styles
+#### CSS Styles
 
 ```javascript
 // Get CSS property
@@ -3915,81 +3874,7 @@ $("#myDiv").css({
 });
 ```
 
-### 6. DOM Traversal
-
-### Parent Elements
-
-```javascript
-// Direct parent
-$(".child").parent();
-
-// All ancestors
-$(".child").parents();
-
-// Ancestors up to selector
-$(".child").parentsUntil(".container");
-
-// Closest ancestor matching selector
-$(".child").closest(".parent");
-```
-
-### Child Elements
-
-```javascript
-// Direct children
-$(".parent").children();
-
-// Children matching selector
-$(".parent").children(".specific-class");
-
-// All descendants
-$(".parent").find(".descendant");
-```
-
-### Sibling Elements
-
-```javascript
-// All siblings
-$(".element").siblings();
-
-// Next sibling
-$(".element").next();
-
-// Previous sibling
-$(".element").prev();
-
-// All next siblings
-$(".element").nextAll();
-
-// All previous siblings
-$(".element").prevAll();
-
-// Next siblings until selector
-$(".element").nextUntil(".stop");
-```
-
-### Filtering
-
-```javascript
-// First element
-$("li").first();
-
-// Last element
-$("li").last();
-
-// Element at index
-$("li").eq(2);
-
-// Filter by selector
-$("li").filter(".active");
-
-// Exclude elements
-$("li").not(".inactive");
-```
-
-### 7. DOM Modification
-
-### Creating Elements
+#### Creating Elements
 
 ```javascript
 // Create new element
@@ -4001,7 +3886,7 @@ var newP = $("<p>", {
 });
 ```
 
-### Adding Elements
+#### Adding Elements
 
 ```javascript
 // Append to end of element
@@ -4015,37 +3900,34 @@ $(".element").after("<p>Added after</p>");
 
 // Insert before element
 $(".element").before("<p>Added before</p>");
-
-// Append element to target
-$("<p>New paragraph</p>").appendTo(".container");
 ```
 
-### Removing Elements
+#### Removing Elements
 
 ```javascript
 // Remove element and its children
 $(".element").remove();
 
-// Remove element but keep data/events
-$(".element").detach();
-
 // Remove all child elements
 $(".container").empty();
 ```
 
-### Replacing Elements
+### Accessing Parent & Child Elements
 
 ```javascript
-// Replace with new content
-$(".old").replaceWith('<div class="new">New content</div>');
+// Direct parent
+$(".child").parent();
 
-// Replace target with current element
-$("<div>New content</div>").replaceAll(".old");
+// Direct children
+$(".parent").children();
+
+// Children matching selector
+$(".parent").children(".specific-class");
 ```
 
-### 8. Event Handling
+### Event Handling
 
-### Basic Events
+#### Basic Events
 
 ```javascript
 // Click event
@@ -4060,14 +3942,6 @@ $("#element").mouseenter(function () {
 $("#element").mouseleave(function () {
   /* code */
 });
-$("#element").hover(
-  function () {
-    /* mouse enter */
-  },
-  function () {
-    /* mouse leave */
-  }
-);
 
 // Keyboard events
 $("#input").keyup(function () {
@@ -4095,7 +3969,7 @@ $("#input").change(function () {
 });
 ```
 
-### Event Object
+#### Event Object
 
 ```javascript
 $("#button").click(function (event) {
@@ -4108,45 +3982,9 @@ $("#button").click(function (event) {
 });
 ```
 
-### Event Delegation
+### Effects and Animations
 
-```javascript
-// For dynamically created elements
-$(document).on("click", ".dynamic-button", function () {
-  alert("Dynamic button clicked!");
-});
-
-// More specific container
-$(".container").on("click", ".button", function () {
-  // Handle click on .button inside .container
-});
-```
-
-### One-time Events
-
-```javascript
-// Event fires only once
-$("#button").one("click", function () {
-  alert("This will only show once!");
-});
-```
-
-### Triggering Events
-
-```javascript
-// Trigger click event
-$("#button").trigger("click");
-
-// Trigger with custom data
-$("#button").trigger("click", ["custom", "data"]);
-
-// Trigger custom events
-$("#element").trigger("myCustomEvent");
-```
-
-### 9. Effects and Animations
-
-### Basic Show/Hide
+#### Basic Show/Hide
 
 ```javascript
 // Show element
@@ -4160,9 +3998,12 @@ $(".element").hide("fast");
 
 // Toggle visibility
 $(".element").toggle();
+
+// Delay animation
+$(".element").delay(1000).show("slow);
 ```
 
-### Fading Effects
+#### Fading Effects
 
 ```javascript
 // Fade in
@@ -4179,7 +4020,7 @@ $(".element").fadeTo(1000, 0.5); // 50% opacity
 $(".element").fadeToggle();
 ```
 
-### Sliding Effects
+#### Sliding Effects
 
 ```javascript
 // Slide down (show)
@@ -4192,7 +4033,7 @@ $(".element").slideUp("fast");
 $(".element").slideToggle(500);
 ```
 
-### Custom Animations
+#### Custom Animations
 
 ```javascript
 // Animate CSS properties
@@ -4206,17 +4047,6 @@ $(".element").animate(
   1000
 );
 
-// With callback function
-$(".element").animate(
-  {
-    opacity: 0.5,
-  },
-  1000,
-  function () {
-    alert("Animation complete!");
-  }
-);
-
 // Queue multiple animations
 $(".element")
   .animate({ left: "250px" }, 1000)
@@ -4224,102 +4054,7 @@ $(".element")
   .animate({ opacity: 0.5 }, 500);
 ```
 
-### Animation Control
-
-```javascript
-// Stop animations
-$(".element").stop(); // Stop current animation
-$(".element").stop(true); // Stop and clear queue
-$(".element").stop(true, true); // Stop, clear queue, and jump to end
-
-// Delay animation
-$(".element").delay(1000).fadeIn();
-```
-
-### 10. AJAX
-
-### Basic AJAX Methods
-
-```javascript
-// GET request
-$.get("api/data.json", function (data) {
-  console.log("Success:", data);
-});
-
-// POST request
-$.post("api/save", { name: "John", age: 30 }, function (response) {
-  console.log("Saved:", response);
-});
-
-// Load content into element
-$("#content").load("page.html");
-$("#content").load("page.html #section"); // Load specific part
-```
-
-### Full AJAX Method
-
-```javascript
-$.ajax({
-  url: "api/data.json",
-  type: "GET",
-  dataType: "json",
-  timeout: 5000,
-  success: function (data) {
-    console.log("Success:", data);
-  },
-  error: function (xhr, status, error) {
-    console.log("Error:", error);
-  },
-  complete: function () {
-    console.log("Request completed");
-  },
-});
-```
-
-### AJAX with Promises
-
-```javascript
-// Using done, fail, always
-$.ajax({
-  url: "api/data.json",
-  type: "GET",
-})
-  .done(function (data) {
-    console.log("Success:", data);
-  })
-  .fail(function (xhr, status, error) {
-    console.log("Error:", error);
-  })
-  .always(function () {
-    console.log("Request completed");
-  });
-```
-
-### JSON Methods
-
-```javascript
-// Get JSON data
-$.getJSON("api/data.json", function (data) {
-  $.each(data, function (index, item) {
-    console.log(item.name);
-  });
-});
-
-// Send JSON data
-$.ajax({
-  url: "api/save",
-  type: "POST",
-  contentType: "application/json",
-  data: JSON.stringify({ name: "John", age: 30 }),
-  success: function (response) {
-    console.log("Saved");
-  },
-});
-```
-
-### 11. Utility Methods
-
-### Each Loop
+### Loop
 
 ```javascript
 // Loop through jQuery object
@@ -4329,44 +4064,15 @@ $(".item").each(function (index, element) {
   console.log("Text:", $(element).text());
 });
 
-// Loop through arrays/objects
+// Loop through arrays/objects (use map if you want to return)
 $.each(["apple", "banana", "orange"], function (index, value) {
   console.log(index + ": " + value);
 });
-```
 
-### Array/Object Utilities
-
-```javascript
-// Extend objects
-var obj1 = { a: 1, b: 2 };
-var obj2 = { b: 3, c: 4 };
-var result = $.extend(obj1, obj2); // {a: 1, b: 3, c: 4}
-
-// Map array
 var numbers = [1, 2, 3, 4, 5];
 var doubled = $.map(numbers, function (value, index) {
   return value * 2;
 });
-
-// Filter array
-var filtered = $.grep(numbers, function (value, index) {
-  return value > 2;
-});
-
-// Check if in array
-var index = $.inArray(3, numbers); // Returns index or -1
-```
-
-### Type Checking
-
-```javascript
-// Check types
-$.isArray([1, 2, 3]); // true
-$.isFunction(function () {}); // true
-$.isEmptyObject({}); // true
-$.isPlainObject({ a: 1 }); // true
-$.isNumeric("123"); // true
 ```
 
 ### String Utilities
@@ -4376,7 +4082,7 @@ $.isNumeric("123"); // true
 var trimmed = $.trim("  hello world  "); // 'hello world'
 ```
 
-### 12. Chaining
+### Chaining
 
 jQuery methods return the jQuery object, allowing for method chaining:
 
@@ -4388,123 +4094,6 @@ $(".element")
   .fadeIn(1000)
   .delay(2000)
   .fadeOut(500);
-
-// Break chain and return to previous selection
-$(".container")
-  .find(".item")
-  .addClass("highlight")
-  .click(function () {
-    /* handler */
-  })
-  .end() // Back to .container
-  .addClass("processed");
 ```
 
-### 13. Common Patterns and Best Practices
-
-### Caching Selectors
-
-```javascript
-// Bad - Multiple DOM queries
-$("#myElement").addClass("active");
-$("#myElement").css("color", "red");
-$("#myElement").fadeIn();
-
-// Good - Cache the selector
-var $element = $("#myElement");
-$element.addClass("active");
-$element.css("color", "red");
-$element.fadeIn();
-```
-
-### Event Namespacing
-
-```javascript
-// Namespace events for easier management
-$("#button").on("click.myPlugin", function () {
-  /* handler */
-});
-
-// Remove namespaced events
-$("#button").off(".myPlugin");
-```
-
-### Safe jQuery Usage
-
-```javascript
-// Avoid conflicts with other libraries
-jQuery(document).ready(function ($) {
-  // Use $ safely here
-});
-
-// Or use noConflict
-var $j = jQuery.noConflict();
-$j(document).ready(function () {
-  // Use $j instead of $
-});
-```
-
-### Performance Tips
-
-```javascript
-// Use specific selectors
-$("#myId"); // Fastest
-$(".myClass"); // Good
-$("div.myClass"); // Better than just class
-
-// Limit scope
-$(".myClass", "#container"); // Search only within #container
-
-// Use event delegation for dynamic content
-$(document).on("click", ".dynamic-button", handler);
-```
-
-### 14. Form Handling
-
-### Form Serialization
-
-```javascript
-// Serialize form data
-var formData = $("#myForm").serialize();
-// Returns: "name=John&email=john@example.com"
-
-// Serialize as array
-var formArray = $("#myForm").serializeArray();
-// Returns: [{name: "name", value: "John"}, {name: "email", value: "john@example.com"}]
-
-// Get all form values as object
-function getFormData(form) {
-  var formData = {};
-  $(form)
-    .serializeArray()
-    .forEach(function (item) {
-      formData[item.name] = item.value;
-    });
-  return formData;
-}
-```
-
-### Form Validation
-
-```javascript
-$("#myForm").submit(function (e) {
-  var isValid = true;
-
-  // Check required fields
-  $(this)
-    .find("[required]")
-    .each(function () {
-      if (!$(this).val()) {
-        $(this).addClass("error");
-        isValid = false;
-      } else {
-        $(this).removeClass("error");
-      }
-    });
-
-  if (!isValid) {
-    e.preventDefault();
-    alert("Please fill all required fields");
-  }
-});
-```
+### Form Handling
