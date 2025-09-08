@@ -3106,6 +3106,11 @@ console.log(validateEmail("invalid.email")); // false
 
 ### Phone Number Validation
 
+- NOte: (?:) ensures the entire string must match exactly one of those two formats.
+- If i write only `/^9\d{9}|01\d{7}$/`.
+  - The string may start with 9 followed by 9 digits (but can have extra any characters after), OR
+  - The string may end with 01\d{7} (but can have any extra characters before).
+
 ```javascript
 function validatePhone(phone) {
   let phoneRegex = /^(?:9\d{9}|01\d{7})$/;
@@ -3138,10 +3143,11 @@ console.log(validatePassword("weakpass")); // false
 
 ## Client Side Form Validation with Regular Expression
 
-##### Create a form to input Name, Email, password.
+##### Create a form to input Name, Email, Phone and password.
 
 - All fields are required.
 - Email should be valid.
+- Phone number should be valid. (`9*********` or `01*******`)
 - Password must be at least 8 character long and it should contain at least one uppercase letter, one lowercase letter, one number and one symbol
 
 ```html
@@ -3158,6 +3164,9 @@ console.log(validatePassword("weakpass")); // false
       <br /><br />
       <label for="email">Email: </label>
       <input type="email" id="email" name="email" placeholder="Email" />
+      <br /><br />
+      <label for="phone">Phone: </label>
+      <input type="number" id="phone" name="phone" placeholder="Phone Number" />
       <br /><br />
       <label for="password">Password: </label>
       <input
@@ -3179,6 +3188,7 @@ console.log(validatePassword("weakpass")); // false
 
         const name = formData.get("name").trim();
         const email = formData.get("email").trim();
+        const phone = formData.get("phone");
         const password = formData.get("password").trim();
 
         if (!name) {
@@ -3194,6 +3204,17 @@ console.log(validatePassword("weakpass")); // false
         const emailRegex = /^[a-zA-Z0-9\.-_]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email)) {
           alert("Please enter a valid email");
+          return;
+        }
+
+        if (!phone) {
+          alert("Phone Number is required");
+          return;
+        }
+
+        const phoneRegex = /^(?:9\d{9}|01\d{7})$/;
+        if (!phoneRegex.test(phone)) {
+          alert("Please enter a valid phone number");
           return;
         }
 
@@ -3699,11 +3720,12 @@ console.log(validatePassword("weakpass")); // false
 14. What is dialog box? Explain different dialog boxes with suitable example in JavaScript.
 15. What is JavaScript Event? Explain with Example.
 16. What is Event Object? Explain with Example.
-17. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
+17. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email field must include @. Password must be at least 6 character long. Password and confirm password should match.
 18. Create a form to input Name, Email, password.
 
     - All fields are required.
     - Email should be valid.
+    - Phone number should be valid. (`9*********` or `01*******`)
     - Password must be at least 8 character long and it should contain at least one uppercase letter, one lowercase letter, one number and one symbol
 
 19. Create an HTML signup form with fields Name, Email, Password, and Age. Validate the form using JavaScript. Write functions for validating each of the elements. All of the fields should not be empty. The Email address should be a valid email, the password should be of length at least 6 and should start with the alphabet and end with a digit. The age should be between 8 and 60.
