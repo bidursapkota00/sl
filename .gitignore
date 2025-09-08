@@ -1,5 +1,3 @@
-test*.html
-test*.js
-test*.txt
+test*.*
 .vscode
 .crossnote
