@@ -1,5 +1,7 @@
 # Client Side Scripting with JavaScript
 
+![Bidur Sapkota](https://www.bidursapkota.com.np/_next/image?url=%2Fimages%2Fprofile3.png&w=48&q=75 "Bidur Sapkota - Developer")&nbsp;[Bidur Sapkota](https://www.bidursapkota.com.np/)
+
 ## Table of Contents
 
 1. [Introduction to JavaScript](#introduction-to-javascript)
@@ -4161,6 +4163,61 @@ $("#button").click(function (event) {
 });
 ```
 
+**Old Question:**  
+**Write the sample program to show and hide the certain div with the use of jQuery.**
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Show/Hide Div Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      #myDiv {
+        width: 300px;
+        height: 150px;
+        background-color: lightblue;
+        display: none; /* Initially hidden */
+        text-align: center;
+        font-size: 20px;
+        margin-top: 20px;
+      }
+      button {
+        margin-right: 10px;
+        padding: 10px 15px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="showBtn">Show</button>
+    <button id="hideBtn">Hide</button>
+    <button id="toggleBtn">Toggle</button>
+
+    <div id="myDiv">Hello! I am a div</div>
+
+    <script>
+      $(document).ready(function () {
+        // Show the div
+        $("#showBtn").click(function () {
+          $("#myDiv").show();
+        });
+
+        // Hide the div
+        $("#hideBtn").click(function () {
+          $("#myDiv").hide();
+        });
+
+        // Toggle the div
+        $("#toggleBtn").click(function () {
+          $("#myDiv").toggle();
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
 ### Effects and Animations
 
 #### Basic Show/Hide
@@ -4602,60 +4659,7 @@ It provides:
 
 ### Practical
 
-6. Illustrate different types of selectors in jQuery with appropriate example?
-7. Write jQuery code to include date picker controls in HTML text box.
-8. Write the sample program to show and hide the certain div with the use of jQuery.
-
-```html
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Show/Hide Div Example</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-      #myDiv {
-        width: 300px;
-        height: 150px;
-        background-color: lightblue;
-        display: none; /* Initially hidden */
-        text-align: center;
-        font-size: 20px;
-        margin-top: 20px;
-      }
-      button {
-        margin-right: 10px;
-        padding: 10px 15px;
-        font-size: 16px;
-      }
-    </style>
-  </head>
-  <body>
-    <button id="showBtn">Show</button>
-    <button id="hideBtn">Hide</button>
-    <button id="toggleBtn">Toggle</button>
-
-    <div id="myDiv">Hello! I am a div</div>
-
-    <script>
-      $(document).ready(function () {
-        // Show the div
-        $("#showBtn").click(function () {
-          $("#myDiv").show();
-        });
-
-        // Hide the div
-        $("#hideBtn").click(function () {
-          $("#myDiv").hide();
-        });
-
-        // Toggle the div
-        $("#toggleBtn").click(function () {
-          $("#myDiv").toggle();
-        });
-      });
-    </script>
-  </body>
-</html>
-```
-
-9. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email should be valid. Phone number should be valid. Password must be at least 8 character long with at least one lowercase, uppercase, number and symbol. Password and confirm password should match.
+1. Illustrate different types of selectors in jQuery with appropriate example?
+2. Write jQuery code to include date picker controls in HTML text box.
+3. Write the sample program to show and hide the certain div with the use of jQuery.
+4. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email should be valid. Phone number should be valid. Password must be at least 8 character long with at least one lowercase, uppercase, number and symbol. Password and confirm password should match.
