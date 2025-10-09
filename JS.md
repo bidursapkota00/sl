@@ -29,6 +29,7 @@
 25. [Old Questions](#old-questions)
 26. [For Lab1 - Javascript](#for-lab1---javascript)
 27. [jQuery Basics](#jquery-basics)
+28. [For Lab2 - jQuery (Old Questions)](#for-lab2---jquery-old-questions)
 
 ---
 
@@ -3742,9 +3743,38 @@ console.log(validatePassword("weakpass")); // false
 
 ## jQuery Basics
 
-### What is jQuery?
+**Old Question:**
+**What is jQuery?**
+**What is the use of jQuery?**
+**How jQuery is differing from JavaScript?**
+
+### jQuery
 
 jQuery is a fast, lightweight **JavaScript library that simplifies HTML document manipulation, event handling, animation, and Ajax interactions.** It uses CSS-style selectors to target elements and provides a simple, cross-browser API.
+
+### Uses of jQuery
+
+jQuery is used to:
+
+- **Simplify DOM manipulation** – easily select and modify HTML elements.
+- **Handle events** – like click, hover, submit, etc., with simple syntax.
+- **Create animations and effects** – like fade, slide, show/hide.
+- **Work with AJAX** – send and receive data from a server without reloading the page.
+- **Ensure cross-browser compatibility** – same code works on different browsers (Chrome, Firefox, etc.).
+- **Simplify form validation and UI tasks** – with built-in methods or plugins.
+
+### JavaScript vs jQuery
+
+| Feature                   | **JavaScript**                                        | **jQuery**                                   |
+| ------------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| **Type**                  | A programming language                                | A library built with JavaScript              |
+| **Syntax**                | More verbose and complex                              | Shorter and simpler                          |
+| **DOM Manipulation**      | Uses `document.getElementById()` or `querySelector()` | Uses `$("#id")`, `$(".class")`               |
+| **Browser Compatibility** | May require extra code for old browsers               | Handles compatibility automatically          |
+| **AJAX and Animations**   | Manual implementation                                 | Built-in methods like `.ajax()`, `.fadeIn()` |
+| **Learning Curve**        | Requires deeper understanding                         | Easier to learn for beginners                |
+
+### Example comparision between JavaScript and jQuery
 
 ```javascript
 // Traditional JavaScript
@@ -3774,6 +3804,7 @@ Ensures the DOM is fully loaded before executing jQuery code.
 
 ```javascript
 // Method 1 - Full syntax
+// window.onload in js
 $(document).ready(function () {
   // Your code here
 });
@@ -3786,9 +3817,13 @@ $(function () {
 
 ### Selectors
 
-```javascript
-// Basic Selectors
+**Old Question:**
+**Discuss different types of jQuery selectors with example.**
+**Illustrate different types of selectors in jQuery with appropriate example?**
 
+#### Basic Selectors
+
+```js
 // By ID
 $("#myId");
 
@@ -3797,25 +3832,35 @@ $(".myClass");
 
 // By Element
 $("p");
+```
 
-// Attribute Selectors
+#### Attribute Selectors
 
+```js
 // Elements with specific attribute
 $("[data-toggle]");
 
 // Elements with specific attribute value
 $('[data-toggle="modal"]');
+$("img[alt='profile picture']");
 
-// Hierarchy Selectors
+// Attribute + Pseudo element Selectors
+$("input[name='gender']:checked");
+```
 
+#### Hierarchy Selectors
+
+```js
 // Descendant selector
 $("div p"); // All p elements inside div
 
 // Child selector
 $("div > p"); // Direct p children of div
+```
 
-// Pseudo Selectors
+#### Pseudo Selectors
 
+```js
 // First and last
 $("li:first");
 $("li:last");
@@ -3827,6 +3872,112 @@ $("tr:odd");
 // Visible/Hidden elements
 $(":visible");
 $(":hidden");
+
+// Attribute + Pseudo element Selectors
+$("input[name='gender']:checked");
+```
+
+#### Combined Example
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jQuery Selectors Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      .highlight {
+        background-color: yellow;
+      }
+      p,
+      table {
+        border-collapse: collapse;
+      }
+      td {
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>jQuery Selector Examples</h2>
+
+    <!-- Basic Selectors -->
+    <div id="myId">This is selected by <b>ID</b>.</div>
+    <div class="myClass">This is selected by <b>Class</b>.</div>
+    <p>This is selected by <b>Element</b>.</p>
+
+    <hr />
+
+    <!-- Attribute Selectors -->
+    <button data-toggle="modal">Open Modal</button>
+    <br />
+    <label
+      ><input type="radio" name="gender" value="male" checked /> Male</label
+    >
+    <label><input type="radio" name="gender" value="female" /> Female</label>
+
+    <hr />
+
+    <!-- Hierarchy Selectors -->
+    <div>
+      <p>Paragraph inside div (descendant)</p>
+      <span><p>Nested paragraph (still descendant)</p></span>
+      <p>Direct child paragraph</p>
+    </div>
+
+    <hr />
+
+    <!-- Pseudo Selectors -->
+    <ul>
+      <li>First item</li>
+      <li>Second item</li>
+      <li>Third item</li>
+    </ul>
+
+    <table>
+      <tr>
+        <td>Row 1</td>
+      </tr>
+      <tr>
+        <td>Row 2</td>
+      </tr>
+      <tr>
+        <td>Row 3</td>
+      </tr>
+    </table>
+
+    <p style="display: none">This paragraph is hidden</p>
+
+    <script>
+      $(document).ready(function () {
+        // Basic Selectors
+        $("#myId").addClass("highlight");
+        $(".myClass").addClass("highlight");
+        $("p").first().addClass("highlight");
+
+        // Attribute Selectors
+        $("[data-toggle]").addClass("highlight");
+        $('[data-toggle="modal"]').text(
+          "Changed button text by Attribute selector"
+        );
+        $("input[name='gender']:checked").parent().addClass("highlight");
+
+        // Hierarchy Selectors
+        $("div p").eq(0).addClass("highlight"); // Descendant
+        $("div > p").last().addClass("highlight"); // Direct child
+
+        // Pseudo Selectors
+        $("li:first").addClass("highlight");
+        $("li:last").addClass("highlight");
+        $("tr:even").addClass("highlight"); // 0-based index
+        $("tr:odd").css("background-color", "#d0f0d0");
+        $(":visible").first().css("border", "2px solid blue");
+        $("p:hidden").show().css("color", "red");
+      });
+    </script>
+  </body>
+</html>
 ```
 
 ### DOM Manipulation
@@ -3864,10 +4015,6 @@ $("#myImg").attr({
 
 // Remove attribute
 $("#myImg").removeAttr("alt");
-
-// Data attributes
-$("#myDiv").data("user-id"); // Get data-user-id
-$("#myDiv").data("user-id", "123"); // Set data-user-id
 ```
 
 #### CSS Classes
@@ -4032,7 +4179,7 @@ $(".element").hide("fast");
 $(".element").toggle();
 
 // Delay animation
-$(".element").delay(1000).show("slow);
+$(".element").delay(1000).show("slow");
 ```
 
 #### Fading Effects
@@ -4129,3 +4276,386 @@ $(".element")
 ```
 
 ### Form Handling
+
+##### Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email should be valid. Phone number should be valid. Password must be at least 8 character long with at least one lowercase, uppercase, number and symbol. Password and confirm password should match.
+
+##### Create Form Layout
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation (jQuery)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="name">Name: </label>
+      <input type="text" id="name" name="name" placeholder="Name" />
+      <br /><br />
+
+      <label>Gender: </label>
+      <input type="radio" name="gender" id="male" value="M" />
+      <label for="male">Male</label>
+      <input type="radio" name="gender" id="female" value="F" />
+      <label for="female">Female</label>
+      <input type="radio" name="gender" id="other" value="O" />
+      <label for="other">Other</label>
+      <br /><br />
+
+      <label>Hobbies: </label>
+      <input type="checkbox" name="hobbies" value="football" id="football" />
+      <label for="football">Football</label>
+      <input
+        type="checkbox"
+        name="hobbies"
+        value="tableTennis"
+        id="tableTennis"
+      />
+      <label for="tableTennis">Table Tennis</label>
+      <input
+        type="checkbox"
+        name="hobbies"
+        value="basketball"
+        id="basketball"
+      />
+      <label for="basketball">Basketball</label>
+      <br /><br />
+
+      <label for="appointment">Appointment Date & Time: </label>
+      <input type="datetime-local" id="appointment" name="appointment" />
+      <br /><br />
+
+      <label for="country">Country: </label>
+      <select id="country" name="country">
+        <option value="">-- Select --</option>
+        <option value="Nepal">Nepal</option>
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+      </select>
+      <br /><br />
+
+      <label for="email">Email: </label>
+      <input type="email" id="email" name="email" placeholder="Email" />
+      <br /><br />
+
+      <label for="phone">Phone: </label>
+      <input type="number" id="phone" name="phone" placeholder="Phone Number" />
+      <br /><br />
+
+      <label for="resume">Upload Resume (PDF / Image only): </label>
+      <input
+        type="file"
+        id="resume"
+        name="resume"
+        accept="application/pdf,image/jpeg,image/png"
+      />
+      <br /><br />
+
+      <label for="password">Password: </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+      <br /><br />
+
+      <label for="confirmPassword">Confirm Password: </label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+      />
+      <br /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
+```
+
+##### Add Script
+
+```html
+<script>
+  $(document).ready(function () {
+    $("#myForm").on("submit", function (e) {
+      e.preventDefault();
+
+      const name = $.trim($("#name").val());
+      const gender = $("input[name='gender']:checked").val();
+      const hobbies = $("input[name='hobbies']:checked")
+        .map(function () {
+          return this.value;
+        })
+        .get();
+      const appointment = $("#appointment").val();
+      const country = $("#country").val();
+      const phone = $.trim($("#phone").val());
+      const email = $.trim($("#email").val());
+      const resume = $("#resume")[0].files[0];
+      const password = $.trim($("#password").val());
+      const confirmPassword = $.trim($("#confirmPassword").val());
+
+      if (!name) return alert("Name is required");
+
+      if (!gender) return alert("Please select gender");
+
+      if (!hobbies.length) return alert("Please select at least one hobby");
+
+      if (!appointment) return alert("Please select appointment");
+      const now = new Date();
+      const selectedDate = new Date(appointment);
+      if (selectedDate < now)
+        return alert("Appointment date & time cannot be in the past");
+
+      if (!country) return alert("Please select country");
+
+      if (!email) return alert("Email is required");
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) return alert("Please enter a valid email");
+
+      if (!phone) return alert("Phone Number is required");
+      const phoneRegex = /^(?:9\d{9}|01\d{7})$/;
+      if (!phoneRegex.test(phone))
+        return alert("Please enter a valid phone number");
+
+      if (!resume) return alert("Please upload resume");
+      const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+      if (!allowedTypes.includes(resume.type))
+        return alert("Unsupported file format");
+
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      if (resume.size > maxSize)
+        return alert("File size should be less than 2MB");
+
+      if (!password) return alert("Password is required");
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s]).{8,}$/;
+      if (!passwordRegex.test(password))
+        return alert(
+          "Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one symbol"
+        );
+
+      if (password !== confirmPassword)
+        return alert("Password and Confirm Password did not match");
+
+      alert("Form submitted successfully!");
+      console.log({
+        name,
+        gender,
+        hobbies,
+        appointment,
+        country,
+        phone,
+        email,
+        resume,
+        password,
+        confirmPassword,
+      });
+    });
+  });
+</script>
+```
+
+### jQuery UI
+
+**Old Question:**
+**What is jquery UI?**
+jQuery UI is a widget and interaction library built on top of the jQuery JavaScript Library that you can use to build highly interactive web applications. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.
+
+It provides:
+
+- **Interactions:**
+  - Draggable
+  - Droppable
+  - Resizable
+  - Selectable
+  - Sortable
+- **Widgets:**
+  - Accordion
+  - Autocomplete
+  - Button
+  - Checkboxradio
+  - Controlgroup
+  - Datepicker
+  - Dialog
+  - Menu
+  - Progressbar
+  - Selectmenu
+  - Slider
+  - Spinner
+  - Tabs
+  - Tooltip
+- **Effects:**
+  - Add Class
+  - Color Animation
+  - Easing
+  - Effect
+  - Hide
+  - Remove Class
+  - Show
+  - Switch Class
+  - Toggle
+  - Toggle Class
+
+#### Example - Button Widget
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jQuery UI Button - Default functionality</title>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $(".widget button").button();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Widget Button</h1>
+    <div class="widget">
+      <button>A button element</button>
+    </div>
+
+    <h1>CSS Button</h1>
+    <button class="ui-button ui-widget ui-corner-all">A button element</button>
+  </body>
+</html>
+```
+
+**Old Question:**
+**Write jQuery code to include date picker controls in HTML text box.**
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>jQuery Datepicker with Restrictions</title>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  </head>
+  <body>
+    <h2>Select an Appointment Date:</h2>
+    <form action="#" id="myform">
+      <input type="text" id="datepicker" placeholder="Select a date" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        var today = new Date();
+
+        $("#datepicker").datepicker({
+          dateFormat: "yy-mm-dd",
+          changeMonth: true,
+          changeYear: true,
+          minDate: today,
+          maxDate: "+1Y",
+        });
+
+        // Add onsubmit handler
+        $("#myform").on("submit", function (e) {
+          e.preventDefault(); // Prevent actual form submission
+
+          var selectedDate = $("#datepicker").val();
+          if (!selectedDate) {
+            alert("Please select a date before submitting.");
+            return;
+          }
+
+          alert("You selected: " + selectedDate);
+
+          // If you want to actually submit the form after validation, uncomment:
+          // this.submit();
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+## For Lab2 - jQuery (Old Questions)
+
+### Theroy
+
+1. What is jQuery?
+2. What is the use of jQuery?
+3. How jQuery is differing from JavaScript?
+4. What is jquery UI?
+5. Discuss different types of jQuery selectors.
+
+### Practical
+
+6. Illustrate different types of selectors in jQuery with appropriate example?
+7. Write jQuery code to include date picker controls in HTML text box.
+8. Write the sample program to show and hide the certain div with the use of jQuery.
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Show/Hide Div Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      #myDiv {
+        width: 300px;
+        height: 150px;
+        background-color: lightblue;
+        display: none; /* Initially hidden */
+        text-align: center;
+        font-size: 20px;
+        margin-top: 20px;
+      }
+      button {
+        margin-right: 10px;
+        padding: 10px 15px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="showBtn">Show</button>
+    <button id="hideBtn">Hide</button>
+    <button id="toggleBtn">Toggle</button>
+
+    <div id="myDiv">Hello! I am a div</div>
+
+    <script>
+      $(document).ready(function () {
+        // Show the div
+        $("#showBtn").click(function () {
+          $("#myDiv").show();
+        });
+
+        // Hide the div
+        $("#hideBtn").click(function () {
+          $("#myDiv").hide();
+        });
+
+        // Toggle the div
+        $("#toggleBtn").click(function () {
+          $("#myDiv").toggle();
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+9. Create a form to input Name, gender, hobbies, appointment date & time, country, resume, Email, password and confirm Password. All fields are required. Appointment date cannot be in past. Resume should be either pdf or image. File size should be less than 2MB. Email should be valid. Phone number should be valid. Password must be at least 8 character long with at least one lowercase, uppercase, number and symbol. Password and confirm password should match.
