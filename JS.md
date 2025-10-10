@@ -4150,6 +4150,38 @@ $("#input").change(function () {
 });
 ```
 
+### Event Example
+
+```html
+<html>
+  <head>
+    <title>Events with jQuery</title>
+  </head>
+  <body>
+    <h1>Hello</h1>
+    <br /><br />
+    <input type="text" placeholder="Type something" />
+
+    <p></p>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script>
+      $("h1")
+        .mouseenter(function () {
+          $(this).css("background", "red");
+        })
+        .mouseleave(function () {
+          $(this).css("background", "blue");
+        });
+
+      $("input").keyup(function () {
+        $("p").text($(this).val());
+      });
+    </script>
+  </body>
+</html>
+```
+
 #### Event Object
 
 ```javascript
@@ -4290,6 +4322,52 @@ $(".element")
   .animate({ opacity: 0.5 }, 500);
 ```
 
+#### Example
+
+```html
+<html>
+  <head>
+    <title>JQuery Animation</title>
+    <style>
+      .box {
+        background: #000;
+        width: 100px;
+        height: 100px;
+      }
+      #box1 {
+        position: relative;
+        left: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box1" class="box"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $("#box1")
+        .animate(
+          {
+            left: "+=250px",
+            top: "150px",
+            opacity: 0.25,
+          },
+          2000
+        )
+        .delay(2000)
+        // .animate({ top: 0, opacity: 1 }, 2000, () => console.log("complete"));
+        .animate({ top: 0, opacity: 1 }, 2000, animateLoop);
+
+      function animateLoop() {
+        $("#box1")
+          .animate({ left: "-=250px" }, 2000)
+          .animate({ left: "+=250px" }, 2000, animateLoop);
+      }
+    </script>
+  </body>
+</html>
+```
+
 ### Loop
 
 ```javascript
@@ -4316,6 +4394,16 @@ var doubled = $.map(numbers, function (value, index) {
 ```javascript
 // Trim whitespace
 var trimmed = $.trim("  hello world  "); // 'hello world'
+```
+
+### Extending Object
+
+```js
+let object1 = { name: "John" };
+let object2 = { age: 30, city: "New York" };
+let extendedObject = $.extend({}, object1, object2);
+// let extendedObject2 = { ...object1, ...object2 }; // javascript
+console.log(extendedObject);
 ```
 
 ### Chaining
