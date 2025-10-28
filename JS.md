@@ -2173,6 +2173,14 @@ It contains useful information about the event, such as:
 
 When you click the button, the **event object** provides details about the click.
 
+![ClientX/Y vs PageX/Y vs ScreenX/Y](/images/js/event_pos_xy.png)
+
+- `pageX/Y` coordinates are relative to the top left corner of the whole rendered page (including parts hidden by scrolling),
+
+- while `clientX/Y` coordinates are relative to the top left corner of the visible part of the page, "seen" through browser window.
+
+- `screenX/Y` are relative to the physical screen.
+
 ---
 
 ### Example 2: Key Press Event
