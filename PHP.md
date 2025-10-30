@@ -2,7 +2,7 @@
 
 ![Bidur Sapkota](https://www.bidursapkota.com.np/_next/image?url=%2Fimages%2Fprofile3.png&w=48&q=75 "Bidur Sapkota - Developer")&nbsp;[Bidur Sapkota](https://www.bidursapkota.com.np/)
 
-![PHP Complete Guide by Bidur Sapkota](/images/php/php.jpg "PHP Complete Guide – Blog by Bidur Sapkota")
+![PHP Complete Guide by Bidur Sapkota](/images/php/9-php-guide.jpg "PHP Complete Guide – Blog by Bidur Sapkota")
 
 ## Table of Contents
 
@@ -37,11 +37,11 @@ Server-side scripting is a technique where **scripts are executed on the web ser
 Runner.prototype.gameOver = function () {};
 ```
 
-**PHP (Hypertext Preprocessor)** is a popular open-source server-side scripting language designed for web development.
-
 ---
 
-## PHP Basics
+## PHP
+
+**PHP (Hypertext Preprocessor)** is a popular open-source server-side scripting language designed for web development.
 
 ### Basic PHP Syntax
 
