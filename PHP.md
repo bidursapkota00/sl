@@ -239,6 +239,8 @@ echo $heredocString;
 ?>
 ```
 
+Heredoc and Nowdoc is mainly useful for very long blocks of HTML/text where escaping quotes and maintaining readability would be messy.
+
 #### String Functions
 
 - strlen(); [Returns length of strings]
