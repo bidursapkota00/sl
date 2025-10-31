@@ -2463,6 +2463,28 @@ When you click the button, the **event object** provides details about the click
 </html>
 ```
 
+### Alternative way to access data
+
+```html
+<!-- ..... -->
+<script>
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const name = document.querySelector("#name").value;
+    const gender = document.querySelector(
+      "input[name='gender']:checked"
+    )?.value;
+    const hobbies = [
+      ...document.querySelectorAll("input[name='hobbies']:checked"),
+    ].map((hobby) => hobby.value);
+    const country = document.querySelector("#country").value;
+
+    // ....
+  }
+</script>
+```
+
 ---
 
 ---
