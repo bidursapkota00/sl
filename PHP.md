@@ -201,46 +201,6 @@ echo $doubleQuotedString;
 ?>
 ```
 
-#### Nowdoc Syntax
-
-Nowdoc is similar to single-quoted strings but allows for multi-line content. It does not
-interpolate variables.
-
-```php
-<?php
-$variable = 'world';
-$nowdocString = <<<'EOT'
-Hello, $variable!
-This is a multi-line string using nowdoc syntax.
-EOT;
-echo $nowdocString;
-// Output:
-// Hello, $variable!
-// This is a multi-line string using nowdoc syntax.
-?>
-```
-
-#### Heredoc Syntax
-
-Heredoc is useful for defining multi-line strings. It behaves like a double-quoted string,
-allowing for variable interpolation.
-
-```php
-<?php
-$variable = 'world';
-$heredocString = <<<EOT
-Hello, $variable!
-This is a multi-line string using heredoc syntax.\n\n
-EOT;
-echo $heredocString;
-// Output:
-// Hello, world!
-// This is a multi-line string using heredoc syntax.
-?>
-```
-
-Heredoc and Nowdoc is mainly useful for very long blocks of HTML/text where escaping quotes and maintaining readability would be messy.
-
 #### String Functions
 
 - strlen(); [Returns length of strings]
