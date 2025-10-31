@@ -42,7 +42,7 @@ Runner.prototype.gameOver = function () {};
 
 ---
 
-## PHP
+## PHP Basics
 
 **PHP (Hypertext Preprocessor)** is a popular open-source server-side scripting language designed for web development.
 
@@ -99,7 +99,7 @@ Variables store data values. In PHP, variables start with `$` followed by the va
 
 **Old Question:**
 
-Write rules to create variable in PHP.
+**Write rules to create variable in PHP.**
 
 **Rules:**
 
@@ -171,9 +171,9 @@ $conn = mysqli_connect("localhost", "username", "password", "database");
 ?>
 ```
 
-## Strings
+### Strings
 
-### Single-Quoted Strings
+#### Single-Quoted Strings
 
 In single-quoted strings, variables and escape sequences (except for \\ and \') are not
 interpreted.
@@ -187,7 +187,7 @@ echo $singleQuotedString;
 ?>
 ```
 
-### Double-Quoted Strings
+#### Double-Quoted Strings
 
 Double-quoted strings allow for variable interpolation and interpretation of certain escape
 sequences.
@@ -201,7 +201,7 @@ echo $doubleQuotedString;
 ?>
 ```
 
-### Nowdoc Syntax
+#### Nowdoc Syntax
 
 Nowdoc is similar to single-quoted strings but allows for multi-line content. It does not
 interpolate variables.
@@ -214,12 +214,13 @@ Hello, $variable!
 This is a multi-line string using nowdoc syntax.
 EOT;
 echo $nowdocString;
-// Output: Hello, $variable!
-//         This is a multi-line string using nowdoc syntax.
+// Output:
+// Hello, $variable!
+// This is a multi-line string using nowdoc syntax.
 ?>
 ```
 
-### Heredoc Syntax
+#### Heredoc Syntax
 
 Heredoc is useful for defining multi-line strings. It behaves like a double-quoted string,
 allowing for variable interpolation.
@@ -238,9 +239,114 @@ echo $heredocString;
 ?>
 ```
 
+#### String Functions
+
+- strlen(); [Returns length of strings]
+- strpos(); [Returns position of first occurance of a substring in string]
+- substr(); [Retruns a part of a string]
+- str_replace(); [Replaces all occurrences of a search string with a replacement string.]
+- strtolower(); and strtoupper();
+- trim(); [Strips whitespace from the beginning and end of a string.]
+- explode() and implode()
+  - Splits a string by a delimiter into an array (explode()) or joins array elements into a string (implode()).
+
+```php
+<?php
+echo strlen("Hello, world!"); // Output: 13
+echo strpos("Hello, world!", "world"); // Output: 7
+echo substr("Hello, world!", 7, 5); // Output: world
+echo str_replace("world", "PHP", "Hello, world!"); // Output: Hello, PHP!
+echo strtolower("HELLO, WORLD!"); // Output: hello, world!
+echo strtoupper("hello, world!"); // Output: HELLO, WORLD!
+echo trim(" Hello, world! "); // Output: Hello, world!
+$array = explode(", ", "Hello, world!");
+print_r($array); // Output: Array ( [0] => Hello [1] => world! )
+$string = implode(" ", $array);
+echo $string; // Output: Hello world!
+?>
+```
+
+### String Interpolation
+
+PHP supports string interpolation, which allows you to embed variables and expressions
+within strings.
+
+For more complex expressions, you can use curly braces {} to enclose the expression.
+
+```php
+<?php
+$language = 'PHP';
+echo "I love $language!"; // Output: I love PHP!
+
+$fruits = ['apple', 'banana', 'cherry'];
+echo "I have an {$fruits[1]}."; // Output: I have a banana.
+?>
+```
+
+### Constants
+
+Constants are identifiers for simple values that cannot be changed during the execution of
+the script.
+
+```php
+<?php
+define("PI", 3.14);
+define("APP_VERSION", "2.3.1");
+
+echo PI; // Output: 3.14
+echo "\n";
+
+echo $_SERVER['PHP_SELF']; // Outputs the filename of the currently executing script
+
+
+$myvar = "Hello";
+echo "\n";
+
+function hello()
+{
+    $myvar = "world";
+    echo $GLOBALS['myvar'];
+}
+hello();
+
+
+// The const keyword is used within classes to define constants.
+class MyClass
+{
+    const VERSION = '1.0.0';
+    const AUTHOR = 'John Doe';
+}
+
+echo MyClass::VERSION; // Output: 1.0.0
+echo "\n";
+echo MyClass::AUTHOR; // Output: John Doe
+echo "\n";
+?>
+```
+
+### Superglobals
+
 **Old Question:**
 
-What do you mean by super global variable in PHP?
+**What do you mean by super global variable in PHP?**
+
+Superglobals are built-in variables in PHP that are always accessible, regardless of scope.
+
+Superglobals are specially named arrays that contain various types of information about the
+server, environment, request, and more.
+
+PHP provides several built-in superglobals that are available in all scopes:
+
+`$GLOBALS`, `$_SERVER`, `$_REQUEST`, `$_POST`, `$_GET`, `$_FILES`, `$_ENV`,
+`$_COOKIE`, `$_SESSION`
+
+```php
+<?php
+$variable = "Hello, World!";
+echo $GLOBALS['variable']; // Output: Hello, World!
+echo $_SERVER['PHP_SELF']; // Outputs the filename of the currently executing script
+?>
+```
 
 ### PHP Operators
 
@@ -616,57 +722,93 @@ foreach ($colors as $color) {
 
 ### Arrays
 
+**Old Question:**
+
+**Explain an array using suitable example.**
+
+**Write short note on: a) Types of array in PHP**
+
 Arrays store multiple values in a single variable.
 
 #### Indexed Arrays
 
+An indexed array in PHP stores values with numeric indexes (starting from 0 by default).
+
 ```php
 <?php
-    $fruits = array("Apple", "Banana", "Orange");
-    // or
-    $fruits = ["Apple", "Banana", "Orange"];
+$fruits = array("Apple", "Banana", "Orange");
+// or
+$fruits = ["Apple", "Banana", "Orange"];
 
-    echo $fruits[0];  // Apple
-    echo count($fruits);  // 3
+echo $fruits[0] . "\n"; // Outputs: Apple
+echo $fruits[1] . "\n"; // Outputs: Banana
+echo $fruits[2] . "\n"; // Outputs: Orange
 
-    // Adding elements
-    $fruits[] = "Mango";
+// Count the number of elements in the array
+echo count($fruits) . "\n"; // Outputs: 5
+
+// Add an element to the end of the array
+array_push($fruits, "Cherry");
+// or
+$fruits[] = "Cherry";
+print_r($fruits);
+
+// Remove the last element of the array
+array_pop($fruits);
+print_r($fruits);
 ?>
 ```
 
 #### Associative Arrays
 
+An associative array in PHP is an array that uses named keys instead of numeric indexes.
+It stores data as key–value pairs.
+
 ```php
 <?php
-    $person = array(
-        "name" => "John",
-        "age" => 25,
-        "city" => "New York"
-    );
+$person = array(
+    "name" => "John",
+    "age" => 25,
+    "city" => "New York"
+);
 
-    echo $person["name"];  // John
-    echo $person["age"];   // 25
+echo $person["name"] . "\n";  // John
+echo $person["age"] . "\n";   // 25
+
+// Add
+$person["country"] = "USA";
+
+// Remove
+unset($person["city"]);
+
+print_r($person);
 ?>
 ```
 
 #### Multidimensional Arrays
 
+A multidimensional array in PHP is an array containing one or more arrays as its elements.
+
 ```php
 <?php
-    $students = array(
-        array("John", 25, "A"),
-        array("Jane", 23, "B"),
-        array("Bob", 27, "A")
-    );
+$students = array(
+    array("John", 25, "A"),
+    array("Jane", 23, "B"),
+    array("Bob", 27, "A")
+);
 
-    echo $students[0][0];  // John
-    echo $students[1][2];  // B
+echo $students[0][0] . "\n";  // John
+echo $students[1][2] . "\n";  // B
 ?>
 ```
 
 ### ForEach Loop
 
 Specially designed for iterating through arrays.
+
+**Old Question:**
+
+**Discuss how foreach loop accessing of elements stored in an array using PHP.**
 
 ```php
 <?php
@@ -682,7 +824,112 @@ Specially designed for iterating through arrays.
     foreach ($person as $key => $value) {
         echo "$key: $value<br>";
     }
+
+    foreach ($person as $value) {
+        echo "$value<br>";
+    }
 ?>
+```
+
+**Old Question:**
+
+**What is an associative array? Write a PHP program to create a multidimensional array that holds the marks of five subject like Operating system, Scripting, Numerical method, DBMS, Software Engineering and of three student Anshis, Jayanti Niraj Then display the average marks of each student.**
+
+An associative array in PHP is an array that uses named keys instead of numeric indexes.
+It stores data as key–value pairs.
+
+Give simple example from above.
+
+```php
+<html>
+
+<head>
+    <title>Student Marks</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #555;
+            padding: 8px 12px;
+        }
+
+        caption {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <?php
+    $marks = array(
+        "Anshis" => array(
+            "Operating System" => 85,
+            "Scripting" => 78,
+            "Numerical Method" => 88,
+            "DBMS" => 90,
+            "Software Engineering" => 80
+        ),
+        "Jayanti" => array(
+            "Operating System" => 75,
+            "Scripting" => 82,
+            "Numerical Method" => 79,
+            "DBMS" => 85,
+            "Software Engineering" => 88
+        ),
+        "Niraj" => array(
+            "Operating System" => 92,
+            "Scripting" => 89,
+            "Numerical Method" => 84,
+            "DBMS" => 91,
+            "Software Engineering" => 87
+        )
+    );
+
+    echo "<table>";
+    echo "<caption>Student Marks and Averages</caption>";
+    echo "<tr>
+        <th>Student</th>
+        <th>Operating System</th>
+        <th>Scripting</th>
+        <th>Numerical Method</th>
+        <th>DBMS</th>
+        <th>Software Engineering</th>
+        <th>Average</th>
+      </tr>";
+
+    foreach ($marks as $student => $subjects) {
+        $total = 0;
+        $count = count($subjects); // or 5 directly, according to question
+
+        foreach ($subjects as $subject => $mark) {
+            $total += $mark;
+        }
+        $average = $total / $count;
+
+        echo "<tr>";
+        echo "<td>$student</td>";
+
+        foreach ($subjects as $mark) {
+            echo "<td>$mark</td>";
+        }
+
+        echo "<td>" . round($average, 2) . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+    ?>
+
+</body>
+
+</html>
 ```
 
 ### Functions
