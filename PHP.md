@@ -28,7 +28,10 @@ Server-side scripting is a technique where **scripts are executed on the web ser
 - Dynamic content generation
 - Database interaction
 - Secure processing (code not visible to users)
-- Session management
+- Session management / Authentication
+
+Common server-side scripting languages include PHP, Python, Ruby, JavaScript (Node.js),
+Java
 
 **FUN**
 
@@ -94,32 +97,165 @@ Comments are used to document code and are ignored during execution.
 
 Variables store data values. In PHP, variables start with `$` followed by the variable name.
 
+**Old Question:**
+
+Write rules to create variable in PHP.
+
 **Rules:**
 
 - Start with `$` sign
 - Must begin with a letter or underscore
 - Can only contain alphanumeric characters and underscores
 - Case-sensitive
+- PHP is a loosely typed language, which means you don't need to declare the data type of a
+  variable.
+
+### Data Types
+
+PHP data types are used to hold different types of data or values. PHP supports 8 primitive
+data types that can be categorized further in 3 types:
+
+- **Scalar Types (predefined) (Stores single value)**
+  - String
+  - Integer
+  - Float
+  - Boolean
 
 ```php
 <?php
-    $name = "John";           // String
-    $age = 25;                // Integer
-    $price = 19.99;           // Float
-    $is_student = true;       // Boolean
+$name = "John";           // String
+$age = 25;                // Integer
+$price = 19.99;           // Float
+$is_student = true;       // Boolean
 
-    echo "Name: $name<br>";
-    echo "Age: $age<br>";
-    echo "Price: $price<br>";
-
-    // Variable concatenation
-    echo "Hello, " . $name . "!";
+echo "Name: $name<br>";
+echo "Age: $age<br>";
+echo "Price: $price<br>";
+echo "Hello, " . $name . "!"; // Variable concatenation
 ?>
 ```
 
+- **Compound Types (user-defined)**
+  - Array
+  - Object
+
+```php
+<?php
+$arrayVar = array("apple", "banana", "cherry"); // Array
+
+class Car
+{
+    public $model;
+
+    public function __construct()
+    {
+        $this->model = "S";
+    }
+}
+$tesla = new Car();  // Object
+
+print_r($tesla);
+?>
+```
+
+- **Special Types**
+  - Resource (holds reference to the external resources like files, database, etc)
+  - NULL (variables with no value)
+
+```php
+<?php
+$nullVar = NULL;
+
+$resourceVar = fopen("file.txt", "r");
+$conn = mysqli_connect("localhost", "username", "password", "database");
+?>
+```
+
+## Strings
+
+### Single-Quoted Strings
+
+In single-quoted strings, variables and escape sequences (except for \\ and \') are not
+interpreted.
+
+```php
+<?php
+$variable = 'something';
+$singleQuotedString = '$variable will not be parsed.\n';
+echo $singleQuotedString;
+// Output: $variable will not be parsed.\n
+?>
+```
+
+### Double-Quoted Strings
+
+Double-quoted strings allow for variable interpolation and interpretation of certain escape
+sequences.
+
+```php
+<?php
+$variable = 'something';
+$doubleQuotedString = "\n\n$variable will be parsed.\n\n";
+echo $doubleQuotedString;
+// Output: something will be parsed.
+?>
+```
+
+### Nowdoc Syntax
+
+Nowdoc is similar to single-quoted strings but allows for multi-line content. It does not
+interpolate variables.
+
+```php
+<?php
+$variable = 'world';
+$nowdocString = <<<'EOT'
+Hello, $variable!
+This is a multi-line string using nowdoc syntax.
+EOT;
+echo $nowdocString;
+// Output: Hello, $variable!
+//         This is a multi-line string using nowdoc syntax.
+?>
+```
+
+### Heredoc Syntax
+
+Heredoc is useful for defining multi-line strings. It behaves like a double-quoted string,
+allowing for variable interpolation.
+
+```php
+<?php
+$variable = 'world';
+$heredocString = <<<EOT
+Hello, $variable!
+This is a multi-line string using heredoc syntax.\n\n
+EOT;
+echo $heredocString;
+// Output:
+// Hello, world!
+// This is a multi-line string using heredoc syntax.
+?>
+```
+
+**Old Question:**
+
+What do you mean by super global variable in PHP?
+
 ### PHP Operators
 
+Operators are used to perform operations on variables and values.
+
 #### Arithmetic Operators
+
+These operators are used to perform common arithmetic operations.
+
+- `+` Addition
+- `-` Subtraction
+- `*` Multiplication
+- `/` Division
+- `%` Modulus
+- `**` Exponentiation
 
 ```php
 <?php
@@ -137,6 +273,16 @@ Variables store data values. In PHP, variables start with `$` followed by the va
 
 #### Assignment Operators
 
+These operators are used to assign values to variables.
+
+- `=` Assign
+- `+=` Add and assign
+- `-=` Subtract and assign
+- `*=` Multiply and assign
+- `/=` Divide and assign
+- `%=` Modulus and assign
+- `**=` Exponentiation and assign
+
 ```php
 <?php
     $x = 10;
@@ -148,6 +294,19 @@ Variables store data values. In PHP, variables start with `$` followed by the va
 ```
 
 #### Comparison Operators
+
+These operators are used to compare two values.
+
+- `==` Equal
+- `===` Identical (equal and same type)
+- `!=` Not equal
+- `<>` Not equal
+- `!==` Not identical (not equal or not same type)
+- `>` Greater than
+- `<` Less than
+- `>=` Greater than or equal to
+- `<=` Less than or equal to
+- `<=>` Spaceship operator (returns -1, 0, or 1 when `$a` is less than, equal to, or greater than `$b`)
 
 ```php
 <?php
@@ -163,7 +322,31 @@ Variables store data values. In PHP, variables start with `$` followed by the va
 ?>
 ```
 
+#### Increment/Decrement Operators
+
+These operators are used to increment or decrement a variable's value.
+
+- `++$var` Pre-increment
+- `$var++` Post-increment
+- `--$var` Pre-decrement
+- `$var--` Post-decrement
+
+```php
+<?php
+$a = 5;
+
+$a++;
+--$a;
+?>
+```
+
 #### Logical Operators
+
+These operators are used to combine conditional statements.
+
+- `&&` AND
+- `||` OR
+- `!` NOT
 
 ```php
 <?php
@@ -176,9 +359,151 @@ Variables store data values. In PHP, variables start with `$` followed by the va
 ?>
 ```
 
+#### String Operators
+
+These operators are used to manipulate strings.
+
+- `.` Concatenation
+- `.=` Concatenate and assign
+
+```php
+<?php
+$a2 = "apple";
+$a2 .= " ball";
+var_dump($a2);
+?>
+```
+
+#### Array Operators
+
+These operators are used to compare arrays.
+
+- `+` Union - Combines two arrays, but only includes elements from the first array that are not present in the second array
+- `==` Equality - Returns true if $x and $y have the same key/value pairs
+- `===` Identity – Equality plus in the same order and of the same types
+- `!=` Inequality
+- `<>` Inequality
+- `!==` Non-identity
+
+```php
+<?php
+// + Union of arrays
+$arr1 = array("phy" => 70, "che" => 80, "math" => 90);
+$arr2 = array("Eng" => 70, "Bio" => 80, "CompSci" => 90, "phy" => 60);
+$arr3 = $arr1 + $arr2;
+var_dump($arr3);
+
+// == Equality
+$array3 = [1, 2, 3];
+$array4 = [1, 2, 3];
+$resultEqual = ($array3 == $array4);
+var_dump($resultEqual); // Output: bool(true)
+
+// === Identity
+$resultIdentical = ($array3 === $array4);
+var_dump($resultIdentical); // Output: bool(true)
+
+// != Inequality
+$array5 = [1, 2, 3];
+$array6 = [4, 5, 6];
+$resultNotEqual = ($array5 != $array6);
+var_dump($resultNotEqual); // Output: bool(true)
+
+// <> Inequality
+$resultNotEqualAlt = ($array5 <> $array6);
+var_dump($resultNotEqualAlt); // Output: bool(true)
+
+// !== Non-identity
+$resultNotIdentical = ($array5 !== $array6);
+var_dump($resultNotIdentical); // Output: bool(true)
+?>
+```
+
+#### Type Operators
+
+These operators are used to check the type of a variable.
+
+- `instanceof` Used to determine if an object is an instance of a specific class
+
+```php
+<?php
+class MyClass {}
+
+$myObject = new MyClass();
+if ($myObject instanceof MyClass) {
+    echo 'Yes, $myObject is an instance of MyClass.';
+} else {
+    echo 'No, $myObject is not an instance of MyClass.';
+}
+echo "\n";
+
+// $a = 3;
+// echo gettype($a);
+?>
+```
+
+#### Error Control Operators
+
+These operators are used to suppress errors.
+
+- `@` Suppress error
+
+```php
+<?php
+$file = @fopen("php\\examples.txt", "r");
+?>
+```
+
+#### Execution Operators
+
+These operators are used to execute shell commands.
+
+- `dir` Backticks (executes shell commands)
+
+```php
+<?php
+$listing = `cd php && dir`;
+// echo $listing;
+?>
+```
+
+#### Null Coalescing Operator
+
+This operator is used to provide a default value if a variable is null.
+
+- `??` Null coalescing (introduced in PHP 7)
+
+```php
+<?php
+$left;
+$right = 20;
+$result = $left ?? $right;
+// $result = isset($left) ? $left : $right;
+var_dump($result);
+?>
+```
+
+#### Ternary Operator
+
+This operator is a shorthand for the `if` statement.
+
+- `? :` Ternary
+
+```php
+<?php
+$left;
+$right = 20;
+$result = isset($left) ? $left : $right;
+var_dump($result);
+?>
+```
+
 ---
 
 ## Control Structures
+
+Control structures in PHP are essential for directing the flow of the program based on
+conditions, loops, and switches.
 
 ### If-Else Statement
 
@@ -270,6 +595,18 @@ Variables store data values. In PHP, variables start with `$` followed by the va
         }
         echo "<br>";
     }
+?>
+```
+
+### Foreach Loops
+
+```php
+<?php
+$colors = array("red", "green", "blue", "yellow");
+
+foreach ($colors as $color) {
+    echo "$color <br>";
+}
 ?>
 ```
 
