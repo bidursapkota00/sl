@@ -175,7 +175,7 @@ $conn = mysqli_connect("localhost", "username", "password", "database");
 
 #### Single-Quoted Strings
 
-In single-quoted strings, variables and escape sequences (except for \\ and \') are not
+In single-quoted strings, variables and escape sequences (except for `\\` and `\'`) are not
 interpreted.
 
 ```php
@@ -203,13 +203,13 @@ echo $doubleQuotedString;
 
 #### String Functions
 
-- strlen(); [Returns length of strings]
-- strpos(); [Returns position of first occurance of a substring in string]
-- substr(); [Retruns a part of a string]
-- str_replace(); [Replaces all occurrences of a search string with a replacement string.]
-- strtolower(); and strtoupper();
-- trim(); [Strips whitespace from the beginning and end of a string.]
-- explode() and implode()
+- `strlen();` [Returns length of strings]
+- `strpos();` [Returns position of first occurance of a substring in string]
+- `substr();` [Retruns a part of a string]
+- `str_replace();` [Replaces all occurrences of a search string with a replacement string.]
+- `strtolower();` and `strtoupper();`
+- `trim();` [Strips whitespace from the beginning and end of a string.]
+- `explode()` and `implode()`
   - Splits a string by a delimiter into an array (explode()) or joins array elements into a string (implode()).
 
 ```php
@@ -245,47 +245,6 @@ echo "I have an {$fruits[1]}."; // Output: I have a banana.
 ?>
 ```
 
-### Constants
-
-Constants are identifiers for simple values that cannot be changed during the execution of
-the script.
-
-```php
-<?php
-define("PI", 3.14);
-define("APP_VERSION", "2.3.1");
-
-echo PI; // Output: 3.14
-echo "\n";
-
-echo $_SERVER['PHP_SELF']; // Outputs the filename of the currently executing script
-
-
-$myvar = "Hello";
-echo "\n";
-
-function hello()
-{
-    $myvar = "world";
-    echo $GLOBALS['myvar'];
-}
-hello();
-
-
-// The const keyword is used within classes to define constants.
-class MyClass
-{
-    const VERSION = '1.0.0';
-    const AUTHOR = 'John Doe';
-}
-
-echo MyClass::VERSION; // Output: 1.0.0
-echo "\n";
-echo MyClass::AUTHOR; // Output: John Doe
-echo "\n";
-?>
-```
-
 ### Superglobals
 
 **Old Question:**
@@ -307,6 +266,9 @@ PHP provides several built-in superglobals that are available in all scopes:
 $variable = "Hello, World!";
 echo $GLOBALS['variable']; // Output: Hello, World!
 echo $_SERVER['PHP_SELF']; // Outputs the filename of the currently executing script
+
+$name = $_GET['username']; // accessing email data of get request
+$email = $_POST['email']; // accessing email data of post request
 ?>
 ```
 
