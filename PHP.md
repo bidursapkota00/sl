@@ -765,92 +765,91 @@ It stores data as key–value pairs.
 Give simple example from above.
 
 ```php
-<html>
+<html lang="en">
 
 <head>
-    <title>Student Marks</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 70%;
-            margin: 20px auto;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Marks</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      margin: 20px auto;
+    }
 
-        th,
-        td {
-            border: 1px solid #555;
-            padding: 8px 12px;
-        }
+    th,
+    td {
+      border: 1px solid #555;
+      padding: 8px 12px;
+    }
 
-        caption {
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-    </style>
+    caption {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
+  <table>
+    <caption>Student Marks and Averages</caption>
+    <tr>
+      <th>Student</th>
+      <th>Operating System</th>
+      <th>Scripting</th>
+      <th>Numerical Method</th>
+      <th>DBMS</th>
+      <th>Software Engineering</th>
+      <th>Average</th>
+    </tr>
 
     <?php
     $marks = array(
-        "Anshis" => array(
-            "Operating System" => 85,
-            "Scripting" => 78,
-            "Numerical Method" => 88,
-            "DBMS" => 90,
-            "Software Engineering" => 80
-        ),
-        "Jayanti" => array(
-            "Operating System" => 75,
-            "Scripting" => 82,
-            "Numerical Method" => 79,
-            "DBMS" => 85,
-            "Software Engineering" => 88
-        ),
-        "Niraj" => array(
-            "Operating System" => 92,
-            "Scripting" => 89,
-            "Numerical Method" => 84,
-            "DBMS" => 91,
-            "Software Engineering" => 87
-        )
+      "Anshis" => array(
+        "Operating System" => 85,
+        "Scripting" => 78,
+        "Numerical Method" => 88,
+        "DBMS" => 90,
+        "Software Engineering" => 80
+      ),
+      "Jayanti" => array(
+        "Operating System" => 75,
+        "Scripting" => 82,
+        "Numerical Method" => 79,
+        "DBMS" => 85,
+        "Software Engineering" => 88
+      ),
+      "Niraj" => array(
+        "Operating System" => 92,
+        "Scripting" => 89,
+        "Numerical Method" => 84,
+        "DBMS" => 91,
+        "Software Engineering" => 87
+      )
     );
 
-    echo "<table>";
-    echo "<caption>Student Marks and Averages</caption>";
-    echo "<tr>
-        <th>Student</th>
-        <th>Operating System</th>
-        <th>Scripting</th>
-        <th>Numerical Method</th>
-        <th>DBMS</th>
-        <th>Software Engineering</th>
-        <th>Average</th>
-      </tr>";
-
     foreach ($marks as $student => $subjects) {
-        $total = 0;
-        $count = count($subjects); // or 5 directly, according to question
+      $total = 0;
+      $count = count($subjects); // or 5 directly, according to question
 
-        foreach ($subjects as $subject => $mark) {
-            $total += $mark;
-        }
-        $average = $total / $count;
+      foreach ($subjects as $subject => $mark) {
+        $total += $mark;
+      }
+      $average = $total / $count;
 
-        echo "<tr>";
-        echo "<td>$student</td>";
+      echo "<tr>";
+      echo "<td>$student</td>";
 
-        foreach ($subjects as $mark) {
-            echo "<td>$mark</td>";
-        }
+      foreach ($subjects as $mark) {
+        echo "<td>$mark</td>";
+      }
 
-        echo "<td>" . round($average, 2) . "</td>";
-        echo "</tr>";
+      echo "<td>" . round($average, 2) . "</td>";
+      echo "</tr>";
     }
-
-    echo "</table>";
     ?>
-
+  </table>
 </body>
 
 </html>
