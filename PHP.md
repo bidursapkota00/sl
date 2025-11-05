@@ -858,7 +858,9 @@ Give simple example from above.
 
 ### Functions
 
-Functions are reusable blocks of code.
+Functions are reusable blocks of code that can be repeatedly called and executed whenever needed.
+
+They are used to perform specific tasks, which helps in making the code modular, reusable, and easier to maintain.
 
 ```php
 <?php
@@ -887,9 +889,28 @@ Functions are reusable blocks of code.
 
     function testScope() {
         global $global_var;
-        $local_var = 5;
+        $global_var = 5; // local
         echo $global_var;  // 10
     }
+    testScope();
+?>
+```
+
+#### Anonymous Functions
+
+PHP also supports anonymous functions (or closures), which are functions without a specified name. They are often used as callback functions.
+
+```php
+<?php
+
+$greet = function($name) {
+
+echo "Hello, $name!";
+
+};
+
+$greet("World"); // Output: Hello, World!
+
 ?>
 ```
 
@@ -914,10 +935,42 @@ Used to collect form data sent via URL parameters (visible in URL).
 
 ```php
 <?php
-    if (isset($_GET['username'])) {
-        $name = $_GET['username'];
-        echo "Welcome, " . htmlspecialchars($name);
-    }
+if (!isset($_GET['username']) || trim($_GET['username']) === '') {
+    http_response_code(400);
+    echo "Bad Request: Username is required";
+    exit;
+}
+
+$name = trim($_GET['username']);
+echo "Welcome, $name";
+?>
+```
+
+### Black Magic
+
+In username input type this and submit
+
+```text
+<script>alert("hacked")</script>
+```
+
+This is called XSS (cross site scripting)
+
+**Solution:**
+
+```php
+echo "Welcome, " . htmlspecialchars($name);
+```
+
+### Restricting Request Methods
+
+```php
+<?php
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') { // 'POST', 'PUT'
+    http_response_code(405); // Method Not Allowed
+    echo "Request Not Supported";
+    exit;
+}
 ?>
 ```
 
@@ -929,8 +982,11 @@ Used to collect form data sent via HTTP POST (not visible in URL, more secure).
 
 ```html
 <form action="process.php" method="POST">
-  Email: <input type="email" name="email" /> Password:
+  Email: <input type="email" name="email" />
+  <br />
+  Password:
   <input type="password" name="password" />
+  <br />
   <input type="submit" value="Login" />
 </form>
 ```
@@ -939,17 +995,37 @@ Used to collect form data sent via HTTP POST (not visible in URL, more secure).
 
 ```php
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405); // Method Not Allowed
+    echo "Request Not Supported";
+    exit;
+}
 
-        // Sanitize input
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+if (
+    !isset($_POST['email']) ||
+    !isset($_POST['password']) ||
+    trim($_POST['email']) === '' ||
+    trim($_POST['password']) === ''
+) {
+    http_response_code(400);
+    echo "Bad Request: All Fields are required";
+    exit;
+}
 
-        echo "Email: " . htmlspecialchars($email);
-    }
+$email = trim($_POST['email']);
+$password = trim($_POST['password']);
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo "Invalid Email";
+    exit;
+}
+
+echo "Email: " . htmlspecialchars($email);
 ?>
 ```
+
+FILTER_VALIDATE_EMAIL - Ensure it’s a proper email.
 
 ### PHP $\_REQUEST
 
