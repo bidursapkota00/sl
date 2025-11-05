@@ -233,15 +233,10 @@ echo $string; // Output: Hello world!
 PHP supports string interpolation, which allows you to embed variables and expressions
 within strings.
 
-For more complex expressions, you can use curly braces {} to enclose the expression.
-
 ```php
 <?php
 $language = 'PHP';
 echo "I love $language!"; // Output: I love PHP!
-
-$fruits = ['apple', 'banana', 'cherry'];
-echo "I have an {$fruits[1]}."; // Output: I have a banana.
 ?>
 ```
 
@@ -349,6 +344,7 @@ These operators are used to compare two values.
     var_dump($a !== $b);  // Not identical: true
     var_dump($a > 3);     // Greater than: true
     var_dump($a < 10);    // Less than: true
+    var_dump(5 <=> 10);   // int(-1)
 ?>
 ```
 
@@ -399,7 +395,7 @@ These operators are used to manipulate strings.
 ```php
 <?php
 $a2 = "apple";
-$a2 .= " ball";
+$a2 .= " ball";    // apple ball
 var_dump($a2);
 ?>
 ```
@@ -548,16 +544,6 @@ conditions, loops, and switches.
     } else {
         echo "Senior";
     }
-?>
-```
-
-**Ternary Operator:**
-
-```php
-<?php
-    $age = 20;
-    $status = ($age >= 18) ? "Adult" : "Minor";
-    echo $status;
 ?>
 ```
 
@@ -1051,27 +1037,82 @@ Contains contents of both `$_GET`, `$_POST`, and `$_COOKIE`.
 
 ### PHP Date Function
 
+**date(format, timestamp)**
+
+| Argument                 | Meaning                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| `format`                 | String that defines how the date should look. (Eg: `"Y-m-d"`) |
+| `timestamp` _(optional)_ | Unix timestamp number. If not given → PHP uses current time   |
+
+| Symbol      | Meaning                  | Example |
+| ----------- | ------------------------ | ------- |
+| Y           | 4-digit year             | 2025    |
+| m           | 2-digit month            | 11      |
+| d           | 2-digit day              | 05      |
+| H           | hour (00-23)             | 14      |
+| i           | minutes                  | 30      |
+| s           | seconds                  | 45      |
+| h           | hour (01-12)             | 02      |
+| A           | AM / PM                  | PM      |
+| l (lower L) | full weekday name        | Friday  |
+| F           | full month name          | March   |
+| j           | day without leading zero | 5       |
+
+**time()**
+
+| Function | Meaning                                                      |
+| -------- | ------------------------------------------------------------ |
+| `time()` | returns current Unix timestamp (seconds from 1 Jan 1970 UTC) |
+
+**mktime(hour, minute, second, month, day, year)**
+
+| Arg    | Meaning      |
+| ------ | ------------ |
+| hour   | 0–23         |
+| minute | 0–59         |
+| second | 0–59         |
+| month  | 1–12         |
+| day    | 1–31         |
+| year   | 4-digit year |
+
+**strtotime(string, base_timestamp?)**
+
+| Argument                      | Meaning                                                     |
+| ----------------------------- | ----------------------------------------------------------- |
+| `string`                      | human-readable date expression → PHP converts to timestamp. |
+| `base_timestamp` _(optional)_ | default = `time()` (now)                                    |
+
+Examples of valid strings:
+
+| Example string  | Meaning                 |
+| --------------- | ----------------------- |
+| `"next Monday"` | next coming Monday date |
+| `"+1 week"`     | adds 7 days             |
+| `"2024-03-15"`  | specific date           |
+| `"+2 months"`   | 2 months ahead          |
+
 ```php
 <?php
-    // Current date and time
-    echo date("Y-m-d H:i:s");  // 2024-03-15 14:30:45
+// Current date and time
+echo date("Y-m-d H:i:s") . '<br>';  // 2024-03-15 14:30:45
 
-    // Different formats
-    echo date("d/m/Y");        // 15/03/2024
-    echo date("l, F j, Y");    // Friday, March 15, 2024
-    echo date("h:i A");        // 02:30 PM
+// Different formats
+echo date("d/m/Y") . '<br>';        // 15/03/2024
+echo date("l, F j, Y") . '<br>';    // Friday, March 15, 2024
+echo date("h:i A") . '<br>';        // 02:30 PM
 
-    // Timestamp
-    $timestamp = time();
-    echo date("Y-m-d", $timestamp);
+// Timestamp
+$timestamp = time();
+echo $timestamp . '<br>';    // 1762324996
+echo date("Y-m-d", $timestamp) . '<br>';    // 2025-11-05
 
-    // Custom date
-    $date = mktime(12, 30, 0, 3, 15, 2024);
-    echo date("Y-m-d H:i:s", $date);
+// Custom date
+$date = mktime(12, 30, 0, 3, 15, 2024);
+echo date("Y-m-d H:i:s", $date) . '<br>';    // 2024-03-15 12:30:00
 
-    // strtotime function
-    echo date("Y-m-d", strtotime("next Monday"));
-    echo date("Y-m-d", strtotime("+1 week"));
+// strtotime function
+echo date("Y-m-d", strtotime("next Monday")) . '<br>';    // 2025-11-10
+echo date("Y-m-d", strtotime("+1 week")) . '<br>';    // 2025-11-12
 ?>
 ```
 
@@ -1113,78 +1154,117 @@ Includes and evaluates the specified file.
 
 ```php
 <?php
-    // Read entire file
-    $content = file_get_contents("data.txt");
-    echo $content;
-
-    // Read file line by line
-    $file = fopen("data.txt", "r");
-    if ($file) {
-        while (($line = fgets($file)) !== false) {
-            echo $line . "<br>";
-        }
-        fclose($file);
-    }
-
-    // Read file into array
-    $lines = file("data.txt");
-    foreach ($lines as $line) {
+// Read file line by line
+$file = @fopen("test.txt", "r");
+if ($file) {
+    while (($line = fgets($file)) !== false) {
         echo $line . "<br>";
     }
+    fclose($file);
+}
 ?>
 ```
+
+- `fgets($file)` reads one line from the file.
+- `$line = fgets($file)` saves that line into the variable $line.
+- `fgets()` returns false if end of file (no line)
+- `!== false` checks if the reading new line was successful.
+- `while (...)` repeats the loop as long as the result is not false.
 
 #### Writing to Files
 
 ```php
 <?php
-    // Write to file (overwrites)
-    $content = "Hello, World!";
-    file_put_contents("output.txt", $content);
+$file = fopen("output.txt", "w");
+fwrite($file, "Hello, World! 1\n");
+fwrite($file, "Hello, World! 2\n");
+fclose($file);
 
-    // Append to file
-    $content = "\nNew line";
-    file_put_contents("output.txt", $content, FILE_APPEND);
-
-    // Using fopen
-    $file = fopen("output.txt", "w");
-    fwrite($file, "Hello, World!");
-    fclose($file);
-
-    // File modes:
-    // r - Read only
-    // w - Write only (overwrites)
-    // a - Append
-    // r+ - Read and write
-    // w+ - Write and read (overwrites)
-    // a+ - Append and read
+// File modes:
+// r - Read only
+// w - Write only (overwrites - deletes all old content)
+// a - Append
+// r+ - Read and write (doesnot delete all content, although replaces characters as you fwrite, from beginning)
+// w+ - Write and read (overwrites - deletes all old content)
+// a+ - Append and read
 ?>
 ```
 
-#### File Operations
+**Old Question:**
+
+**How to read and write CSV file in PHP explain with suitable example.**
 
 ```php
-<?php
-    // Check if file exists
-    if (file_exists("data.txt")) {
-        echo "File exists";
-    }
+<html lang="en">
 
-    // Delete file
-    unlink("old_file.txt");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p,
+        caption {
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+        }
 
-    // Copy file
-    copy("source.txt", "destination.txt");
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
 
-    // Rename/Move file
-    rename("old_name.txt", "new_name.txt");
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
 
-    // Get file size
-    echo filesize("data.txt") . " bytes";
+<body>
+    <?php
+    $file = fopen("data.csv", "w");
 
-    // Get file modification time
-    echo date("Y-m-d H:i:s", filemtime("data.txt"));
-?>
+    fwrite($file, "name,age,city\n");
+    fwrite($file, "John,25,New York\n");
+    fwrite($file, "Sita,30,Kathmandu\n");
+
+    fclose($file);
+    echo "<p>CSV file created.</p>";
+    ?>
+
+    <table>
+        <caption>Table 1: Reading CSV File</caption>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+        </tr>
+
+        <?php
+        $file = fopen("data.csv", "r");
+
+        if ($file) {
+            while (($line = fgets($file)) !== false) {
+                $words = explode(',', $line);
+                echo "<tr>";
+                foreach ($words as $word) {
+                    echo "<td>$word</td>";
+                }
+                echo "</tr>";
+            }
+            fclose($file);
+        }
+        ?>
+
+
+    </table>
+
+</body>
+
+</html>
 ```
 
 ### File Uploading
@@ -1193,57 +1273,57 @@ Includes and evaluates the specified file.
 
 ```html
 <form action="upload.php" method="POST" enctype="multipart/form-data">
-  Select file: <input type="file" name="fileToUpload" />
+  Select Resume: <input type="file" name="resume" />
   <input type="submit" value="Upload" name="submit" />
 </form>
 ```
+
+**Why do we need multipart/form-data?**
+
+Because normal application/x-www-form-urlencoded encodes everything as plain text (key=value&key=value).
+
+But files such as images / pdf / audio are binary — you cannot just send them as normal text safely.
+
+So with multipart/form-data:
+
+- the POST body is broken into multiple parts
+- each field is sent separately (as its own block)
+- binary stays binary (no conversion)
+
+That is why it's named multi-part
 
 **upload.php:**
 
 ```php
 <?php
-    if (isset($_POST['submit'])) {
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+if (isset($_POST['submit'])) {
+    $target_dir = "uploads/";    // uploads directory should already exist
+    $target_file = $target_dir . $_FILES["resume"]["name"];
+    // basename($path) to remove c://folder/image.png to image.png (older browser)
 
-        // Check if file is an actual image
-        if (isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-            if ($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
-            } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
-            }
-        }
-
-        // Check file size (5MB limit)
-        if ($_FILES["fileToUpload"]["size"] > 5000000) {
-            echo "File is too large.";
-            $uploadOk = 0;
-        }
-
-        // Allow certain file formats
-        $allowed = array("jpg", "jpeg", "png", "gif");
-        if (!in_array($imageFileType, $allowed)) {
-            echo "Only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            echo "File was not uploaded.";
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "File uploaded successfully.";
-            } else {
-                echo "Error uploading file.";
-            }
-        }
+    // Check file size (5MB limit)
+    if ($_FILES["resume"]["size"] > 5000000) {
+        echo "File is too large.";
+        exit;
     }
+
+    $allowed_mime = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+    ];
+    if (!in_array($_FILES['resume']['type'], $allowed_mime)) {
+        echo "Invalid file type";
+        exit;
+    }
+
+
+    if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file)) {
+        echo "File uploaded successfully.";
+    } else {
+        echo "Error uploading file.";
+    }
+}
 ?>
 ```
 
