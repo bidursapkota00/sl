@@ -918,9 +918,15 @@ $greet("World"); // Output: Hello, World!
 
 ## Form Handling
 
+**Explain the two HTTP functions to accept the user values from interface with suitable PHP program.**
+
 ### PHP $\_GET
 
 Used to collect form data sent via URL parameters (visible in URL).
+
+The data is appended to the URL like `page.php?name=John&age=25`
+
+Limited data size (URL length limit).
 
 **HTML Form:**
 
@@ -978,6 +984,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') { // 'POST', 'PUT'
 
 Used to collect form data sent via HTTP POST (not visible in URL, more secure).
 
+Ideal for sensitive information (passwords, emails)
+
+Can handle larger amounts of data.
+
 **HTML Form:**
 
 ```html
@@ -1029,7 +1039,7 @@ FILTER_VALIDATE_EMAIL - Ensure it’s a proper email.
 
 ### PHP $\_REQUEST
 
-Contains contents of both $\_GET, $\_POST, and $\_COOKIE.
+Contains contents of both `$_GET`, `$_POST`, and `$_COOKIE`.
 
 ```php
 <?php
