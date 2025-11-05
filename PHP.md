@@ -1335,45 +1335,112 @@ if (isset($_POST['submit'])) {
 
 Sessions store user information on the server across multiple pages.
 
+- `session_start();`
+
+  - Creates a session ID or access session ID from cookie sent by client (like PHPSESSID=abc123...).
+  - Sends it to the browser as a cookie. sent only when a new session is created (i.e., when there’s no valid session cookie from the client).
+  - Creates or resumes a session file on the server `(e.g. /tmp/sess_abc123...)` that stores your `$_SESSION` variables.
+  - initialize `$_SESSION`
+  - After this line, you can access `$_SESSION[...]`.
+
+- `session_unset()`
+
+  - This clears all session variables stored in `$_SESSION`.
+  - Example: if `$_SESSION['user']` existed, it becomes removed.
+  - It does not remove the session itself — it just empties the array.
+
+- `session_destroy()`
+
+  - This destroys the session on the server side.
+  - Removes the session data file from server storage.
+  - But — it does not unset the `$_SESSION` array in the CURRENT script.
+  - And it does not delete the session cookie from browser unless you do it manually.
+  - Also Remove cookie by: `setcookie(session_name(), '', time() - 3600, '/');`
+  - `session_name()` is usually PHPSESSID
+
+- `session_regenerate_id(true);`
+
+  - This explicitly creates a new session ID and forces a new cookie to be sent
+  - true means delete old session
+
+**Creating new Session**
+
 ```php
+// login.php
 <?php
-    // Start session
-    session_start();
+session_start();
 
-    // Set session variables
-    $_SESSION['username'] = "john_doe";
-    $_SESSION['user_id'] = 123;
-    $_SESSION['login_time'] = time();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-    echo "Session started for " . $_SESSION['username'];
+    // Dummy authentication check
+    if ($username == "admin" && $password == "password") {
+        session_regenerate_id(true);
+        $_SESSION["username"] = $username;
+        // Redirect to dashboard
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        echo "Invalid credentials.";
+    }
+}
 ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+    <form method="post" action="login.php">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+
+</html>
 ```
 
 **Accessing session data (another page):**
 
 ```php
+// dashboard.php
 <?php
-    session_start();
-
-    if (isset($_SESSION['username'])) {
-        echo "Welcome back, " . $_SESSION['username'];
-    } else {
-        echo "Please login first.";
-    }
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome</title>
+</head>
+
+<body>
+    <h1>Welcome, <?php echo $_SESSION["username"]; ?>!</h1>
+    <a href="logout.php">Logout</a>
+</body>
+
+</html>
 ```
 
 **Destroying session:**
 
 ```php
+// logout.php
 <?php
-    session_start();
-
-    // Remove specific session variable
-    unset($_SESSION['username']);
-
-    // Destroy all session data
-    session_destroy();
+session_start();
+session_unset();
+session_destroy();
+setcookie(session_name(), '', time() - 3600, '/');
+header("Location: login.php");
+exit();
 ?>
 ```
 
@@ -1383,12 +1450,22 @@ Cookies store data on the client's browser.
 
 ```php
 <?php
-    // Set cookie (name, value, expiration, path, domain, secure, httponly)
-    setcookie("user", "John Doe", time() + (86400 * 30), "/"); // 30 days
+// Set cookie (name, value, expiration, path, domain, secure, httponly)
+setcookie("user", "John Doe", time() + (86400 * 30), "/"); // 30 days
 
-    // Set multiple cookies
-    setcookie("theme", "dark", time() + (86400 * 30), "/");
-    setcookie("language", "en", time() + (86400 * 30), "/");
+// Set multiple cookies
+setcookie("theme", "dark", time() + (86400 * 30), "/");
+setcookie("language", "en", time() + (86400 * 30), "/");
+
+/*
+setcookie("username", $username, [
+    'expires' => time() + (86400 * 30),
+    'path' => '/',
+    'secure' => true,   // Only send over HTTPS
+    'httponly' => true, // JavaScript cannot access the cookie
+    'samesite' => 'Strict' // CSRF protection
+]);
+*/
 ?>
 ```
 
