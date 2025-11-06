@@ -13,9 +13,9 @@
 5. [Form Handling](#form-handling)
 6. [File Operations](#file-operations)
 7. [Sessions and Cookies](#sessions-and-cookies)
-8. [Object-Oriented Programming](#object-oriented-programming)
-9. [Database Operations](#database-operations)
-10. [AJAX](#ajax)
+8. [Database Operations](#database-operations)
+9. [AJAX](#ajax)
+10. [Object-Oriented Programming](#object-oriented-programming)
 
 ---
 
@@ -1513,377 +1513,6 @@ exit();
 ?>
 ```
 
-### Sending Emails
-
-```php
-<?php
-    // Simple email
-    $to = "recipient@example.com";
-    $subject = "Test Email";
-    $message = "This is a test email message.";
-    $headers = "From: sender@example.com";
-
-    if (mail($to, $subject, $message, $headers)) {
-        echo "Email sent successfully";
-    } else {
-        echo "Email sending failed";
-    }
-
-    // HTML email
-    $to = "recipient@example.com";
-    $subject = "HTML Email";
-    $message = "
-    <html>
-    <head>
-        <title>HTML Email</title>
-    </head>
-    <body>
-        <h1>Welcome!</h1>
-        <p>This is an <strong>HTML</strong> email.</p>
-    </body>
-    </html>
-    ";
-
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: sender@example.com" . "\r\n";
-    $headers .= "Cc: cc@example.com" . "\r\n";
-
-    mail($to, $subject, $message, $headers);
-?>
-```
-
----
-
-## Object-Oriented Programming
-
-### Classes and Objects
-
-A class is a template for objects. An object is an instance of a class.
-
-```php
-<?php
-    class Car {
-        // Properties
-        public $brand;
-        public $color;
-        public $year;
-
-        // Method
-        public function displayInfo() {
-            echo "Brand: $this->brand, Color: $this->color, Year: $this->year";
-        }
-    }
-
-    // Creating objects
-    $car1 = new Car();
-    $car1->brand = "Toyota";
-    $car1->color = "Red";
-    $car1->year = 2020;
-    $car1->displayInfo();
-
-    $car2 = new Car();
-    $car2->brand = "Honda";
-    $car2->color = "Blue";
-    $car2->year = 2021;
-    $car2->displayInfo();
-?>
-```
-
-### Constructors and Destructors
-
-```php
-<?php
-    class Person {
-        public $name;
-        public $age;
-
-        // Constructor - called when object is created
-        public function __construct($name, $age) {
-            $this->name = $name;
-            $this->age = $age;
-            echo "Person object created<br>";
-        }
-
-        // Destructor - called when object is destroyed
-        public function __destruct() {
-            echo "Person object destroyed<br>";
-        }
-
-        public function introduce() {
-            echo "Hi, I'm $this->name and I'm $this->age years old.<br>";
-        }
-    }
-
-    $person = new Person("John", 25);
-    $person->introduce();
-    // Destructor called automatically at end of script
-?>
-```
-
-### Encapsulation
-
-Encapsulation hides internal details and controls access through access modifiers.
-
-```php
-<?php
-    class BankAccount {
-        private $balance;  // Private property
-        protected $accountNumber;
-        public $holderName;
-
-        public function __construct($holder, $account, $initialBalance) {
-            $this->holderName = $holder;
-            $this->accountNumber = $account;
-            $this->balance = $initialBalance;
-        }
-
-        // Getter method
-        public function getBalance() {
-            return $this->balance;
-        }
-
-        // Setter method with validation
-        public function deposit($amount) {
-            if ($amount > 0) {
-                $this->balance += $amount;
-                return true;
-            }
-            return false;
-        }
-
-        public function withdraw($amount) {
-            if ($amount > 0 && $amount <= $this->balance) {
-                $this->balance -= $amount;
-                return true;
-            }
-            return false;
-        }
-    }
-
-    $account = new BankAccount("John Doe", "ACC123", 1000);
-    $account->deposit(500);
-    echo "Balance: " . $account->getBalance();  // 1500
-    $account->withdraw(200);
-    echo "Balance: " . $account->getBalance();  // 1300
-?>
-```
-
-### Inheritance
-
-Inheritance allows a class to inherit properties and methods from another class.
-
-```php
-<?php
-    class Animal {
-        public $name;
-        protected $age;
-
-        public function __construct($name, $age) {
-            $this->name = $name;
-            $this->age = $age;
-        }
-
-        public function makeSound() {
-            echo "Some generic sound<br>";
-        }
-
-        public function getAge() {
-            return $this->age;
-        }
-    }
-
-    class Dog extends Animal {
-        public $breed;
-
-        public function __construct($name, $age, $breed) {
-            parent::__construct($name, $age);  // Call parent constructor
-            $this->breed = $breed;
-        }
-
-        // Method overriding
-        public function makeSound() {
-            echo "Woof! Woof!<br>";
-        }
-
-        public function fetch() {
-            echo "$this->name is fetching the ball<br>";
-        }
-    }
-
-    class Cat extends Animal {
-        public function makeSound() {
-            echo "Meow!<br>";
-        }
-    }
-
-    $dog = new Dog("Buddy", 3, "Labrador");
-    $dog->makeSound();  // Woof! Woof!
-    $dog->fetch();
-    echo "Age: " . $dog->getAge();
-
-    $cat = new Cat("Whiskers", 2);
-    $cat->makeSound();  // Meow!
-?>
-```
-
-### Polymorphism
-
-Polymorphism allows objects of different classes to be treated as objects of a common parent class.
-
-```php
-<?php
-    abstract class Shape {
-        protected $name;
-
-        public function __construct($name) {
-            $this->name = $name;
-        }
-
-        // Abstract method - must be implemented by child classes
-        abstract public function calculateArea();
-
-        public function display() {
-            echo "Shape: $this->name<br>";
-            echo "Area: " . $this->calculateArea() . "<br>";
-        }
-    }
-
-    class Circle extends Shape {
-        private $radius;
-
-        public function __construct($radius) {
-            parent::__construct("Circle");
-            $this->radius = $radius;
-        }
-
-        public function calculateArea() {
-            return pi() * $this->radius * $this->radius;
-        }
-    }
-
-    class Rectangle extends Shape {
-        private $width;
-        private $height;
-
-        public function __construct($width, $height) {
-            parent::__construct("Rectangle");
-            $this->width = $width;
-            $this->height = $height;
-        }
-
-        public function calculateArea() {
-            return $this->width * $this->height;
-        }
-    }
-
-    // Polymorphism in action
-    $shapes = [
-        new Circle(5),
-        new Rectangle(4, 6),
-        new Circle(3)
-    ];
-
-    foreach ($shapes as $shape) {
-        $shape->display();
-        echo "<br>";
-    }
-?>
-```
-
-### Static Members
-
-Static properties and methods belong to the class itself, not to objects.
-
-```php
-<?php
-    class Counter {
-        public static $count = 0;
-        public $instanceCount = 0;
-
-        public function __construct() {
-            self::$count++;  // Access static property
-            $this->instanceCount++;
-        }
-
-        public static function getCount() {
-            return self::$count;
-        }
-
-        public static function reset() {
-            self::$count = 0;
-        }
-    }
-
-    $obj1 = new Counter();
-    $obj2 = new Counter();
-    $obj3 = new Counter();
-
-    echo "Total objects created: " . Counter::getCount();  // 3
-    echo "Instance count: " . $obj1->instanceCount;  // 1
-
-    Counter::reset();
-    echo "After reset: " . Counter::$count;  // 0
-?>
-```
-
-### Exception Handling
-
-Exception handling manages runtime errors gracefully.
-
-```php
-<?php
-    // Basic exception handling
-    function divide($a, $b) {
-        if ($b == 0) {
-            throw new Exception("Division by zero error");
-        }
-        return $a / $b;
-    }
-
-    try {
-        echo divide(10, 2) . "<br>";  // 5
-        echo divide(10, 0) . "<br>";  // Throws exception
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage() . "<br>";
-    } finally {
-        echo "Execution completed<br>";
-    }
-
-    // Custom exception class
-    class InvalidAgeException extends Exception {
-        public function errorMessage() {
-            return "Error: Age must be between 18 and 100. You entered: " . $this->getMessage();
-        }
-    }
-
-    function checkAge($age) {
-        if ($age < 18 || $age > 100) {
-            throw new InvalidAgeException($age);
-        }
-        return "Valid age: $age";
-    }
-
-    try {
-        echo checkAge(25) . "<br>";
-        echo checkAge(150) . "<br>";
-    } catch (InvalidAgeException $e) {
-        echo $e->errorMessage();
-    } catch (Exception $e) {
-        echo "General error: " . $e->getMessage();
-    }
-
-    // Multiple catch blocks
-    try {
-        // Some code
-    } catch (InvalidAgeException $e) {
-        // Handle specific exception
-    } catch (Exception $e) {
-        // Handle general exception
-    }
-?>
-```
-
 ---
 
 ## Database Operations
@@ -1902,6 +1531,7 @@ MySQL is a popular relational database management system. PHP can interact with 
 ### PHP MySQL Connect to Database
 
 ```php
+// db.php
 <?php
     // Database credentials
     $servername = "localhost";
@@ -1917,109 +1547,6 @@ MySQL is a popular relational database management system. PHP can interact with 
         die("Connection failed: " . mysqli_connect_error());
     }
     echo "Connected successfully<br>";
-
-    // Using MySQLi (object-oriented)
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully<br>";
-
-    // Using PDO (PHP Data Objects)
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully<br>";
-    } catch(PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
-?>
-```
-
-### Database Operations (CRUD)
-
-```php
-<?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "mydb";
-
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    // CREATE - Insert data
-    $sql = "INSERT INTO users (name, email, age) VALUES ('John Doe', 'john@example.com', 25)";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully<br>";
-        echo "Last inserted ID: " . $conn->insert_id . "<br>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    // Prepared statements (secure way to insert data)
-    $stmt = $conn->prepare("INSERT INTO users (name, email, age) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $name, $email, $age);
-
-    $name = "Jane Smith";
-    $email = "jane@example.com";
-    $age = 28;
-    $stmt->execute();
-
-    echo "Record inserted successfully<br>";
-    $stmt->close();
-
-    // READ - Select data
-    $sql = "SELECT id, name, email, age FROM users";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "ID: " . $row["id"] . " - Name: " . $row["name"] . " - Email: " . $row["email"] . "<br>";
-        }
-    } else {
-        echo "0 results";
-    }
-
-    // UPDATE - Modify data
-    $sql = "UPDATE users SET age=30 WHERE name='John Doe'";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully<br>";
-        echo "Rows affected: " . $conn->affected_rows . "<br>";
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
-
-    // DELETE - Remove data
-    $sql = "DELETE FROM users WHERE id=1";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Record deleted successfully<br>";
-    } else {
-        echo "Error deleting record: " . $conn->error;
-    }
-
-    // Using PDO for database operations
-    try {
-        $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Insert with PDO
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, age) VALUES (:name, :email, :age)");
-        $stmt->execute(['name' => 'Bob', 'email' => 'bob@example.com', 'age' => 32]);
-
-        // Select with PDO
-        $stmt = $pdo->query("SELECT * FROM users");
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($users as $user) {
-            echo $user['name'] . " - " . $user['email'] . "<br>";
-        }
-    } catch(PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
 ?>
 ```
 
@@ -2030,67 +1557,212 @@ MySQL is a popular relational database management system. PHP can interact with 
     // MySQLi (procedural)
     mysqli_close($conn);
 
-    // MySQLi (object-oriented)
-    $conn->close();
-
-    // PDO
-    $conn = null;
-
     echo "Connection closed successfully";
 ?>
 ```
 
-**Complete Database Example:**
+**Old Question:**
+
+**Write PHP function that accepts username and password as arguments and check with student table, if credential match, redirect to dashboard page otherwise display 'Invalid username/password'.**
+
+**Create db.php**
 
 ```php
 <?php
-    class Database {
-        private $host = "localhost";
-        private $username = "root";
-        private $password = "";
-        private $database = "mydb";
-        private $conn;
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$password = "";
+$database = "mydb";
 
-        public function __construct() {
-            $this->connect();
-        }
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $password, $database);
 
-        private function connect() {
-            try {
-                $this->conn = new PDO(
-                    "mysql:host=$this->host;dbname=$this->database",
-                    $this->username,
-                    $this->password
-                );
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch(PDOException $e) {
-                die("Connection failed: " . $e->getMessage());
-            }
-        }
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
 
-        public function getUsers() {
-            $stmt = $this->conn->query("SELECT * FROM users");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+**Create signup.php**
 
-        public function addUser($name, $email, $age) {
-            $stmt = $this->conn->prepare("INSERT INTO users (name, email, age) VALUES (?, ?, ?)");
-            return $stmt->execute([$name, $email, $age]);
-        }
+**Database Requirements:**
+The student table should have these columns:
 
-        public function __destruct() {
-            $this->conn = null;
-        }
+- username (VARCHAR, UNIQUE)
+- password (VARCHAR, at least 255 characters for hashed passwords)
+- fullname (VARCHAR)
+
+```php
+<?php
+require "db.php";
+session_start();
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $fullname = $_POST["fullname"];
+
+    // Check if username already exists
+    $checkSql = "SELECT * FROM student WHERE username = '$username'";
+    $checkResult = mysqli_query($conn, $checkSql);
+
+    if (mysqli_num_rows($checkResult) > 0) {
+        mysqli_close($conn);
+        echo "Username already exists. Please choose a different username.";
+        return;
     }
 
-    // Usage
-    $db = new Database();
-    $db->addUser("Alice", "alice@example.com", 27);
-    $users = $db->getUsers();
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    foreach ($users as $user) {
-        echo $user['name'] . "<br>";
+    // Insert new student
+    $insertSql = "INSERT INTO student (username, password, fullname) VALUES ('$username', '$hashedPassword', '$fullname')";
+
+    if (mysqli_query($conn, $insertSql)) {
+        // Registration successful
+        mysqli_close($conn);
+
+        // Redirect to dashboard
+        header("Location: login.php");
+        exit();
+    } else {
+        // Registration failed
+        mysqli_close($conn);
+        echo "Registration failed. Please try again.";
     }
+}
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <h2>Create an Account</h2>
+    <form method="post" action="signup.php">
+        Full Name: <input type="text" name="fullname" required><br><br>
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Sign Up">
+    </form>
+    <br>
+    <p>Already have an account? <a href="login.php">Login here</a></p>
+</body>
+
+</html>
+```
+
+**Create login.php**
+
+```php
+<?php
+session_start();
+
+function authenticateStudent($username, $password)
+{
+    require "db.php";
+    $sql = "SELECT * FROM student WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
+
+    // Check if user exists
+    if (mysqli_num_rows($result) > 0) {
+        // Get student from db
+        $student = mysqli_fetch_assoc($result);
+
+        // Verify the password against the hashed password
+        if (password_verify($password, $student['password'])) {
+            // Credentials are valid
+            $_SESSION["username"] = $username;
+
+            // Close connection
+            mysqli_close($conn);
+
+            // Redirect to dashboard
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            // Invalid password
+            mysqli_close($conn);
+            echo "Invalid username/password";
+        }
+    } else {
+        // Invalid username
+        mysqli_close($conn);
+        echo "Invalid username/password";
+    }
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    authenticateStudent($username, $password);
+}
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+    <form method="post" action="login.php">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <br>
+    <p>Don't have an account? <a href="signup.php">Signup here</a></p>
+</body>
+
+</html>
+```
+
+**Create dashboard.php**
+
+```php
+<?php
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome</title>
+</head>
+
+<body>
+    <h1>Welcome, <?php echo $_SESSION["username"]; ?>!</h1>
+    <a href="logout.php">Logout</a>
+</body>
+
+</html>
+```
+
+**Create logout.php**
+
+```php
+<?php
+session_start();
+session_unset();
+session_destroy();
+setcookie(session_name(), '', [
+    'expires' => time() - 3600,
+    'path' => '/',
+]);
+header("Location: login.php");
+exit();
 ?>
 ```
 
@@ -2591,5 +2263,336 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
     }
 
     set_error_handler("customError");
+?>
+```
+
+---
+
+## Object-Oriented Programming
+
+### Classes and Objects
+
+A class is a template for objects. An object is an instance of a class.
+
+```php
+<?php
+    class Car {
+        // Properties
+        public $brand;
+        public $color;
+        public $year;
+
+        // Method
+        public function displayInfo() {
+            echo "Brand: $this->brand, Color: $this->color, Year: $this->year";
+        }
+    }
+
+    // Creating objects
+    $car1 = new Car();
+    $car1->brand = "Toyota";
+    $car1->color = "Red";
+    $car1->year = 2020;
+    $car1->displayInfo();
+
+    $car2 = new Car();
+    $car2->brand = "Honda";
+    $car2->color = "Blue";
+    $car2->year = 2021;
+    $car2->displayInfo();
+?>
+```
+
+### Constructors and Destructors
+
+```php
+<?php
+    class Person {
+        public $name;
+        public $age;
+
+        // Constructor - called when object is created
+        public function __construct($name, $age) {
+            $this->name = $name;
+            $this->age = $age;
+            echo "Person object created<br>";
+        }
+
+        // Destructor - called when object is destroyed
+        public function __destruct() {
+            echo "Person object destroyed<br>";
+        }
+
+        public function introduce() {
+            echo "Hi, I'm $this->name and I'm $this->age years old.<br>";
+        }
+    }
+
+    $person = new Person("John", 25);
+    $person->introduce();
+    // Destructor called automatically at end of script
+?>
+```
+
+### Encapsulation
+
+Encapsulation hides internal details and controls access through access modifiers.
+
+```php
+<?php
+    class BankAccount {
+        private $balance;  // Private property
+        protected $accountNumber;
+        public $holderName;
+
+        public function __construct($holder, $account, $initialBalance) {
+            $this->holderName = $holder;
+            $this->accountNumber = $account;
+            $this->balance = $initialBalance;
+        }
+
+        // Getter method
+        public function getBalance() {
+            return $this->balance;
+        }
+
+        // Setter method with validation
+        public function deposit($amount) {
+            if ($amount > 0) {
+                $this->balance += $amount;
+                return true;
+            }
+            return false;
+        }
+
+        public function withdraw($amount) {
+            if ($amount > 0 && $amount <= $this->balance) {
+                $this->balance -= $amount;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    $account = new BankAccount("John Doe", "ACC123", 1000);
+    $account->deposit(500);
+    echo "Balance: " . $account->getBalance();  // 1500
+    $account->withdraw(200);
+    echo "Balance: " . $account->getBalance();  // 1300
+?>
+```
+
+### Inheritance
+
+Inheritance allows a class to inherit properties and methods from another class.
+
+```php
+<?php
+    class Animal {
+        public $name;
+        protected $age;
+
+        public function __construct($name, $age) {
+            $this->name = $name;
+            $this->age = $age;
+        }
+
+        public function makeSound() {
+            echo "Some generic sound<br>";
+        }
+
+        public function getAge() {
+            return $this->age;
+        }
+    }
+
+    class Dog extends Animal {
+        public $breed;
+
+        public function __construct($name, $age, $breed) {
+            parent::__construct($name, $age);  // Call parent constructor
+            $this->breed = $breed;
+        }
+
+        // Method overriding
+        public function makeSound() {
+            echo "Woof! Woof!<br>";
+        }
+
+        public function fetch() {
+            echo "$this->name is fetching the ball<br>";
+        }
+    }
+
+    class Cat extends Animal {
+        public function makeSound() {
+            echo "Meow!<br>";
+        }
+    }
+
+    $dog = new Dog("Buddy", 3, "Labrador");
+    $dog->makeSound();  // Woof! Woof!
+    $dog->fetch();
+    echo "Age: " . $dog->getAge();
+
+    $cat = new Cat("Whiskers", 2);
+    $cat->makeSound();  // Meow!
+?>
+```
+
+### Polymorphism
+
+Polymorphism allows objects of different classes to be treated as objects of a common parent class.
+
+```php
+<?php
+    abstract class Shape {
+        protected $name;
+
+        public function __construct($name) {
+            $this->name = $name;
+        }
+
+        // Abstract method - must be implemented by child classes
+        abstract public function calculateArea();
+
+        public function display() {
+            echo "Shape: $this->name<br>";
+            echo "Area: " . $this->calculateArea() . "<br>";
+        }
+    }
+
+    class Circle extends Shape {
+        private $radius;
+
+        public function __construct($radius) {
+            parent::__construct("Circle");
+            $this->radius = $radius;
+        }
+
+        public function calculateArea() {
+            return pi() * $this->radius * $this->radius;
+        }
+    }
+
+    class Rectangle extends Shape {
+        private $width;
+        private $height;
+
+        public function __construct($width, $height) {
+            parent::__construct("Rectangle");
+            $this->width = $width;
+            $this->height = $height;
+        }
+
+        public function calculateArea() {
+            return $this->width * $this->height;
+        }
+    }
+
+    // Polymorphism in action
+    $shapes = [
+        new Circle(5),
+        new Rectangle(4, 6),
+        new Circle(3)
+    ];
+
+    foreach ($shapes as $shape) {
+        $shape->display();
+        echo "<br>";
+    }
+?>
+```
+
+### Static Members
+
+Static properties and methods belong to the class itself, not to objects.
+
+```php
+<?php
+    class Counter {
+        public static $count = 0;
+        public $instanceCount = 0;
+
+        public function __construct() {
+            self::$count++;  // Access static property
+            $this->instanceCount++;
+        }
+
+        public static function getCount() {
+            return self::$count;
+        }
+
+        public static function reset() {
+            self::$count = 0;
+        }
+    }
+
+    $obj1 = new Counter();
+    $obj2 = new Counter();
+    $obj3 = new Counter();
+
+    echo "Total objects created: " . Counter::getCount();  // 3
+    echo "Instance count: " . $obj1->instanceCount;  // 1
+
+    Counter::reset();
+    echo "After reset: " . Counter::$count;  // 0
+?>
+```
+
+### Exception Handling
+
+Exception handling manages runtime errors gracefully.
+
+```php
+<?php
+    // Basic exception handling
+    function divide($a, $b) {
+        if ($b == 0) {
+            throw new Exception("Division by zero error");
+        }
+        return $a / $b;
+    }
+
+    try {
+        echo divide(10, 2) . "<br>";  // 5
+        echo divide(10, 0) . "<br>";  // Throws exception
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
+    } finally {
+        echo "Execution completed<br>";
+    }
+
+    // Custom exception class
+    class InvalidAgeException extends Exception {
+        public function errorMessage() {
+            return "Error: Age must be between 18 and 100. You entered: " . $this->getMessage();
+        }
+    }
+
+    function checkAge($age) {
+        if ($age < 18 || $age > 100) {
+            throw new InvalidAgeException($age);
+        }
+        return "Valid age: $age";
+    }
+
+    try {
+        echo checkAge(25) . "<br>";
+        echo checkAge(150) . "<br>";
+    } catch (InvalidAgeException $e) {
+        echo $e->errorMessage();
+    } catch (Exception $e) {
+        echo "General error: " . $e->getMessage();
+    }
+
+    // Multiple catch blocks
+    try {
+        // Some code
+    } catch (InvalidAgeException $e) {
+        // Handle specific exception
+    } catch (Exception $e) {
+        // Handle general exception
+    }
 ?>
 ```
