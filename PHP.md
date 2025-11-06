@@ -1331,7 +1331,74 @@ if (isset($_POST['submit'])) {
 
 ## Sessions and Cookies
 
+### PHP Cookies
+
+Cookies store data on the client's browser.
+
+```php
+<?php
+setcookie("user", "John Doe", [
+    'expires' => time() + (86400 * 30), // 30 days
+    'path' => '/',
+]);
+
+// Set multiple cookies
+setcookie("theme", "dark", [
+    'expires' => time() + (86400 * 30), // 30 days
+    'path' => '/',
+]);
+setcookie("language", "en", [
+    'expires' => time() + (86400 * 30), // 30 days
+    'path' => '/',
+]);
+
+/*
+setcookie("username", $username, [
+    'expires' => time() + (86400 * 30),
+    'path' => '/',
+    'domain' => '.example.com',  // not required on localhost
+    'secure' => true,   // Only send over HTTPS
+    'httponly' => true, // JavaScript cannot access the cookie
+    'samesite' => 'Strict' // CSRF protection
+]);
+*/
+?>
+```
+
+**Accessing cookies:**
+
+```php
+<?php
+    if (isset($_COOKIE['user'])) {
+        echo "Welcome " . $_COOKIE['user'];
+    } else {
+        echo "Cookie not set.";
+    }
+
+    // Display all cookies
+    foreach ($_COOKIE as $key => $value) {
+        echo "$key: $value<br>";
+    }
+?>
+```
+
+**Deleting cookies:**
+
+```php
+<?php
+    // Set expiration to past time
+    setcookie("user", "", [
+    'expires' => time() - 3600,
+    'path' => '/',
+]);
+?>
+```
+
 ### PHP Sessions
+
+**Old Question:**
+
+**How to create, store, access and destroy session in PHP?**
 
 Sessions store user information on the server across multiple pages.
 
@@ -1376,7 +1443,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Dummy authentication check
     if ($username == "admin" && $password == "password") {
-        session_regenerate_id(true);
         $_SESSION["username"] = $username;
         // Redirect to dashboard
         header("Location: dashboard.php");
@@ -1438,60 +1504,12 @@ if (!isset($_SESSION["username"])) {
 session_start();
 session_unset();
 session_destroy();
-setcookie(session_name(), '', time() - 3600, '/');
+setcookie(session_name(), '', [
+    'expires' => time() - 3600,
+    'path' => '/',
+]);
 header("Location: login.php");
 exit();
-?>
-```
-
-### PHP Cookies
-
-Cookies store data on the client's browser.
-
-```php
-<?php
-// Set cookie (name, value, expiration, path, domain, secure, httponly)
-setcookie("user", "John Doe", time() + (86400 * 30), "/"); // 30 days
-
-// Set multiple cookies
-setcookie("theme", "dark", time() + (86400 * 30), "/");
-setcookie("language", "en", time() + (86400 * 30), "/");
-
-/*
-setcookie("username", $username, [
-    'expires' => time() + (86400 * 30),
-    'path' => '/',
-    'secure' => true,   // Only send over HTTPS
-    'httponly' => true, // JavaScript cannot access the cookie
-    'samesite' => 'Strict' // CSRF protection
-]);
-*/
-?>
-```
-
-**Accessing cookies:**
-
-```php
-<?php
-    if (isset($_COOKIE['user'])) {
-        echo "Welcome " . $_COOKIE['user'];
-    } else {
-        echo "Cookie not set.";
-    }
-
-    // Display all cookies
-    foreach ($_COOKIE as $key => $value) {
-        echo "$key: $value<br>";
-    }
-?>
-```
-
-**Deleting cookies:**
-
-```php
-<?php
-    // Set expiration to past time
-    setcookie("user", "", time() - 3600, "/");
 ?>
 ```
 
