@@ -917,7 +917,7 @@ Limited data size (URL length limit).
 
 ```html
 <form action="process.php" method="GET">
-  Name: <input type="text" name="username" />
+  Name: <input id="username" type="text" name="username" />
   <input type="submit" value="Submit" />
 </form>
 ```
@@ -937,6 +937,43 @@ echo "Welcome, $name";
 ?>
 ```
 
+### Restricting Request Methods
+
+```php
+<?php
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') { // 'POST', 'PUT'
+    http_response_code(405); // Method Not Allowed
+    echo "Request Not Supported";
+    exit;
+}
+?>
+```
+
+### Integrating Client side Validation
+
+- Add `onsubmit="return validate();` on form
+- Add validation script at last just before `</body>`
+
+```html
+<body>
+  <!-- // .... -->
+  <form action="process.php" method="GET" onsubmit="return validate();">
+    <!-- // .... -->
+  </form>
+  <!-- // .... -->
+  <script>
+    function validate() {
+      const name = document.getElementById("username").value;
+      if (name.trim() == "") {
+        alert("Username is required");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+```
+
 ### Black Magic
 
 In username input type this and submit
@@ -951,18 +988,6 @@ This is called XSS (cross site scripting)
 
 ```php
 echo "Welcome, " . htmlspecialchars($name);
-```
-
-### Restricting Request Methods
-
-```php
-<?php
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') { // 'POST', 'PUT'
-    http_response_code(405); // Method Not Allowed
-    echo "Request Not Supported";
-    exit;
-}
-?>
 ```
 
 ### PHP $\_POST
