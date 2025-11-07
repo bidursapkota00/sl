@@ -1485,7 +1485,7 @@ if (!isset($_SESSION["username"])) {
 <html>
 
 <head>
-    <title>Welcome</title>
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -1533,21 +1533,20 @@ MySQL is a popular relational database management system. PHP can interact with 
 ```php
 // db.php
 <?php
-    // Database credentials
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "mydb";
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
 
-    // Create connection using MySQLi (procedural)
-    $conn = mysqli_connect($servername, $username, $password, $database);
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
 
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    echo "Connected successfully<br>";
-?>
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
 ```
 
 ### Closing a Connection
@@ -1572,11 +1571,11 @@ MySQL is a popular relational database management system. PHP can interact with 
 // Database credentials
 $servername = "localhost";
 $dbusername = "root";
-$password = "";
-$database = "mydb";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
 
 // Create connection using MySQLi (procedural)
-$conn = mysqli_connect($servername, $dbusername, $password, $database);
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
 
 // Check connection
 if (!$conn) {
@@ -1625,7 +1624,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Registration successful
         mysqli_close($conn);
 
-        // Redirect to dashboard
+        // Redirect to login
         header("Location: login.php");
         exit();
     } else {
@@ -1739,7 +1738,7 @@ if (!isset($_SESSION["username"])) {
 <html>
 
 <head>
-    <title>Welcome</title>
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -1763,7 +1762,6 @@ setcookie(session_name(), '', [
 ]);
 header("Location: login.php");
 exit();
-?>
 ```
 
 ---
