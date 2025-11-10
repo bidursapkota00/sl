@@ -1295,6 +1295,9 @@ $file = fopen("data.csv", "r");
 
 if ($file) {
     while (($line = fgets($file)) !== false) {
+        if ($line == "name,age,city\n") {
+            continue;
+        }
         $words = explode(',', $line);
         echo "<tr>";
         foreach ($words as $word) {
@@ -1337,9 +1340,14 @@ That is why it's named multi-part
 ```php
 <?php
 if (isset($_POST['submit'])) {
+    if ($_FILES['resume']['name'] === "") {
+        echo "Please select a file";
+        exit;
+    }
+
     $target_dir = "uploads/";    // uploads directory should already exist
-    $target_file = $target_dir . $_FILES["resume"]["name"];
-    // basename($path) to remove c://folder/image.png to image.png (older browser)
+    $target_file_path = $target_dir . $_FILES["resume"]["name"];
+    // basename($path) to convert c://folder/image.png to image.png (older browser)
 
     // Check file size (5MB limit)
     if ($_FILES["resume"]["size"] > 5000000) {
@@ -1358,13 +1366,12 @@ if (isset($_POST['submit'])) {
     }
 
 
-    if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file)) {
+    if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file_path)) {
         echo "File uploaded successfully.";
     } else {
         echo "Error uploading file.";
     }
 }
-?>
 ```
 
 ---
@@ -1464,11 +1471,6 @@ Sessions store user information on the server across multiple pages.
   - And it does not delete the session cookie from browser unless you do it manually.
   - Also Remove cookie by: `setcookie(session_name(), '', time() - 3600, '/');`
   - `session_name()` is usually PHPSESSID
-
-- `session_regenerate_id(true);`
-
-  - This explicitly creates a new session ID and forces a new cookie to be sent
-  - true means delete old session
 
 **Creating new Session**
 
