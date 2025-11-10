@@ -42,6 +42,10 @@ Runner.prototype.gameOver = function () {};
 
 ---
 
+---
+
+---
+
 ## PHP Basics
 
 **PHP (Hypertext Preprocessor)** is a popular open-source server-side scripting language designed for web development.
@@ -524,6 +528,119 @@ var_dump($result);
 ?>
 ```
 
+### PHP Date Function
+
+**date(format, timestamp)**
+
+| Argument                 | Meaning                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| `format`                 | String that defines how the date should look. (Eg: `"Y-m-d"`) |
+| `timestamp` _(optional)_ | Unix timestamp number. If not given → PHP uses current time   |
+
+| Symbol      | Meaning                  | Example |
+| ----------- | ------------------------ | ------- |
+| Y           | 4-digit year             | 2025    |
+| m           | 2-digit month            | 11      |
+| d           | 2-digit day              | 05      |
+| H           | hour (00-23)             | 14      |
+| i           | minutes                  | 30      |
+| s           | seconds                  | 45      |
+| h           | hour (01-12)             | 02      |
+| A           | AM / PM                  | PM      |
+| l (lower L) | full weekday name        | Friday  |
+| F           | full month name          | March   |
+| j           | day without leading zero | 5       |
+
+**time()**
+
+| Function | Meaning                                                      |
+| -------- | ------------------------------------------------------------ |
+| `time()` | returns current Unix timestamp (seconds from 1 Jan 1970 UTC) |
+
+**mktime(hour, minute, second, month, day, year)**
+
+| Arg    | Meaning      |
+| ------ | ------------ |
+| hour   | 0–23         |
+| minute | 0–59         |
+| second | 0–59         |
+| month  | 1–12         |
+| day    | 1–31         |
+| year   | 4-digit year |
+
+**strtotime(string, base_timestamp?)**
+
+| Argument                      | Meaning                                                     |
+| ----------------------------- | ----------------------------------------------------------- |
+| `string`                      | human-readable date expression → PHP converts to timestamp. |
+| `base_timestamp` _(optional)_ | default = `time()` (now)                                    |
+
+Examples of valid strings:
+
+| Example string  | Meaning                 |
+| --------------- | ----------------------- |
+| `"next Monday"` | next coming Monday date |
+| `"+1 week"`     | adds 7 days             |
+| `"2024-03-15"`  | specific date           |
+| `"+2 months"`   | 2 months ahead          |
+
+```php
+<?php
+// Current date and time
+echo date("Y-m-d H:i:s") . '<br>';  // 2024-03-15 14:30:45
+
+// Different formats
+echo date("d/m/Y") . '<br>';        // 15/03/2024
+echo date("l, F j, Y") . '<br>';    // Friday, March 15, 2024
+echo date("h:i A") . '<br>';        // 02:30 PM
+
+// Timestamp
+$timestamp = time();
+echo $timestamp . '<br>';    // 1762324996
+echo date("Y-m-d", $timestamp) . '<br>';    // 2025-11-05
+
+// Custom date
+$date = mktime(12, 30, 0, 3, 15, 2024);
+echo date("Y-m-d H:i:s", $date) . '<br>';    // 2024-03-15 12:30:00
+
+// strtotime function
+echo date("Y-m-d", strtotime("next Monday")) . '<br>';    // 2025-11-10
+echo date("Y-m-d", strtotime("+1 week")) . '<br>';    // 2025-11-12
+?>
+```
+
+### PHP Include File
+
+Includes and evaluates the specified file.
+
+**header.php:**
+
+```php
+<?php
+    echo "<h1>Website Header</h1>";
+    echo "<nav>Navigation Menu</nav>";
+?>
+```
+
+**index.php:**
+
+```php
+<?php
+    include 'header.php';  // Includes file, continues on error
+    // or
+    require 'header.php';  // Includes file, stops on error
+
+    echo "<p>Main content</p>";
+
+    include_once 'header.php';  // Includes only once
+    require_once 'header.php';  // Requires only once
+?>
+```
+
+---
+
+---
+
 ---
 
 ## Control Structures
@@ -625,6 +742,10 @@ foreach ($colors as $color) {
 }
 ?>
 ```
+
+---
+
+---
 
 ---
 
@@ -901,6 +1022,10 @@ $greet("World"); // Output: Hello, World!
 
 ---
 
+---
+
+---
+
 ## Form Handling
 
 **Explain the two HTTP functions to accept the user values from interface with suitable PHP program.**
@@ -1060,114 +1185,9 @@ Contains contents of both `$_GET`, `$_POST`, and `$_COOKIE`.
 ?>
 ```
 
-### PHP Date Function
+---
 
-**date(format, timestamp)**
-
-| Argument                 | Meaning                                                       |
-| ------------------------ | ------------------------------------------------------------- |
-| `format`                 | String that defines how the date should look. (Eg: `"Y-m-d"`) |
-| `timestamp` _(optional)_ | Unix timestamp number. If not given → PHP uses current time   |
-
-| Symbol      | Meaning                  | Example |
-| ----------- | ------------------------ | ------- |
-| Y           | 4-digit year             | 2025    |
-| m           | 2-digit month            | 11      |
-| d           | 2-digit day              | 05      |
-| H           | hour (00-23)             | 14      |
-| i           | minutes                  | 30      |
-| s           | seconds                  | 45      |
-| h           | hour (01-12)             | 02      |
-| A           | AM / PM                  | PM      |
-| l (lower L) | full weekday name        | Friday  |
-| F           | full month name          | March   |
-| j           | day without leading zero | 5       |
-
-**time()**
-
-| Function | Meaning                                                      |
-| -------- | ------------------------------------------------------------ |
-| `time()` | returns current Unix timestamp (seconds from 1 Jan 1970 UTC) |
-
-**mktime(hour, minute, second, month, day, year)**
-
-| Arg    | Meaning      |
-| ------ | ------------ |
-| hour   | 0–23         |
-| minute | 0–59         |
-| second | 0–59         |
-| month  | 1–12         |
-| day    | 1–31         |
-| year   | 4-digit year |
-
-**strtotime(string, base_timestamp?)**
-
-| Argument                      | Meaning                                                     |
-| ----------------------------- | ----------------------------------------------------------- |
-| `string`                      | human-readable date expression → PHP converts to timestamp. |
-| `base_timestamp` _(optional)_ | default = `time()` (now)                                    |
-
-Examples of valid strings:
-
-| Example string  | Meaning                 |
-| --------------- | ----------------------- |
-| `"next Monday"` | next coming Monday date |
-| `"+1 week"`     | adds 7 days             |
-| `"2024-03-15"`  | specific date           |
-| `"+2 months"`   | 2 months ahead          |
-
-```php
-<?php
-// Current date and time
-echo date("Y-m-d H:i:s") . '<br>';  // 2024-03-15 14:30:45
-
-// Different formats
-echo date("d/m/Y") . '<br>';        // 15/03/2024
-echo date("l, F j, Y") . '<br>';    // Friday, March 15, 2024
-echo date("h:i A") . '<br>';        // 02:30 PM
-
-// Timestamp
-$timestamp = time();
-echo $timestamp . '<br>';    // 1762324996
-echo date("Y-m-d", $timestamp) . '<br>';    // 2025-11-05
-
-// Custom date
-$date = mktime(12, 30, 0, 3, 15, 2024);
-echo date("Y-m-d H:i:s", $date) . '<br>';    // 2024-03-15 12:30:00
-
-// strtotime function
-echo date("Y-m-d", strtotime("next Monday")) . '<br>';    // 2025-11-10
-echo date("Y-m-d", strtotime("+1 week")) . '<br>';    // 2025-11-12
-?>
-```
-
-### PHP Include File
-
-Includes and evaluates the specified file.
-
-**header.php:**
-
-```php
-<?php
-    echo "<h1>Website Header</h1>";
-    echo "<nav>Navigation Menu</nav>";
-?>
-```
-
-**index.php:**
-
-```php
-<?php
-    include 'header.php';  // Includes file, continues on error
-    // or
-    require 'header.php';  // Includes file, stops on error
-
-    echo "<p>Main content</p>";
-
-    include_once 'header.php';  // Includes only once
-    require_once 'header.php';  // Requires only once
-?>
-```
+---
 
 ---
 
@@ -1376,6 +1396,10 @@ if (isset($_POST['submit'])) {
 
 ---
 
+---
+
+---
+
 ## Sessions and Cookies
 
 ### PHP Cookies
@@ -1554,6 +1578,10 @@ header("Location: login.php");
 exit();
 ?>
 ```
+
+---
+
+---
 
 ---
 
@@ -1805,6 +1833,10 @@ setcookie(session_name(), '', [
 header("Location: login.php");
 exit();
 ```
+
+---
+
+---
 
 ---
 
@@ -2305,6 +2337,10 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
     set_error_handler("customError");
 ?>
 ```
+
+---
+
+---
 
 ---
 
