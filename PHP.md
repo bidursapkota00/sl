@@ -1834,6 +1834,276 @@ header("Location: login.php");
 exit();
 ```
 
+**Old Question:**
+
+**Write server side script to create and validate form with following rule and store given data into 'patients' table with details (name, patient_id, mobile, gender, address, dob, doctor name):**
+**1. Name, Mobile, doctor name, gender, dob: Required**
+**2. Mobile: 10 digit start with 98, 97 or 96**
+**3. DOB: YYYY-MM-DD format**
+
+**Create db.php**
+
+```php
+<?php
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
+
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
+
+**Create patients table in database**
+
+```sql
+CREATE TABLE patients (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+patient_id VARCHAR(50),
+mobile VARCHAR(10) NOT NULL,
+gender VARCHAR(10) NOT NULL,
+address TEXT,
+dob DATE NOT NULL,
+doctor_name VARCHAR(100) NOT NULL
+);
+```
+
+**Create Form**
+`index.php`
+
+```php
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="test1.php" method="post">
+        Name: <input type="text" name="name"><br><br>
+        Patient ID: <input type="text" name="patient_id"><br><br>
+        Mobile: <input type="text" name="mobile"><br><br>
+
+        Gender:
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <input type="radio" name="gender" value="Other"> Other
+        <br><br>
+
+        Address: <input type="text" name="address"><br><br>
+
+        Date of Birth: <input type="text" name="dob" placeholder="YYYY-MM-DD"><br><br>
+
+        Doctor Name: <input type="text" name="doctor_name"><br><br>
+
+        <button type="submit">Register Patient</button>
+    </form>
+</body>
+
+</html>
+```
+
+**Add validation and database functionality**
+
+```php
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['name'] ?? '');
+    $patient_id = trim($_POST['patient_id'] ?? '');
+    $mobile = trim($_POST['mobile'] ?? '');
+    $gender = trim($_POST['gender'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $dob = trim($_POST['dob'] ?? '');
+    $doctor_name = trim($_POST['doctor_name'] ?? '');
+
+    if (empty($name)) {
+        echo "<p style='color: red;'>Name is required</p>";
+        exit;
+    }
+
+    if (empty($patient_id)) {
+        echo "<p style='color: red;'>Patient id is required</p>";
+        exit;
+    }
+
+    if (empty($mobile)) {
+        echo "<p style='color: red;'>Mobile number is required</p>";
+        exit;
+    }
+    // Mobile validation: 10 digits starting with 98, 97, or 96
+    if (!preg_match('/^(98|97|96)\d{8}$/', $mobile)) {
+        echo "<p style='color: red;'>Mobile must be 10 digits and start with 98, 97, or 96</p>";
+        exit;
+    }
+
+    if (empty($gender)) {
+        echo "<p style='color: red;'>Gender is required</p>";
+        exit;
+    }
+
+    if (empty($address)) {
+        echo "<p style='color: red;'>Address is required</p>";
+        exit;
+    }
+
+    if (empty($dob)) {
+        echo "<p style='color: red;'>Date of birth is required</p>";
+        exit;
+    }
+
+    // DOB validation: YYYY-MM-DD format
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob)) {
+        echo "<p style='color: red;'>Date of birth must be in YYYY-MM-DD format</p>";
+        exit;
+    }
+
+    if (empty($doctor_name)) {
+        echo "<p style='color: red;'>Doctor name is required</p>";
+        exit;
+    }
+
+    require_once 'db.php';
+    $query = "INSERT INTO patients (`name`, `patient_id`, `mobile`, `gender`, `address`, `dob`, `doctor_name`)
+                  VALUES ('$name', '$patient_id', '$mobile', '$gender', '$address', '$dob', '$doctor_name');";
+
+    if (mysqli_query($conn, $query)) {
+        echo "Patient registered successfully!<br>";
+        mysqli_close($conn);
+    } else {
+        echo "<p style='color: red;'>Error inserting data: " . mysqli_error($conn) . "</p>";
+        mysqli_close($conn);
+        exit;
+    }
+}
+?>
+```
+
+**For Project**
+
+```php
+<?php
+$errors = [];
+$success = false;
+$name = $patient_id = $mobile = $gender = $address = $dob = $doctor_name = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['name'] ?? '');
+    $patient_id = trim($_POST['patient_id'] ?? '');
+    $mobile = trim($_POST['mobile'] ?? '');
+    $gender = trim($_POST['gender'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $dob = trim($_POST['dob'] ?? '');
+    $doctor_name = trim($_POST['doctor_name'] ?? '');
+
+    if (empty($name)) {
+        $errors[] = "<p style='color: red;'>Name is required</p>";
+    }
+
+    if (empty($patient_id)) {
+        $errors[] = "<p style='color: red;'>Patient id is required</p>";
+    }
+
+    if (empty($mobile)) {
+        $errors[] = "<p style='color: red;'>Mobile number is required</p>";
+    }
+    // Mobile validation: 10 digits starting with 98, 97, or 96
+    if (!preg_match('/^(98|97|96)\d{8}$/', $mobile)) {
+        $errors[] = "<p style='color: red;'>Mobile must be 10 digits and start with 98, 97, or 96</p>";
+    }
+
+    if (empty($gender)) {
+        $errors[] = "<p style='color: red;'>Gender is required</p>";
+    }
+
+    if (empty($address)) {
+        $errors[] = "<p style='color: red;'>Address is required</p>";
+    }
+
+    if (empty($dob)) {
+        $errors[] = "<p style='color: red;'>Date of birth is required</p>";
+    }
+
+    // DOB validation: YYYY-MM-DD format
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob)) {
+        $errors[] = "<p style='color: red;'>Date of birth must be in YYYY-MM-DD format</p>";
+    }
+
+    if (empty($doctor_name)) {
+        $errors[] = "<p style='color: red;'>Doctor name is required</p>";
+    }
+
+    if (empty($errors)) {
+        require_once 'db.php';
+        $query = "INSERT INTO patients (`name`, `patient_id`, `mobile`, `gender`, `address`, `dob`, `doctor_name`)
+                  VALUES ('$name', '$patient_id', '$mobile', '$gender', '$address', '$dob', '$doctor_name');";
+
+        if (mysqli_query($conn, $query)) {
+            $success = true;
+            // Clear form data after successful submission
+            $name = $patient_id = $mobile = $gender = $address = $dob = $doctor_name = '';
+            mysqli_close($conn);
+        } else {
+            $errors[] = "<p style='color: red;'>Error inserting data: " . mysqli_error($conn) . "</p>";
+            mysqli_close($conn);
+        }
+    }
+}
+?>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="test1.php" method="post">
+        Name: <input type="text" name="name" value="<?php echo $name; ?>"><br><br>
+        Patient ID: <input type="text" name="patient_id" value="<?php echo $patient_id; ?>"><br><br>
+        Mobile: <input type="text" name="mobile" value="<?php echo $mobile; ?>"><br><br>
+
+        Gender:
+        <input type="radio" name="gender" value="Male" <?php echo ($gender == 'Male') ? 'checked' : ''; ?>> Male
+        <input type="radio" name="gender" value="Female" <?php echo ($gender == 'Female') ? 'checked' : ''; ?>> Female
+        <input type="radio" name="gender" value="Other" <?php echo ($gender == 'Other') ? 'checked' : ''; ?>> Other
+        <br><br>
+
+        Address: <input type="text" name="address" value="<?php echo $address; ?>"><br><br>
+
+        Date of Birth: <input type="text" name="dob" placeholder="YYYY-MM-DD" value="<?php echo $dob; ?>"><br><br>
+
+        Doctor Name: <input type="text" name="doctor_name" value="<?php echo $doctor_name; ?>"><br><br>
+
+        <button type="submit">Register Patient</button>
+    </form>
+    <?php
+    if ($success) {
+        echo '<p style="color: green;">Patient registered successfully!</p>';
+    }
+
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo $error;
+        }
+    }
+    ?>
+</body>
+
+</html>
+```
+
 ---
 
 ---
