@@ -1837,8 +1837,11 @@ exit();
 **Old Question:**
 
 **Write server side script to create and validate form with following rule and store given data into 'patients' table with details (name, patient_id, mobile, gender, address, dob, doctor name):**
+
 **1. Name, Mobile, doctor name, gender, dob: Required**
+
 **2. Mobile: 10 digit start with 98, 97 or 96**
+
 **3. DOB: YYYY-MM-DD format**
 
 **Create db.php**
