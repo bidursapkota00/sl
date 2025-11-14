@@ -1839,9 +1839,7 @@ exit();
 **Write server side script to create and validate form with following rule and store given data into 'patients' table with details (name, patient_id, mobile, gender, address, dob, doctor name):**
 
 - **Name, Mobile, doctor name, gender, dob: Required**
-
 - **Mobile: 10 digit start with 98, 97 or 96**
-
 - **DOB: YYYY-MM-DD format**
 
 - **Create db.php**
@@ -1879,8 +1877,7 @@ doctor_name VARCHAR(100) NOT NULL
 );
 ```
 
-**Create Form**
-`index.php`
+**Create Form: `index.php`**
 
 ```php
 <html lang="en">
@@ -1892,7 +1889,7 @@ doctor_name VARCHAR(100) NOT NULL
 </head>
 
 <body>
-    <form action="test1.php" method="post">
+    <form action="index.php" method="post">
         Name: <input type="text" name="name"><br><br>
         Patient ID: <input type="text" name="patient_id"><br><br>
         Mobile: <input type="text" name="mobile"><br><br>
@@ -1917,6 +1914,8 @@ doctor_name VARCHAR(100) NOT NULL
 ```
 
 **Add validation and database functionality**
+
+Add in start of `index.php`
 
 ```php
 <?php
@@ -2072,7 +2071,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <form action="test1.php" method="post">
+    <form action="index.php" method="post">
         Name: <input type="text" name="name" value="<?php echo $name; ?>"><br><br>
         Patient ID: <input type="text" name="patient_id" value="<?php echo $patient_id; ?>"><br><br>
         Mobile: <input type="text" name="mobile" value="<?php echo $mobile; ?>"><br><br>
@@ -2104,6 +2103,751 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
 </body>
 
+</html>
+```
+
+**Old Question:**
+**Design following forms in HTML and write corresponding PHP and MySQL code to store the user's values after satisfying following validation rules:**
+
+- **Length of Full name up to 40 characters**
+- **Email address muse be valid email address**
+- **Username must be start with string and followed by number.**
+- **Password length must be more than 8 characters.**
+
+- **Create db.php**
+
+```php
+<?php
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
+
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
+
+**Create users table in database**
+
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(40),
+    email VARCHAR(100),
+    username VARCHAR(50),
+    password VARCHAR(100)
+);
+```
+
+**Create Form: `register.php`**
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h2>User Registration Form</h2>
+
+    <form action="register.php" method="post">
+
+        Full Name:
+        <input type="text" name="fullname"><br><br>
+
+        Email:
+        <input type="text" name="email"><br><br>
+
+        Username:
+        <input type="text" name="username" placeholder="e.g., user123"><br><br>
+
+        Password:
+        <input type="password" name="password"><br><br>
+
+        <button type="submit">Register</button>
+    </form>
+
+</body>
+</html>
+```
+
+**Add validation and database functionality**
+
+Add in start of `register.php`
+
+```php
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $fullname  = trim($_POST['fullname'] ?? '');
+    $email     = trim($_POST['email'] ?? '');
+    $username  = trim($_POST['username'] ?? '');
+    $password  = trim($_POST['password'] ?? '');
+
+    if (empty($fullname)) {
+        echo "<p style='color:red'>Full name is required</p>";
+        exit;
+    }
+    if (strlen($fullname) > 40) {
+        echo "<p style='color:red'>Full name must be up to 40 characters</p>";
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<p style='color:red'>Invalid email address</p>";
+        exit;
+    }
+
+    // Username: must start with letters and followed by numbers
+    // Example valid: abc123 , User45 , hello9
+    if (!preg_match('/^[A-Za-z]+[0-9]+$/', $username)) {
+        echo "<p style='color:red'>Username must start with letters and follow with numbers</p>";
+        exit;
+    }
+
+    // Password must be longer than 8 characters
+    if (strlen($password) <= 8) {
+        echo "<p style='color:red'>Password must be more than 8 characters</p>";
+        exit;
+    }
+
+    require_once 'db.php';
+    $query = "INSERT INTO users (`fullname`, `email`, `username`, `password`)
+              VALUES ('$fullname', '$email', '$username', '$password')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<p style='color:green'>User Registered Successfully!</p>";
+    } else {
+        echo "<p style='color:red'>Error inserting data: " . mysqli_error($conn) . "</p>";
+    }
+
+    mysqli_close($conn);
+}
+?>
+```
+
+**Old Question:**
+**Design following form in HTML and write corresponding server-side script to upload and submit user's data into database in consideration of following validation rules. Assume your own database and database connectivity related constrains if necessary.**
+
+- **Form fields are: TU Registration Number, Email Address, Upload your Project File.**
+- **Validation rules:**
+
+  - **Registration number, email and upload file are mandatory field.**
+  - **Email address should be a proper email format.**
+  - **Upload file format must include pdf, doc, docx, ppt, pptx, jpeg file format.**
+  - **File size must be less than 5MB.**
+
+- **Create db.php**
+
+```php
+<?php
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
+
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
+
+**Create submissions table in database**
+
+```sql
+CREATE TABLE submissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    reg_no VARCHAR(50),
+    email VARCHAR(100),
+    file_path VARCHAR(255)
+);
+```
+
+**Create Form: `upload_project.php`**
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Project Submission</title>
+</head>
+
+<body>
+    <h2>Project Submission Form</h2>
+
+    <form action="upload_project.php" method="post" enctype="multipart/form-data">
+
+        TU Registration Number:
+        <input type="text" name="reg_no"><br><br>
+
+        Email Address:
+        <input type="text" name="email"><br><br>
+
+        Upload your Project File:
+        <input type="file" name="project_file"><br><br>
+
+        <button type="submit">Submit Project</button>
+
+    </form>
+
+</body>
+</html>
+```
+
+**Add validation and database functionality**
+
+Add in start of `upload_project.php`
+
+```php
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $reg_no = trim($_POST['reg_no'] ?? '');
+    $email  = trim($_POST['email'] ?? '');
+    $file   = $_FILES['project_file'] ?? null;
+
+    // Mandatory fields
+    if (empty($reg_no)) {
+        echo "<p style='color:red'>Registration number is required.</p>";
+        exit;
+    }
+
+    if (empty($email)) {
+        echo "<p style='color:red'>Email is required.</p>";
+        exit;
+    }
+
+    if (!$file || $file['error'] == 4) {
+        echo "<p style='color:red'>Project file is required.</p>";
+        exit;
+    }
+
+    // Email format validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<p style='color:red'>Invalid email format.</p>";
+        exit;
+    }
+
+    // Allowed file formats
+    $allowed_ext = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'jpeg', 'jpg'];
+    $filename = $file['name'];
+    $filesize = $file['size'];
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $allowed_ext)) {
+        echo "<p style='color:red'>File type must be PDF, DOC, DOCX, PPT, PPTX, or JPEG.</p>";
+        exit;
+    }
+
+    // Max 5MB file size
+    if ($filesize > 5 * 1024 * 1024) {
+        echo "<p style='color:red'>File size must be less than 5MB.</p>";
+        exit;
+    }
+
+    // Upload file to server
+    $upload_dir = "uploads/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir);
+    }
+
+    $target_path = $upload_dir . basename($filename);
+
+    if (!move_uploaded_file($file['tmp_name'], $target_path)) {
+        echo "<p style='color:red'>Error uploading file.</p>";
+        exit;
+    }
+
+    // ---------------------------
+    // INSERT INTO DATABASE
+    // ---------------------------
+    $query = "INSERT INTO submissions (reg_no, email, file_path)
+              VALUES ('$reg_no', '$email', '$target_path')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<p style='color:green'>Project submitted successfully!</p>";
+    } else {
+        echo "<p style='color:red'>Database error: " . mysqli_error($conn) . "</p>";
+    }
+
+    mysqli_close($conn);
+}
+?>
+```
+
+**Old Question:**
+**Design a HTML registration form containing text box for Name and Email, radio button for gender, selection list for education field. Write a PHP script to validate input and then store data from the form into database using database connection and appropriate query.**
+
+- **Create db.php**
+
+```php
+<?php
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "mydb";    // assumes databse exists
+
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
+
+**Create students table in database**
+
+```sql
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    gender VARCHAR(10),
+    education VARCHAR(50)
+);
+```
+
+**Create Form: `register.php`**
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+<h2>Student Registration Form</h2>
+
+<form action="register.php" method="post">
+
+    Name:
+    <input type="text" name="name"><br><br>
+
+    Email:
+    <input type="text" name="email"><br><br>
+
+    Gender:
+    <input type="radio" name="gender" value="Male"> Male
+    <input type="radio" name="gender" value="Female"> Female
+    <input type="radio" name="gender" value="Other"> Other
+    <br><br>
+
+    Education:
+    <select name="education">
+        <option value="">-- Select Education Field --</option>
+        <option value="Science">Science</option>
+        <option value="Management">Management</option>
+        <option value="Humanities">Humanities</option>
+        <option value="Engineering">Engineering</option>
+        <option value="IT">IT</option>
+    </select>
+    <br><br>
+
+    <button type="submit">Register</button>
+
+</form>
+
+</body>
+</html>
+```
+
+**Add validation and database functionality**
+
+Add in start of `register.php`
+
+```php
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name      = trim($_POST['name'] ?? '');
+    $email     = trim($_POST['email'] ?? '');
+    $gender    = trim($_POST['gender'] ?? '');
+    $education = trim($_POST['education'] ?? '');
+
+    if (empty($name)) {
+        echo "<p style='color:red'>Name is required.</p>";
+        exit;
+    }
+
+    if (empty($email)) {
+        echo "<p style='color:red'>Email is required.</p>";
+        exit;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<p style='color:red'>Invalid email format.</p>";
+        exit;
+    }
+
+    if (empty($gender)) {
+        echo "<p style='color:red'>Gender is required.</p>";
+        exit;
+    }
+
+    if (empty($education)) {
+        echo "<p style='color:red'>Please select your education field.</p>";
+        exit;
+    }
+
+    $query = "INSERT INTO students (`name`, `email`, `gender`, `education`)
+              VALUES ('$name', '$email', '$gender', '$education')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<p style='color:green'>Registration successful!</p>";
+    } else {
+        echo "<p style='color:red'>Database error: " . mysqli_error($conn) . "</p>";
+    }
+
+    mysqli_close($conn);
+}
+?>
+```
+
+**Old Question:**
+
+**Design following form in HTML and write corresponding PHP and SQL code for CRUD operations based on user's data.**
+
+**Note taking Web App**
+
+**Create Database and Table**
+
+```sql
+create database notes_db;
+
+use notes_db;
+
+CREATE TABLE `notes` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL
+);
+```
+
+**Create db.php**
+
+```php
+<?php
+// Database credentials
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$database = "notes_db";    // assumes databse exists
+
+// Create connection using MySQLi (procedural)
+$conn = mysqli_connect($servername, $dbusername, $dbpassword, $database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully<br>";
+```
+
+**Create form to add notes: `add.html`**
+
+```html
+<html>
+  <head>
+    <title>Add Notes</title>
+  </head>
+
+  <body>
+    <h2>Add Notes</h2>
+    <p>
+      <a href="index.php">Home</a>
+    </p>
+
+    <form action="addAction.php" method="post">
+      <label for="title">Title: </label>
+      <input type="text" name="title" />
+      <br /><br />
+      <label for="description">Description: </label>
+      <textarea name="description" id="description"></textarea>
+      <br /><br />
+      <input type="submit" name="submit" />
+    </form>
+  </body>
+</html>
+```
+
+**Create php script to add notes to database: `addAction.php`**
+
+```php
+	<?php
+	require_once("db.php");
+	// if (isset($_POST['submit'])) {
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$title = $_POST['title'];
+		$description = $_POST['description'];
+
+		if (empty($title) || empty($description)) {
+			if (empty($title)) {
+				echo "<p style='color: red;'>Title field is empty.</p>";
+			}
+
+			if (empty($description)) {
+				echo "<p style='color: red;'>Description field is empty.</p>";
+			}
+
+			// Show link to the previous page (optional)
+			echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";
+            exit;
+		}
+        $result = mysqli_query($conn, "INSERT INTO notes (`title`, `description`) VALUES ('$title', '$description')");
+        if (!$result) {
+            die("<p style='color: red;'>Error Inserting. " . mysqli_error($conn) . "</p>");
+        }
+
+        // Display success message
+        echo "<p style='color: green'>Data added successfully!</p>";
+        echo "<a href='index.php'>View Result</a>";
+
+        mysqli_close($conn);
+	}
+	?>
+```
+
+**Display notes: `index.php`**
+
+```php
+<?php
+require_once "db.php";
+
+// Fetch data in descending order (lastest entry first)
+$result = mysqli_query($conn, "SELECT * FROM notes ORDER BY id DESC");
+?>
+
+<html>
+
+<head>
+	<title>Homepage</title>
+	<style>
+		table,
+		th,
+		td {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+	</style>
+</head>
+
+<body>
+	<h2>Homepage</h2>
+	<p>
+		<a href="add.php">Add New Data</a>
+	</p>
+	<table width='80%'>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Action</th>
+		</tr>
+		<?php
+		if (mysqli_num_rows($result) > 0) {
+			while ($res = mysqli_fetch_assoc($result)) {
+				echo "<tr>";
+				echo "<td>" . $res['title'] . "</td>";
+				echo "<td>" . $res['description'] . "</td>";
+				echo "<td>";
+				echo "<a href='edit.php?id=" . $res['id'] . "'>Edit</a>";
+				echo " | ";
+				echo "<a href='deleteAction.php?id=" . $res['id'] . "' onclick='return del();'>Delete</a>";
+				echo "</td>";
+				echo "</tr>";
+			}
+		} else {
+			echo "<p>No results Found</p>";
+		}
+		mysqli_close($conn);
+		?>
+	</table>
+	<script>
+		function del() {
+			return confirm("Are you sure to delete?");
+		}
+	</script>
+</body>
+
+</html>
+```
+
+**Add delete functionality: `deleteAction.php`**
+
+```php
+<?php
+require_once("db.php");
+
+if (!isset($_GET['id'])) {
+    die("Error: No id parameter provided.");
+}
+$id = $_GET['id'];
+$result = mysqli_query($conn, "DELETE FROM notes WHERE id = $id");
+if (!$result) {
+    die("Error: " . mysqli_error($conn));
+}
+
+if (mysqli_affected_rows($conn) == 0) {
+    die("Error: No record found with id $id.");
+}
+
+header("Location:index.php");
+exit();
+```
+
+**Create edit form: `edit.php`**
+
+```php
+<?php
+require_once("db.php");
+
+if (!isset($_GET['id'])) {
+    die("Error: No id parameter provided.");
+}
+$id = $_GET['id'];
+
+$result = mysqli_query($conn, "SELECT * FROM notes WHERE id = $id");
+if (!$result) {
+	die("Error: " . mysqli_error($conn));
+}
+if (mysqli_num_rows($result) == 0) {
+	die("Error: No record found with id $id.");
+}
+$resultData = mysqli_fetch_assoc($result);
+$title = $resultData['title'];
+$description = $resultData['description'];
+?>
+
+<html>
+
+<head>
+	<title>Edit Note</title>
+</head>
+
+<body>
+	<h2>Edit Note</h2>
+	<p>
+		<a href="index.php">Home</a>
+	</p>
+
+	<form method="post" action="editAction.php">
+		<label>Name: </label>
+		<input type="text" name="title" value="<?php echo $title; ?>">
+		<br><br>
+		<label>Description: </label>
+		<textarea name="description"><?php echo $description; ?></textarea>
+		<br><br>
+		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="submit" name="update">
+	</form>
+</body>
+
+</html>
+```
+
+**Add edit functionality: `editAction.php`**
+
+```php
+<?php
+require_once("db.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	// if (isset($_POST['update'])) {
+	$id = $_POST['id'];
+	$title = $_POST['title'];
+	$description = $_POST['description'];
+
+	// Check for empty fields
+	if (empty($title) || empty($description)) {
+		if (empty($title)) {
+			echo "<p style='color: red;'>Title field is empty.</p>";
+		}
+
+		if (empty($description)) {
+			echo "<p style='color: red;'>Description field is empty.</p>";
+		}
+	}
+    // Update the database table
+    $result = mysqli_query($conn, "UPDATE notes SET `title` = '$title', `description` = '$description' WHERE `id` = $id");
+    if (!$result) {
+        die("Error updating record: " . mysqli_error($conn));
+    }
+    // Display success message
+    echo "<p style='color: green'>Data updated successfully!</p>";
+    echo "<a href='index.php'>View Result</a>";
+}
+```
+
+**Old Question:**
+
+**Write a program to create Chess board in PHP using loop.**
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chessboard Using Grid</title>
+
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            width: 480px;
+            height: 480px;
+            border: 2px solid black;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Color even cells black, odd cells white */
+        .cell:nth-child(even) {
+            background: black;
+        }
+
+        .cell:nth-child(odd) {
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Chess Board</h2>
+
+<div class="board">
+    <?php
+    // Create 64 cells for 8x8 board
+    for ($i = 1; $i <= 64; $i++) {
+        echo "<div class='cell'></div>";
+    }
+    ?>
+</div>
+
+</body>
 </html>
 ```
 
