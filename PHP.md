@@ -2142,7 +2142,7 @@ CREATE TABLE users (
     fullname VARCHAR(40),
     email VARCHAR(100),
     username VARCHAR(50),
-    password VARCHAR(100)
+    password VARCHAR(500)
 );
 ```
 
@@ -2220,9 +2220,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     require_once 'db.php';
     $query = "INSERT INTO users (`fullname`, `email`, `username`, `password`)
-              VALUES ('$fullname', '$email', '$username', '$password')";
+              VALUES ('$fullname', '$email', '$username', '$hashedPassword')";
 
     if (mysqli_query($conn, $query)) {
         echo "<p style='color:green'>User Registered Successfully!</p>";
@@ -2332,7 +2335,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    if (!$file || $file['error'] == 4) {
+    if (!$file || $file['name'] == '') {
         echo "<p style='color:red'>Project file is required.</p>";
         exit;
     }
@@ -2373,9 +2376,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // ---------------------------
+    require "db.php";
     // INSERT INTO DATABASE
-    // ---------------------------
     $query = "INSERT INTO submissions (reg_no, email, file_path)
               VALUES ('$reg_no', '$email', '$target_path')";
 
@@ -2510,6 +2512,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    require "db.php";
     $query = "INSERT INTO students (`name`, `email`, `gender`, `education`)
               VALUES ('$name', '$email', '$gender', '$education')";
 
@@ -2786,6 +2789,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (empty($description)) {
 			echo "<p style='color: red;'>Description field is empty.</p>";
 		}
+
+        // Show link to the previous page (optional)
+        echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";
+        exit;
 	}
     // Update the database table
     $result = mysqli_query($conn, "UPDATE notes SET `title` = '$title', `description` = '$description' WHERE `id` = $id");
@@ -2805,6 +2812,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ```php
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Chessboard Using Grid</title>
 
@@ -2812,9 +2820,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .board {
             display: grid;
             grid-template-columns: repeat(8, 60px);
-            grid-template-rows: repeat(8, 60px);
             width: 480px;
-            height: 480px;
             border: 2px solid black;
         }
 
@@ -2823,31 +2829,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             height: 60px;
         }
 
-        /* Color even cells black, odd cells white */
-        .cell:nth-child(even) {
+        .row1:nth-child(even) {
             background: black;
         }
 
-        .cell:nth-child(odd) {
+        .row1:nth-child(odd) {
             background: white;
+        }
+
+        .row2:nth-child(even) {
+            background: white;
+        }
+
+        .row2:nth-child(odd) {
+            background: black;
         }
     </style>
 </head>
 
 <body>
 
-<h2>Chess Board</h2>
+    <h2>Chess Board</h2>
 
-<div class="board">
-    <?php
-    // Create 64 cells for 8x8 board
-    for ($i = 1; $i <= 64; $i++) {
-        echo "<div class='cell'></div>";
-    }
-    ?>
-</div>
+    <div class="board">
+        <?php
+        for ($i = 1; $i <= 4; $i++) {
+            for ($j = 1; $j <= 8; $j++) {
+                echo "<div class='cell row1'></div>";
+            }
+            for ($j = 1; $j <= 8; $j++) {
+                echo "<div class='cell row2'></div>";
+            }
+        }
+        ?>
+    </div>
 
 </body>
+
 </html>
 ```
 
