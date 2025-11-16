@@ -743,6 +743,70 @@ foreach ($colors as $color) {
 ?>
 ```
 
+**Old Question:**
+
+**Write a program to create Chess board in PHP using loop.**
+
+```php
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chessboard Using Grid</title>
+
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            width: 480px;
+            border: 2px solid black;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+        }
+
+        .row1:nth-child(even) {
+            background: black;
+        }
+
+        .row1:nth-child(odd) {
+            background: white;
+        }
+
+        .row2:nth-child(even) {
+            background: white;
+        }
+
+        .row2:nth-child(odd) {
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Chess Board</h2>
+
+    <div class="board">
+        <?php
+        for ($i = 1; $i <= 4; $i++) {
+            for ($j = 1; $j <= 8; $j++) {
+                echo "<div class='cell row1'></div>";
+            }
+            for ($j = 1; $j <= 8; $j++) {
+                echo "<div class='cell row2'></div>";
+            }
+        }
+        ?>
+    </div>
+
+</body>
+
+</html>
+```
+
 ---
 
 ---
@@ -2107,6 +2171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ```
 
 **Old Question:**
+
 **Design following forms in HTML and write corresponding PHP and MySQL code to store the user's values after satisfying following validation rules:**
 
 - **Length of Full name up to 40 characters**
@@ -2239,6 +2304,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ```
 
 **Old Question:**
+
 **Design following form in HTML and write corresponding server-side script to upload and submit user's data into database in consideration of following validation rules. Assume your own database and database connectivity related constrains if necessary.**
 
 - **Form fields are: TU Registration Number, Email Address, Upload your Project File.**
@@ -2393,6 +2459,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ```
 
 **Old Question:**
+
 **Design a HTML registration form containing text box for Name and Email, radio button for gender, selection list for education field. Write a PHP script to validate input and then store data from the form into database using database connection and appropriate query.**
 
 - **Create db.php**
@@ -2805,70 +2872,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ```
 
-**Old Question:**
-
-**Write a program to create Chess board in PHP using loop.**
-
-```php
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Chessboard Using Grid</title>
-
-    <style>
-        .board {
-            display: grid;
-            grid-template-columns: repeat(8, 60px);
-            width: 480px;
-            border: 2px solid black;
-        }
-
-        .cell {
-            width: 60px;
-            height: 60px;
-        }
-
-        .row1:nth-child(even) {
-            background: black;
-        }
-
-        .row1:nth-child(odd) {
-            background: white;
-        }
-
-        .row2:nth-child(even) {
-            background: white;
-        }
-
-        .row2:nth-child(odd) {
-            background: black;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h2>Chess Board</h2>
-
-    <div class="board">
-        <?php
-        for ($i = 1; $i <= 4; $i++) {
-            for ($j = 1; $j <= 8; $j++) {
-                echo "<div class='cell row1'></div>";
-            }
-            for ($j = 1; $j <= 8; $j++) {
-                echo "<div class='cell row2'></div>";
-            }
-        }
-        ?>
-    </div>
-
-</body>
-
-</html>
-```
-
 ---
 
 ---
@@ -2877,25 +2880,129 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ## AJAX
 
-### AJAX (Asynchronous JavaScript and XML)
+AJAX (Asynchronous JavaScript and XML) allows web pages to update asynchronously by exchanging data with the server behind the scenes without reloading the entire page.
 
-AJAX allows web pages to update asynchronously by exchanging data with the server behind the scenes without reloading the entire page.
+**Old Question:**
 
-**Benefits:**
+**What is the benefit of using AJAX?**
 
-- Faster page updates
-- Better user experience
-- Reduced server load
-- Dynamic content loading
+**Why Ajax is required in web development?**
+
+<br>
+
+**Benefits of Using AJAX**
+
+1. **Asynchronous Communication**
+
+   - Updates parts of a webpage without refreshing the whole page.
+   - Improves user experience (e.g., live search, chat apps, auto-saving).
+
+2. **Reduced Server Load & Bandwidth Usage**
+
+   - Only necessary data is sent/received—no need to reload the full HTML page.
+
+3. **Better User Experience**
+
+   - Eliminates flicker or full reload → makes applications feel like desktop apps.
+
+4. **Faster Page Interaction**
+
+   - Data exchange is smaller and handled in the background → quick responses.
+
+5. **Supports Multiple Data Formats**
+
+   - JSON (most common), XML, HTML, plain text.
+
+---
+
+**AJAX Working**
+
+**Old Question:**
+
+**What is syntax to create AJAX object?**
+
+**Explain XMLHttpRequest object with it's properties and methods with relevant example.**
+
+**Discuss major methods that communicate with server-side scripting.**
+
+<br>
+
+**Step 1: Create an XMLHttpRequest Object**
+
+```js
+let xhr = new XMLHttpRequest();
+```
+
+**Step 2: Configure the Request**
+
+```js
+xhr.open("GET", "ajax_handler.php", true);
+```
+
+**HTTP Method ( "GET" )**
+
+- This is the request method.
+- "GET" means you are requesting data from the server.
+- Other common methods: "POST", "PUT", "DELETE".
+
+**URL ( "ajax_handler.php" )**
+
+- This is the endpoint you are sending the request to.
+
+**Async Flag ( true )**
+
+- This specifies whether the request is asynchronous.
+- true → asynchronous → JavaScript continues running without waiting.
+- false → synchronous (blocks the page until the request completes) — rarely used and discouraged.
+
+**Step 3: Set Up a Callback Function**
+
+```js
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    // Process the response here
+  }
+};
+```
+
+**xhr.onreadystatechange**
+
+- onreadystatechange is an event handler that gets called every time the readyState of the XMLHttpRequest changes.
+- An XMLHttpRequest goes through 5 states, from 0 to 4, as it progresses.
+
+| readyState | Name             | Meaning                                    |
+| ---------- | ---------------- | ------------------------------------------ |
+| **0**      | UNSENT           | `xhr` created but `.open()` not called yet |
+| **1**      | OPENED           | `.open()` has been called                  |
+| **2**      | HEADERS_RECEIVED | Received response headers                  |
+| **3**      | LOADING          | Receiving response body (downloading)      |
+| **4**      | **DONE**         | Entire response has been received          |
+
+**xhr.status === 200 → success (HTTP OK)**
+
+**Step 4: Send the Request**
+
+```js
+xhr.send();
+```
 
 ### Using PHP with AJAX
 
 **Example 1: Simple AJAX Request**
 
+**Old Question:**
+
+**Design and develop dynamic web application using HTML, AJAX and PHP.**
+
+**Write a sample program to synchronize data between JavaScript and PHP.**
+
+**Write a JavaScript program to retrieve any value from server-site script using Ajax.**
+
+<br>
+
 **index.html:**
 
 ```html
-<!DOCTYPE html>
 <html>
   <head>
     <title>AJAX Example</title>
@@ -2908,7 +3015,8 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
             document.getElementById("content").innerHTML = this.responseText;
           }
         };
-
+        // If you want send data: ajax_handler.php?name=bidur&age=25
+        // You can access data using $_GET['name'] in ajax_handler.php
         xhr.open("GET", "ajax_handler.php", true);
         xhr.send();
       }
@@ -2926,9 +3034,7 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
 
 ```php
 <?php
-    echo "<h2>Content loaded via AJAX</h2>";
-    echo "<p>Current time: " . date("h:i:s A") . "</p>";
-?>
+echo "<h2>Content loaded via AJAX</h2>";
 ```
 
 **Example 2: AJAX with POST Data**
@@ -2936,12 +3042,24 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
 **index.html:**
 
 ```html
-<!DOCTYPE html>
 <html>
   <head>
     <title>AJAX POST Example</title>
+  </head>
+
+  <body>
+    <h1>AJAX POST Demo</h1>
+    <form onsubmit="sendData(event)">
+      <input type="text" id="name" placeholder="Name" /><br /><br />
+      <input type="email" id="email" placeholder="Email" /><br /><br />
+      <button type="submit">Submit</button>
+    </form>
+    <div id="response"></div>
+
     <script>
-      function sendData() {
+      function sendData(event) {
+        event.preventDefault();
+
         var name = document.getElementById("name").value;
         var email = document.getElementById("email").value;
 
@@ -2961,13 +3079,6 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
         xhr.send("name=" + name + "&email=" + email);
       }
     </script>
-  </head>
-  <body>
-    <h1>AJAX POST Demo</h1>
-    <input type="text" id="name" placeholder="Name" />
-    <input type="email" id="email" placeholder="Email" />
-    <button onclick="sendData()">Submit</button>
-    <div id="response"></div>
   </body>
 </html>
 ```
@@ -2977,8 +3088,8 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
 ```php
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = htmlspecialchars($_POST['name']);
-        $email = htmlspecialchars($_POST['email']);
+        $name = $_POST['name'];
+        $email = $_POST['email'];
 
         if (empty($name) || empty($email)) {
             echo "Please fill all fields";
@@ -2986,390 +3097,6 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
             echo "Thank you, $name! Your email ($email) has been received.";
         }
     }
-?>
-```
-
-### Using PHP + MySQL with AJAX
-
-**Example: Live Search with AJAX**
-
-**search.html:**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Live Search</title>
-    <script>
-      function searchUsers(str) {
-        if (str.length == 0) {
-          document.getElementById("results").innerHTML = "";
-          return;
-        }
-
-        var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("results").innerHTML = this.responseText;
-          }
-        };
-
-        xhr.open("GET", "search_users.php?q=" + str, true);
-        xhr.send();
-      }
-    </script>
-    <style>
-      #results {
-        border: 1px solid #ddd;
-        margin-top: 10px;
-        padding: 10px;
-      }
-      .user-item {
-        padding: 5px;
-        border-bottom: 1px solid #eee;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>User Search</h1>
-    <input
-      type="text"
-      onkeyup="searchUsers(this.value)"
-      placeholder="Search users..."
-    />
-    <div id="results"></div>
-  </body>
-</html>
-```
-
-**search_users.php:**
-
-```php
-<?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "mydb";
-
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    if ($conn->connect_error) {
-        die("Connection failed");
-    }
-
-    $search = $conn->real_escape_string($_GET['q']);
-
-    $sql = "SELECT name, email FROM users WHERE name LIKE '%$search%' OR email LIKE '%$search%' LIMIT 10";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "<div class='user-item'>";
-            echo "<strong>" . htmlspecialchars($row['name']) . "</strong><br>";
-            echo htmlspecialchars($row['email']);
-            echo "</div>";
-        }
-    } else {
-        echo "No results found";
-    }
-
-    $conn->close();
-?>
-```
-
-**Example: Dynamic Data Loading with JSON**
-
-**get_users.php:**
-
-```php
-<?php
-    header('Content-Type: application/json');
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "mydb";
-
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    if ($conn->connect_error) {
-        echo json_encode(['error' => 'Connection failed']);
-        exit();
-    }
-
-    $sql = "SELECT id, name, email, age FROM users";
-    $result = $conn->query($sql);
-
-    $users = array();
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $users[] = $row;
-        }
-    }
-
-    echo json_encode($users);
-
-    $conn->close();
-?>
-```
-
-**users.html:**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>User List</title>
-    <script>
-      function loadUsers() {
-        var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            var users = JSON.parse(this.responseText);
-            displayUsers(users);
-          }
-        };
-
-        xhr.open("GET", "get_users.php", true);
-        xhr.send();
-      }
-
-      function displayUsers(users) {
-        var html =
-          "<table border='1'><tr><th>ID</th><th>Name</th><th>Email</th><th>Age</th></tr>";
-
-        users.forEach(function (user) {
-          html += "<tr>";
-          html += "<td>" + user.id + "</td>";
-          html += "<td>" + user.name + "</td>";
-          html += "<td>" + user.email + "</td>";
-          html += "<td>" + user.age + "</td>";
-          html += "</tr>";
-        });
-
-        html += "</table>";
-        document.getElementById("userTable").innerHTML = html;
-      }
-
-      window.onload = loadUsers;
-    </script>
-  </head>
-  <body>
-    <h1>User Directory</h1>
-    <button onclick="loadUsers()">Refresh</button>
-    <div id="userTable"></div>
-  </body>
-</html>
-```
-
-**Example: AJAX Form Submission with Validation**
-
-**register.html:**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>User Registration</title>
-    <script>
-      function registerUser(event) {
-        event.preventDefault();
-
-        var formData = new FormData(document.getElementById("registerForm"));
-        var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText);
-
-            if (response.success) {
-              document.getElementById("message").innerHTML =
-                "<p style='color: green;'>" + response.message + "</p>";
-              document.getElementById("registerForm").reset();
-            } else {
-              document.getElementById("message").innerHTML =
-                "<p style='color: red;'>" + response.message + "</p>";
-            }
-          }
-        };
-
-        xhr.open("POST", "register_user.php", true);
-        xhr.send(formData);
-      }
-    </script>
-  </head>
-  <body>
-    <h1>User Registration</h1>
-    <form id="registerForm" onsubmit="registerUser(event)">
-      <input type="text" name="name" placeholder="Name" required /><br />
-      <input type="email" name="email" placeholder="Email" required /><br />
-      <input type="number" name="age" placeholder="Age" required /><br />
-      <button type="submit">Register</button>
-    </form>
-    <div id="message"></div>
-  </body>
-</html>
-```
-
-**register_user.php:**
-
-```php
-<?php
-    header('Content-Type: application/json');
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = trim($_POST['name']);
-        $email = trim($_POST['email']);
-        $age = intval($_POST['age']);
-
-        // Validation
-        if (empty($name) || empty($email) || $age <= 0) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Please fill all fields correctly'
-            ]);
-            exit();
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Invalid email format'
-            ]);
-            exit();
-        }
-
-        // Database connection
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "mydb";
-
-        $conn = new mysqli($servername, $username, $password, $database);
-
-        if ($conn->connect_error) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Database connection failed'
-            ]);
-            exit();
-        }
-
-        // Check if email already exists
-        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Email already registered'
-            ]);
-            $stmt->close();
-            $conn->close();
-            exit();
-        }
-
-        // Insert new user
-        $stmt = $conn->prepare("INSERT INTO users (name, email, age) VALUES (?, ?, ?)");
-        $stmt->bind_param("ssi", $name, $email, $age);
-
-        if ($stmt->execute()) {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Registration successful!'
-            ]);
-        } else {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Registration failed. Please try again.'
-            ]);
-        }
-
-        $stmt->close();
-        $conn->close();
-    }
-?>
-```
-
----
-
-## Additional Best Practices
-
-### Security Best Practices
-
-1. **Always sanitize user input:**
-
-```php
-<?php
-    $user_input = htmlspecialchars($_POST['input']);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-?>
-```
-
-2. **Use prepared statements for database queries:**
-
-```php
-<?php
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-?>
-```
-
-3. **Validate and verify file uploads:**
-
-```php
-<?php
-    $allowed = ['jpg', 'jpeg', 'png', 'gif'];
-    $extension = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
-
-    if (!in_array($extension, $allowed)) {
-        die("Invalid file type");
-    }
-?>
-```
-
-4. **Use HTTPS for sensitive data**
-
-5. **Implement password hashing:**
-
-```php
-<?php
-    // Hash password
-    $password = "user_password";
-    $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-    // Verify password
-    if (password_verify($password, $hashed)) {
-        echo "Password is correct";
-    }
-?>
-```
-
-### Error Handling
-
-```php
-<?php
-    // Display errors in development
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
-    // Log errors in production
-    ini_set('display_errors', 0);
-    ini_set('log_errors', 1);
-    ini_set('error_log', '/path/to/error.log');
-
-    // Custom error handler
-    function customError($errno, $errstr) {
-        echo "<b>Error:</b> [$errno] $errstr";
-    }
-
-    set_error_handler("customError");
 ?>
 ```
 
@@ -3385,36 +3112,40 @@ AJAX allows web pages to update asynchronously by exchanging data with the serve
 
 A class is a template for objects. An object is an instance of a class.
 
+### Constructors and Destructors
+
+**Old Question:**
+
+**What is constructor? How you implement constructor in php?**
+
+- A constructor is a special method in object-oriented programming that is automatically executed when an object of a class is created. Its main purpose is to initialize object properties or perform setup tasks.
+- In PHP, you define a constructor using the special method:
+
 ```php
-<?php
-    class Car {
-        // Properties
-        public $brand;
-        public $color;
-        public $year;
-
-        // Method
-        public function displayInfo() {
-            echo "Brand: $this->brand, Color: $this->color, Year: $this->year";
-        }
-    }
-
-    // Creating objects
-    $car1 = new Car();
-    $car1->brand = "Toyota";
-    $car1->color = "Red";
-    $car1->year = 2020;
-    $car1->displayInfo();
-
-    $car2 = new Car();
-    $car2->brand = "Honda";
-    $car2->color = "Blue";
-    $car2->year = 2021;
-    $car2->displayInfo();
-?>
+public function __construct() {
+    // initialization code
+}
 ```
 
-### Constructors and Destructors
+- Always named `__construct` (two underscores).
+- Automatically runs when you create a new object.
+- Can accept parameters.
+- A class can have only one constructor.
+- If a parent class also has a constructor, you can call it using `parent::__construct()`. `parent` is a keyword.
+
+- A destructor is the opposite of a constructor. It is a special method that is automatically called when an object is destroyed or when the script ends. Its main purpose is to clean up resources, like closing database connections, releasing files, or freeing memory.
+- In PHP, a destructor is defined using the special method:
+
+```php
+public function __destruct() {
+    // cleanup code
+}
+```
+
+- Always named `__destruct` (two underscores).
+- Automatically runs at the end of the object’s life.
+- Cannot take arguments.
+- Useful for resource management.
 
 ```php
 <?php
@@ -3447,10 +3178,18 @@ A class is a template for objects. An object is an instance of a class.
 
 ### Encapsulation
 
-Encapsulation hides internal details and controls access through access modifiers.
+- Encapsulation refers to the bundling of data (properties) and the methods (functions) that operate on that data into a single unit, called a class.
+- It hides internal details and controls access through access modifiers.
+- A key part of encapsulation is data hiding. You then provide public methods (often called "getters" and "setters") that allow outside code to interact with that data in a controlled way.
 
 ```php
 <?php
+/**
+ * This class demonstrates encapsulation.
+ * The $balance property is kept 'private' to protect it.
+ * Public methods (deposit, withdraw, getBalance) are provided
+ * to control how the balance is accessed and modified.
+ */
     class BankAccount {
         private $balance;  // Private property
         protected $accountNumber;
@@ -3495,60 +3234,194 @@ Encapsulation hides internal details and controls access through access modifier
 
 ### Inheritance
 
-Inheritance allows a class to inherit properties and methods from another class.
+**Old Question:**
+
+**What is Inheritance?**
+**What is use of inheritance?**
+**What are advantages of inheritance?**
+**Write an object oriented PHP program to define Person class and derive student and employee class from it to demonstrate hierarchical inheritance.**
+
+It is a mechanism where a new class (called a _derived class_ or _child class_) acquires the properties (variables) and behaviors (methods) of an existing class (called a _base class_ or _parent class_). The child class can then add its own unique properties and methods, or override the inherited ones.
+
+- **What are the advantages / uses of Inheritance?**
+  1.  **Code Reusability:** (Code Reuse) - The most significant advantage. Code from the parent class is immediately available to all child classes without rewriting it.
+  2.  **Extensibility:** (Enables extensibility) - You can easily create new classes that extend existing ones, adding new features without modifying the original (and potentially stable) parent class.
+  3.  **Logical Structure:** (Provides logical sturcture) - It promotes a well-organized and hierarchical code structure that is easier to manage and maintain. Clearly represent real-world relationships, making the code more logical and easier to understand.
+  4.  **Polymorphism:** (Enables polymorphism) - It's a prerequisite for polymorphism, which allows for more flexible and dynamic program design.
 
 ```php
 <?php
-    class Animal {
-        public $name;
-        protected $age;
+class Person {
+    protected $name;
+    protected $age;
 
-        public function __construct($name, $age) {
-            $this->name = $name;
-            $this->age = $age;
-        }
-
-        public function makeSound() {
-            echo "Some generic sound<br>";
-        }
-
-        public function getAge() {
-            return $this->age;
-        }
+    public function __construct($name, $age) {
+        $this->name = $name;
+        $this->age = $age;
+        echo "A new Person object created.\n";
     }
 
-    class Dog extends Animal {
-        public $breed;
+    public function introduce() {
+        echo "Hello, my name is {$this->name} and I am {$this->age} years old.\n";
+    }
+}
 
-        public function __construct($name, $age, $breed) {
-            parent::__construct($name, $age);  // Call parent constructor
-            $this->breed = $breed;
-        }
+class Student extends Person {
+    private $studentId;
 
-        // Method overriding
-        public function makeSound() {
-            echo "Woof! Woof!<br>";
-        }
+    public function __construct($name, $age, $studentId) {
+        parent::__construct($name, $age);
 
-        public function fetch() {
-            echo "$this->name is fetching the ball<br>";
-        }
+        $this->studentId = $studentId;
+        echo "A Student object created.\n";
     }
 
-    class Cat extends Animal {
-        public function makeSound() {
-            echo "Meow!<br>";
-        }
+    public function study() {
+        echo "I am a student with ID {$this->studentId}, and I am studying.\n";
     }
 
-    $dog = new Dog("Buddy", 3, "Labrador");
-    $dog->makeSound();  // Woof! Woof!
-    $dog->fetch();
-    echo "Age: " . $dog->getAge();
+    public function introduce() {
+        // parent::introduce();
+        echo "Hi, I'm a student. My name is {$this->name} and my ID is {$this->studentId}.\n";
+    }
+}
 
-    $cat = new Cat("Whiskers", 2);
-    $cat->makeSound();  // Meow!
+class Employee extends Person {
+    private $employeeId;
+    private $salary;
+
+    public function __construct($name, $age, $employeeId, $salary) {
+        parent::__construct($name, $age);
+
+        $this->employeeId = $employeeId;
+        $this->salary = $salary;
+        echo "An Employee object created.\n";
+    }
+
+    public function work() {
+        echo "I am an employee with ID {$this->employeeId}, and I am working.\n";
+    }
+
+    public function introduce() {
+        echo "Hello, I am an employee. My name is {$this->name} and I earn \${$this->salary}.\n";
+    }
+}
+
+echo "--- Creating a Student ---\n";
+$student1 = new Student("Alice", 20, "S12345");
+$student1->introduce();
+$student1->study();
+echo "\n";
+
+echo "--- Creating an Employee ---\n";
+$employee1 = new Employee("Bob", 35, "E9876", 50000);
+$employee1->introduce();
+$employee1->work();
+echo "\n";
+
+echo "--- Creating just a Person ---\n";
+$person1 = new Person("Charlie", 50);
+$person1->introduce();
+echo "\n";
+
 ?>
+```
+
+#### Types of inheritance
+
+1. Single Inheritance
+
+This is the most basic form where one class inherits from exactly one other class.
+
+Concept:
+A single child class inherits from a single parent class.
+
+Simple Example:
+
+```php
+class Vehicle { /* ... */ }
+class Car extends Vehicle { /* ... */ }
+```
+
+(A Car is a Vehicle)
+
+2. Multilevel Inheritance
+
+In this type, a class inherits from a parent class, which in turn inherits from another grandparent class. It forms a chain.
+
+Concept:
+A child class acts as the parent for another class.
+
+Simple Example:
+
+```php
+class Animal { /* ... */ }
+class Mammal extends Animal { /* ... */ }
+class Dog extends Mammal { /* ... */ }
+```
+
+(A Dog is a Mammal, which is an Animal)
+
+3. Multiple Inheritance
+
+This is when a single child class inherits from two or more parent classes.
+
+Concept:
+One child class has multiple parent classes.
+
+Simple Example:
+
+```php
+// Conceptual example
+class Father { /* ... */ }
+class Mother { /* ... */ }
+class Child extends Father, Mother { /* ... */ }
+```
+
+Note: PHP does not support multiple inheritance directly with classes. This is to avoid the "Diamond Problem" (ambiguity when two parents have a method with the same name). PHP uses Traits to achieve this kind of code-sharing from multiple sources.
+
+```php
+trait CanFly { /* ... */ }
+trait CanSwim { /* ... */ }
+
+class Duck {
+    use CanFly, CanSwim;
+}
+```
+
+4. Hierarchical Inheritance
+
+A single parent class serves as the base for multiple, separate child classes.
+
+Concept:
+One parent class has two or more child classes.
+
+Simple Example:
+
+```php
+class Person { /* ... */ }
+class Student extends Person { /* ... */ }
+class Employee extends Person { /* ... */ }
+```
+
+(Both Student and Employee are Persons)
+
+5. Hybrid Inheritance
+
+This is a combination of two or more of the other inheritance types. For example, you might combine Hierarchical and Multilevel inheritance.
+
+Concept:
+A mix of other types, such as Multilevel and Hierarchical.
+
+Simple Example:
+
+```php
+class Animal { /* ... */ } // Base
+
+class Mammal extends Animal { /* ... */ } // Multilevel part 1
+class Bird extends Animal { /* ... */ }   // Hierarchical part
+
+class Dog extends Mammal { /* ... */ }    // Multilevel part 2
 ```
 
 ### Polymorphism
