@@ -1084,6 +1084,43 @@ $greet("World"); // Output: Hello, World!
 ?>
 ```
 
+**Old Question:**
+
+**Write a PHP program to illustrate the concept of function overloading.**
+
+```php
+<?php
+// Function overloading using __call()
+public function __call($name, $arguments) {
+
+    if ($name == "area") {
+        $count = count($arguments);
+
+        // Area of Circle: area(radius)
+        if ($count == 1) {
+            $r = $arguments[0];
+            return 3.14 * $r * $r;
+        }
+
+        // Area of Rectangle: area(length, breadth)
+        elseif ($count == 2) {
+            $l = $arguments[0];
+            $b = $arguments[1];
+            return $l * $b;
+        }
+
+        else {
+            return "Invalid number of arguments!";
+        }
+    }
+}
+
+echo "Area of Circle (r = 5): " . area(5) . "<br>";
+echo "Area of Rectangle (4 x 6): " . area(4, 6);
+```
+
+Wrap this function by class and then it can also be example of polymorphism with Method Overloading (via `__call` magic method)
+
 ---
 
 ---
@@ -3424,67 +3461,170 @@ class Bird extends Animal { /* ... */ }   // Hierarchical part
 class Dog extends Mammal { /* ... */ }    // Multilevel part 2
 ```
 
-### Polymorphism
+### Abstraction
 
-Polymorphism allows objects of different classes to be treated as objects of a common parent class.
+Abstraction is the process of hiding the internal implementation details of a class and exposing only the essential concepts or behaviors. It focuses on what an object does rather than how it does it.
 
 ```php
 <?php
-    abstract class Shape {
-        protected $name;
+abstract class Payment {
+    // abstract method: declares WHAT must happen, not HOW
+    abstract public function pay(float $amount);
 
-        public function __construct($name) {
-            $this->name = $name;
-        }
-
-        // Abstract method - must be implemented by child classes
-        abstract public function calculateArea();
-
-        public function display() {
-            echo "Shape: $this->name<br>";
-            echo "Area: " . $this->calculateArea() . "<br>";
-        }
+    // optional: common method shared by all payments
+    public function logTransaction($amount) {
+        echo "Logging transaction of NPR $amount...\n";
     }
+}
 
-    class Circle extends Shape {
-        private $radius;
-
-        public function __construct($radius) {
-            parent::__construct("Circle");
-            $this->radius = $radius;
-        }
-
-        public function calculateArea() {
-            return pi() * $this->radius * $this->radius;
-        }
+class EsewaPayment extends Payment {
+    public function pay(float $amount) {
+        // internal hidden logic
+        $this->logTransaction($amount);
+        echo "Paid NPR $amount via eSewa\n";
     }
+}
 
-    class Rectangle extends Shape {
-        private $width;
-        private $height;
-
-        public function __construct($width, $height) {
-            parent::__construct("Rectangle");
-            $this->width = $width;
-            $this->height = $height;
-        }
-
-        public function calculateArea() {
-            return $this->width * $this->height;
-        }
+class KhaltiPayment extends Payment {
+    public function pay(float $amount) {
+        // internal hidden logic
+        $this->logTransaction($amount);
+        echo "Paid NPR $amount via Khalti\n";
     }
+}
 
-    // Polymorphism in action
-    $shapes = [
-        new Circle(5),
-        new Rectangle(4, 6),
-        new Circle(3)
-    ];
-
-    foreach ($shapes as $shape) {
-        $shape->display();
-        echo "<br>";
+class Client {
+    // accepts Payment (Parent of EsewaPayment and KhaltiPayment)
+    // Polymorphism using Type Hinting (Method Parameters)
+    public function checkout(Payment $paymentMethod) {
+        $paymentMethod->pay(100);
     }
+}
+
+// Usage:
+$client = new Client();
+
+$client->checkout(new EsewaPayment());
+$client->checkout(new KhaltiPayment());
+```
+
+### Polymorphism
+
+**Old Question:**
+
+**Explain different ways to implement polymorphism in PHP with proper example.**
+
+**Define method overriding. Write a PHP program to handle the overriding situation.**
+
+<br>
+
+**Polymorphism in PHP**
+
+Polymorphism means one interface (or method name), multiple implementations.
+In PHP, polymorphism is mainly implemented in these ways:
+
+- Polymorphism allows child class to provide its own implementation of a method that already exists in the parent class.
+- Polymorphism allows objects of different classes to be treated as objects of a common parent class.
+
+**1. Polymorphism using Inheritance (Method Overriding)**
+
+Method overriding is a concept in object-oriented programming where a child class provides its own implementation of a method that already exists in the parent class.
+The method in the child class must:
+
+- Have the same name
+- Have the same parameters
+- Replace (override) the parent’s behavior
+- This is used to achieve runtime polymorphism.
+
+```php
+<?php
+class Animal {
+    public function sound() {
+        return "Some generic sound";
+    }
+}
+
+class Dog extends Animal {
+    public function sound() {
+        return "Bark";
+    }
+}
+
+class Cat extends Animal {
+    public function sound() {
+        return "Meow";
+    }
+}
+
+$animals = [new Dog(), new Cat()];
+
+foreach ($animals as $a) {
+    echo $a->sound() . "<br>";   // Bark, Meow
+}
+?>
+```
+
+`sound()` is the same method name, but different objects give different outputs.
+
+**2. Polymorphism using Interfaces / Abstract Class**
+
+**Using interface**
+
+```php
+<?php
+
+interface Payment {
+    public function pay($amount);
+}
+
+class Esewa implements Payment {
+    public function pay($amount) {
+        return "Paid Rs. $amount via eSewa";
+    }
+}
+
+class Khalti implements Payment {
+    public function pay($amount) {
+        return "Paid Rs. $amount via Khalti";
+    }
+}
+
+$payments = [new Esewa(), new Khalti()];
+
+foreach ($payments as $p) {
+    echo $p->pay(1000) . "<br>";
+}
+?>
+```
+
+**Using Abstract Class**
+
+```php
+<?php
+abstract class Payment {
+    // Abstract method (must be implemented by child classes)
+    abstract public function pay($amount);
+}
+
+class Esewa extends Payment {
+    public function pay($amount) {
+        return "Paid Rs. $amount via eSewa";
+    }
+}
+
+class Khalti extends Payment {
+    public function pay($amount) {
+        return "Paid Rs. $amount via Khalti";
+    }
+}
+
+// Creating objects of subclasses
+$payments = [new Esewa(), new Khalti()];
+
+foreach ($payments as $p) {
+    echo $p->pay(1000) . "<br>";
+}
+
 ?>
 ```
 
