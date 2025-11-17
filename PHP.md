@@ -16,6 +16,11 @@
 8. [Database Operations](#database-operations)
 9. [AJAX](#ajax)
 10. [Object-Oriented Programming](#object-oriented-programming)
+11. [Lab 3 - PHP](#lab-3---php)
+12. [Lab 4 - PHP & MySQL](#lab-4---php--mysql)
+13. [Lab 5 - AJAX](#lab-5---ajax)
+14. [Lab 6 - OOP with PHP](#lab-6---oop-with-php)
+15. [Extra](#extra)
 
 ---
 
@@ -465,7 +470,7 @@ if ($myObject instanceof MyClass) {
 } else {
     echo 'No, $myObject is not an instance of MyClass.';
 }
-echo "\n";
+echo "<br>";
 
 // $a = 3;
 // echo gettype($a);
@@ -835,12 +840,12 @@ $fruits = array("Apple", "Banana", "Orange");
 // or
 $fruits = ["Apple", "Banana", "Orange"];
 
-echo $fruits[0] . "\n"; // Outputs: Apple
-echo $fruits[1] . "\n"; // Outputs: Banana
-echo $fruits[2] . "\n"; // Outputs: Orange
+echo $fruits[0] . "<br>"; // Outputs: Apple
+echo $fruits[1] . "<br>"; // Outputs: Banana
+echo $fruits[2] . "<br>"; // Outputs: Orange
 
 // Count the number of elements in the array
-echo count($fruits) . "\n"; // Outputs: 5
+echo count($fruits) . "<br>"; // Outputs: 5
 
 // Add an element to the end of the array
 array_push($fruits, "Cherry");
@@ -867,8 +872,8 @@ $person = array(
     "city" => "New York"
 );
 
-echo $person["name"] . "\n";  // John
-echo $person["age"] . "\n";   // 25
+echo $person["name"] . "<br>";  // John
+echo $person["age"] . "<br>";   // 25
 
 // Add
 $person["country"] = "USA";
@@ -892,8 +897,8 @@ $students = array(
     array("Bob", 27, "A")
 );
 
-echo $students[0][0] . "\n";  // John
-echo $students[1][2] . "\n";  // B
+echo $students[0][0] . "<br>";  // John
+echo $students[1][2] . "<br>";  // B
 ?>
 ```
 
@@ -1943,6 +1948,8 @@ exit();
 - **Mobile: 10 digit start with 98, 97 or 96**
 - **DOB: YYYY-MM-DD format**
 
+<br>
+
 - **Create db.php**
 
 ```php
@@ -2216,6 +2223,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 - **Username must be start with string and followed by number.**
 - **Password length must be more than 8 characters.**
 
+<br>
+
 - **Create db.php**
 
 ```php
@@ -2351,6 +2360,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   - **Email address should be a proper email format.**
   - **Upload file format must include pdf, doc, docx, ppt, pptx, jpeg file format.**
   - **File size must be less than 5MB.**
+
+<br>
 
 - **Create db.php**
 
@@ -2499,6 +2510,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 **Design a HTML registration form containing text box for Name and Email, radio button for gender, selection list for education field. Write a PHP script to validate input and then store data from the form into database using database connection and appropriate query.**
 
+<br>
+
 - **Create db.php**
 
 ```php
@@ -2633,7 +2646,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 **Old Question:**
 
-**Design following form in HTML and write corresponding PHP and SQL code for CRUD operations based on user's data.**
+**Write HTML, PHP and SQL code for CRUD operations.**
+
+<br>
 
 **Note taking Web App**
 
@@ -3137,6 +3152,50 @@ echo "<h2>Content loaded via AJAX</h2>";
 ?>
 ```
 
+### AJAX with jQuery
+
+**Create index.html**
+
+```html
+<html>
+  <head>
+    <title>AJAX Example (jQuery)</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      function loadContent() {
+        $.ajax({
+          url: "ajax_handler.php",
+          type: "GET",
+          //   data: { name: "bidur", age: 25 }, // sent as $_GET
+          success: function (response) {
+            $("#content").html(response);
+          },
+          error: function () {
+            $("#content").html("<p>Error loading content.</p>");
+          },
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>AJAX Demo (jQuery)</h1>
+
+    <button onclick="loadContent()">Load Content</button>
+
+    <div id="content"></div>
+  </body>
+</html>
+```
+
+**Create ajax_handler.php**
+
+```php
+<?php
+echo "<h2>Content loaded via AJAX</h2>";
+```
+
 ---
 
 ---
@@ -3288,80 +3347,90 @@ It is a mechanism where a new class (called a _derived class_ or _child class_) 
 
 ```php
 <?php
-class Person {
+<?php
+class Person
+{
     protected $name;
     protected $age;
 
-    public function __construct($name, $age) {
+    public function __construct($name, $age)
+    {
         $this->name = $name;
         $this->age = $age;
-        echo "A new Person object created.\n";
+        echo "A new Person object created.<br>";
     }
 
-    public function introduce() {
-        echo "Hello, my name is {$this->name} and I am {$this->age} years old.\n";
+    public function introduce()
+    {
+        echo "Hello, my name is {$this->name} and I am {$this->age} years old.<br>";
     }
 }
 
-class Student extends Person {
+class Student extends Person
+{
     private $studentId;
 
-    public function __construct($name, $age, $studentId) {
+    public function __construct($name, $age, $studentId)
+    {
         parent::__construct($name, $age);
 
         $this->studentId = $studentId;
-        echo "A Student object created.\n";
+        echo "A Student object created.<br>";
     }
 
-    public function study() {
-        echo "I am a student with ID {$this->studentId}, and I am studying.\n";
+    public function study()
+    {
+        echo "I am a student with ID {$this->studentId}, and I am studying.<br>";
     }
 
-    public function introduce() {
+    public function introduce()
+    {
         // parent::introduce();
-        echo "Hi, I'm a student. My name is {$this->name} and my ID is {$this->studentId}.\n";
+        echo "Hi, I'm a student. My name is {$this->name} and my ID is {$this->studentId}.<br>";
     }
 }
 
-class Employee extends Person {
+class Employee extends Person
+{
     private $employeeId;
     private $salary;
 
-    public function __construct($name, $age, $employeeId, $salary) {
+    public function __construct($name, $age, $employeeId, $salary)
+    {
         parent::__construct($name, $age);
 
         $this->employeeId = $employeeId;
         $this->salary = $salary;
-        echo "An Employee object created.\n";
+        echo "An Employee object created.<br>";
     }
 
-    public function work() {
-        echo "I am an employee with ID {$this->employeeId}, and I am working.\n";
+    public function work()
+    {
+        echo "I am an employee with ID {$this->employeeId}, and I am working.<br>";
     }
 
-    public function introduce() {
-        echo "Hello, I am an employee. My name is {$this->name} and I earn \${$this->salary}.\n";
+    public function introduce()
+    {
+        echo "Hello, I am an employee. My name is {$this->name} and I earn \${$this->salary}.<br>";
     }
 }
 
-echo "--- Creating a Student ---\n";
+echo "--- Creating a Student ---<br>";
 $student1 = new Student("Alice", 20, "S12345");
 $student1->introduce();
 $student1->study();
-echo "\n";
+echo "<br>";
 
-echo "--- Creating an Employee ---\n";
+echo "--- Creating an Employee ---<br>";
 $employee1 = new Employee("Bob", 35, "E9876", 50000);
 $employee1->introduce();
 $employee1->work();
-echo "\n";
+echo "<br>";
 
-echo "--- Creating just a Person ---\n";
+echo "--- Creating just a Person ---<br>";
 $person1 = new Person("Charlie", 50);
 $person1->introduce();
-echo "\n";
-
-?>
+echo "<br>";
 ```
 
 #### Types of inheritance
@@ -3473,7 +3542,7 @@ abstract class Payment {
 
     // optional: common method shared by all payments
     public function logTransaction($amount) {
-        echo "Logging transaction of NPR $amount...\n";
+        echo "Logging transaction of NPR $amount...<br>";
     }
 }
 
@@ -3481,7 +3550,7 @@ class EsewaPayment extends Payment {
     public function pay(float $amount) {
         // internal hidden logic
         $this->logTransaction($amount);
-        echo "Paid NPR $amount via eSewa\n";
+        echo "Paid NPR $amount via eSewa<br>";
     }
 }
 
@@ -3489,7 +3558,7 @@ class KhaltiPayment extends Payment {
     public function pay(float $amount) {
         // internal hidden logic
         $this->logTransaction($amount);
-        echo "Paid NPR $amount via Khalti\n";
+        echo "Paid NPR $amount via Khalti<br>";
     }
 }
 
@@ -3572,7 +3641,6 @@ foreach ($animals as $a) {
 
 ```php
 <?php
-
 interface Payment {
     public function pay($amount);
 }
@@ -3624,7 +3692,6 @@ $payments = [new Esewa(), new Khalti()];
 foreach ($payments as $p) {
     echo $p->pay(1000) . "<br>";
 }
-
 ?>
 ```
 
@@ -3634,34 +3701,39 @@ Static properties and methods belong to the class itself, not to objects.
 
 ```php
 <?php
-    class Counter {
-        public static $count = 0;
-        public $instanceCount = 0;
+class Counter
+{
+    public static $count = 0;
+    public $instanceCount = 0;
 
-        public function __construct() {
-            self::$count++;  // Access static property
-            $this->instanceCount++;
-        }
-
-        public static function getCount() {
-            return self::$count;
-        }
-
-        public static function reset() {
-            self::$count = 0;
-        }
+    public function __construct()
+    {
+        self::$count++;  // Access static property
+        $this->instanceCount++;
     }
 
-    $obj1 = new Counter();
-    $obj2 = new Counter();
-    $obj3 = new Counter();
+    public static function getCount()
+    {
+        return self::$count;
+    }
 
-    echo "Total objects created: " . Counter::getCount();  // 3
-    echo "Instance count: " . $obj1->instanceCount;  // 1
+    public static function reset()
+    {
+        self::$count = 0;
+    }
+}
 
-    Counter::reset();
-    echo "After reset: " . Counter::$count;  // 0
-?>
+$obj1 = new Counter();
+$obj2 = new Counter();
+$obj3 = new Counter();
+
+echo "Total objects created: " . Counter::getCount();  // 3
+echo "<br>";
+echo "Instance count: " . $obj1->instanceCount;  // 1
+echo "<br>";
+
+Counter::reset();
+echo "After reset: " . Counter::$count;  // 0
 ```
 
 ### Exception Handling
@@ -3720,3 +3792,176 @@ Exception handling manages runtime errors gracefully.
     }
 ?>
 ```
+
+## Lab 3 - PHP
+
+**Theory:**
+
+- Introduction to Server Side Scripting.
+- what is PHP?
+- Write rules to create variable in PHP.
+- What do you mean by super global variable in PHP? Give example.
+- Write short note on Types of array in PHP.
+
+**Practical:**
+
+- Write a program to create Chess board in PHP using loop.
+- Explain an array using suitable example.
+- Discuss how foreach loop accessing of elements stored in an array using PHP.
+- What is an associative array? Write a PHP program to create a multidimensional array that holds the marks of five subject like Operating system, Scripting, Numerical method, DBMS, Software Engineering and of three student Anshis, Jayanti Niraj Then display the average marks of each student.
+- Write a PHP program to illustrate the concept of function overloading.
+- How to read and write CSV file in PHP explain with suitable example.
+- How to create, store, access and destroy session in PHP?
+
+## Lab 4 - PHP & MySQL
+
+**Practical:**
+
+- Write PHP function that accepts username and password as arguments and check with student table, if credential match, redirect to dashboard page otherwise display 'Invalid username/password'.
+- Write server side script to create and validate form with following rule and store given data into 'patients' table with details (name, patient_id, mobile, gender, address, dob, doctor name):
+
+  - Name, Mobile, doctor name, gender, dob: Required
+  - Mobile: 10 digit start with 98, 97 or 96
+  - DOB: YYYY-MM-DD format
+
+- Design following forms in HTML and write corresponding PHP and MySQL code to store the user's values after satisfying following validation rules:
+
+  - Length of Full name up to 40 characters
+  - Email address muse be valid email address
+  - Username must be start with string and followed by number.
+  - Password length must be more than 8 characters.
+
+- Design following form in HTML and write corresponding server-side script to upload and submit user's data into database in consideration of following validation rules. Assume your own database and database connectivity related constrains if necessary.
+
+  - Form fields are: TU Registration Number, Email Address, Upload your Project File.
+  - Registration number, email and upload file are mandatory field.
+  - Email address should be a proper email format.
+  - Upload file format must include pdf, doc, docx, ppt, pptx, jpeg file format.
+  - File size must be less than 5MB.
+
+- Design a HTML registration form containing text box for Name and Email, radio button for gender, selection list for education field. Write a PHP script to validate input and then store data from the form into database using database connection and appropriate query.
+
+- Write HTML, PHP and SQL code for CRUD operations.
+
+## Lab 5 - AJAX
+
+**Theory:**
+
+- What is AJAX?
+- What is the benefit of using AJAX?
+- Explain XMLHttpRequest object with it's properties and methods.
+
+**Practical:**
+
+- Design and develop dynamic web application using HTML, AJAX and PHP.
+- Design and develop dynamic web application using HTML, AJAX, PHP & jQuery.
+
+## Lab 6 - OOP with PHP
+
+**Theory:**
+
+- Classes and Objects
+- What is constructor and destructor?
+
+**Practical:**
+
+- How you implement constructor and destructor in php?
+- What is Inheritance? What are advantages of inheritance? Write an object oriented PHP program to define Person class and derive student and employee class from it to demonstrate hierarchical inheritance.
+- Explain different ways to implement polymorphism in PHP with proper example.
+- Write an object-oriented PHP program to implement the concept of inheritance in considering with following class diagram with the use of constructor for 20 employees.
+
+## Extra
+
+**Old Question:**
+
+**Discuss about MVC architecture with appropriate diagram.**
+
+<br>
+
+### **MVC Architecture**
+
+**MVC (Model–View–Controller)** is a **software architectural pattern** used for designing applications by separating them into three interconnected components:
+
+![MVC Architecture](/images/php/MVC-Architecture.webp)
+
+### **1. Model**
+
+- Represents the **data and the business logic** of the application.
+- It directly handles:
+
+  - Data storage
+  - Data retrieval
+  - Business rules
+  - Database interaction
+
+- The Model does not depend on the View or Controller.
+
+**Example:**
+A `User` class that deals with user data, database queries, etc.
+
+---
+
+### **2. View**
+
+- Represents the **UI (User Interface)** of the application.
+- It displays the data coming from the Model.
+- It does not contain business logic.
+- Views change when the Model data changes.
+
+**Example:**
+HTML pages, templates, or UI screens.
+
+---
+
+### **3. Controller**
+
+- Acts as a **middleman** between View and Model.
+- Handles user requests, processes them, and returns the appropriate output.
+- Controller:
+
+  - Receives request
+  - Validates input
+  - Interacts with the Model
+  - Selects a View to display
+
+**Example:**
+A `UserController` that receives a login request, asks Model to verify data, and returns a View.
+
+---
+
+#### **How MVC Works (Flow)**
+
+1. **User interacts with View** (click, submit form).
+2. **Controller receives the request**.
+3. **Controller calls Model** to get or update data.
+4. **Model returns data** to Controller.
+5. **Controller updates the View**.
+6. **View displays the response** to the user.
+
+---
+
+#### **Benefits of MVC**
+
+**1. Separation of Concerns**
+
+Each component has a separate responsibility → code is easier to write, test, and maintain.
+
+**2. Reusability**
+
+Models and Views can be reused across different parts of the application.
+
+**3. Scalability**
+
+MVC supports large applications by breaking them into manageable components.
+
+**4. Easier Testing**
+
+Since logic is separated, unit testing becomes simpler.
+
+---
+
+#### **Real-World Examples**
+
+- **Laravel** (PHP)
+- **ASP.NET MVC**
+- **Spring MVC** (Java)
