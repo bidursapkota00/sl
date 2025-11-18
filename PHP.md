@@ -20,7 +20,6 @@
 12. [Lab 4 - PHP & MySQL](#lab-4---php--mysql)
 13. [Lab 5 - AJAX](#lab-5---ajax)
 14. [Lab 6 - OOP with PHP](#lab-6---oop-with-php)
-15. [Extra](#extra)
 
 ---
 
@@ -3530,6 +3529,103 @@ class Bird extends Animal { /* ... */ }   // Hierarchical part
 class Dog extends Mammal { /* ... */ }    // Multilevel part 2
 ```
 
+**Old Question:**
+
+**Write an object-oriented PHP program to implement the concept of inheritance in considering with following class diagram with the use of constructor for 20 employees.**
+
+```mermaid
+%%{init: { "flowchart": { "rankSpacing": 100, "nodeSpacing": 100 }}}%%
+classDiagram
+    class Employee {
+        -name: String
+        -address: String
+        +setName()
+        +setAddress()
+    }
+
+    class Permanent {
+        -salary: decimal
+        -post: String
+        +setSalary()
+        +setPost()
+        +displayAll()
+    }
+
+    Employee <|-- Permanent
+```
+
+```php
+<?php
+class Employee
+{
+    protected $name;
+    protected $address;
+
+    public function __construct($name, $address)
+    {
+        $this->name = $name;
+        $this->address = $address;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+}
+
+class Permanent extends Employee
+{
+    private $salary;
+    private $post;
+
+    public function __construct($name, $address, $salary, $post)
+    {
+        parent::__construct($name, $address);
+
+        $this->salary = $salary;
+        $this->post = $post;
+    }
+
+    public function setSalary($salary)
+    {
+        $this->salary = $salary;
+    }
+
+    public function setPost($post)
+    {
+        $this->post = $post;
+    }
+
+    public function displayAll()
+    {
+        echo "<strong>Name:</strong> " . $this->name . "<br>";
+        echo "<strong>Address:</strong> " . $this->address . "<br>";
+        echo "<strong>Salary:</strong> $" . number_format($this->salary, 2) . "<br>";
+        echo "<strong>Post:</strong> " . $this->post . "<br>";
+        echo "<hr>";
+    }
+}
+
+echo "<h1>Employee Records</h1>";
+
+$employee_data = [
+    ["Alice", "789 Pine", 60000, "Designer"],
+    ["Bob", "101 Maple", 55000, "QA Tester"],
+    // ... 18 more entries
+];
+
+foreach ($employee_data as $data) {
+    $emp = new Permanent($data[0], $data[1], $data[2], $data[3]);
+    $emp->displayAll();
+}
+?>
+```
+
 ### Abstraction
 
 Abstraction is the process of hiding the internal implementation details of a class and exposing only the essential concepts or behaviors. It focuses on what an object does rather than how it does it.
@@ -3869,99 +3965,3 @@ Exception handling manages runtime errors gracefully.
 - What is Inheritance? What are advantages of inheritance? Write an object oriented PHP program to define Person class and derive student and employee class from it to demonstrate hierarchical inheritance.
 - Explain different ways to implement polymorphism in PHP with proper example.
 - Write an object-oriented PHP program to implement the concept of inheritance in considering with following class diagram with the use of constructor for 20 employees.
-
-## Extra
-
-**Old Question:**
-
-**Discuss about MVC architecture with appropriate diagram.**
-
-<br>
-
-### **MVC Architecture**
-
-**MVC (Model–View–Controller)** is a **software architectural pattern** used for designing applications by separating them into three interconnected components:
-
-![MVC Architecture](/images/php/MVC-Architecture.webp)
-
-### **1. Model**
-
-- Represents the **data and the business logic** of the application.
-- It directly handles:
-
-  - Data storage
-  - Data retrieval
-  - Business rules
-  - Database interaction
-
-- The Model does not depend on the View or Controller.
-
-**Example:**
-A `User` class that deals with user data, database queries, etc.
-
----
-
-### **2. View**
-
-- Represents the **UI (User Interface)** of the application.
-- It displays the data coming from the Model.
-- It does not contain business logic.
-- Views change when the Model data changes.
-
-**Example:**
-HTML pages, templates, or UI screens.
-
----
-
-### **3. Controller**
-
-- Acts as a **middleman** between View and Model.
-- Handles user requests, processes them, and returns the appropriate output.
-- Controller:
-
-  - Receives request
-  - Validates input
-  - Interacts with the Model
-  - Selects a View to display
-
-**Example:**
-A `UserController` that receives a login request, asks Model to verify data, and returns a View.
-
----
-
-#### **How MVC Works (Flow)**
-
-1. **User interacts with View** (click, submit form).
-2. **Controller receives the request**.
-3. **Controller calls Model** to get or update data.
-4. **Model returns data** to Controller.
-5. **Controller updates the View**.
-6. **View displays the response** to the user.
-
----
-
-#### **Benefits of MVC**
-
-**1. Separation of Concerns**
-
-Each component has a separate responsibility → code is easier to write, test, and maintain.
-
-**2. Reusability**
-
-Models and Views can be reused across different parts of the application.
-
-**3. Scalability**
-
-MVC supports large applications by breaking them into manageable components.
-
-**4. Easier Testing**
-
-Since logic is separated, unit testing becomes simpler.
-
----
-
-#### **Real-World Examples**
-
-- **Laravel** (PHP)
-- **ASP.NET MVC**
-- **Spring MVC** (Java)
