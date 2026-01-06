@@ -1,8 +1,8 @@
 # Client Side Scripting with JavaScript
 
-![Bidur Sapkota](https://www.bidursapkota.com.np/_next/image?url=%2Fimages%2Fprofile3.png&w=48&q=75 "Bidur Sapkota - Developer")&nbsp;[Bidur Sapkota](https://www.bidursapkota.com.np/)
+![Bidur Sapkota](https://www.bidursapkota.com.np/images/gravatar.webp "Bidur Sapkota - Developer")&nbsp;[Bidur Sapkota](https://www.bidursapkota.com.np/)
 
-![JavaScript of Scripting Language, BCA - Guide by Bidur Sapkota](/images/js/3-js-post.jpg "JavaScript of Scripting Language, BCA – Blog by Bidur Sapkota")
+![JavaScript of Scripting Language, BCA - Guide by Bidur Sapkota](/images/js/3-js-post-1200.webp "JavaScript of Scripting Language, BCA – Blog by Bidur Sapkota")
 
 ## Table of Contents
 
